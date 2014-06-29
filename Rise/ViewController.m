@@ -10,21 +10,53 @@
 
 @implementation ViewController
 
-@synthesize lblLocationCount, locationManager, currentLocation, parseObject, myTimer;
+@synthesize lblLocationCount, locationManager, currentLocation, locationHistory, parseObject, myTimer;
             
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    // Initialize the location manager and set its delegate
-    locationManager = [[CLLocationManager alloc] init];
-    [locationManager setDelegate:self];
-    
-    // Obtain the best possible accuracy
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    NSLog(@"Loaded");
+    NSLog(@"Location Services Enabled: %d", [CLLocationManager locationServicesEnabled]);
     
     // Create the container for locational parse data
     parseObject = [PFObject objectWithClassName:@"Locations"];
+    
+    // Initialize the location manager and set its delegate
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    
+    // Configure the location manager
+    [locationManager setDelegate:self];
+    [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    [locationManager setDesiredAccuracy:kCLDistanceFilterNone];
+    
+    // Prompt user for location data authorization (including background use)
+    [locationManager requestAlwaysAuthorization];
+    
+    // Log the authorization status
+    if ([CLLocationManager locationServicesEnabled]) {
+        switch ([CLLocationManager authorizationStatus]) {
+            case kCLAuthorizationStatusAuthorizedAlways:
+                NSLog(@"Success: authorized to use location services at any time");
+                break;
+            case kCLAuthorizationStatusAuthorizedWhenInUse:
+                NSLog(@"Success: authorized to use location services when the app is in use");
+                break;
+            case kCLAuthorizationStatusDenied:
+                NSLog(@"Error: permission to use location services has been denied");
+                break;
+            case kCLAuthorizationStatusNotDetermined:
+                NSLog(@"Error: permission to use location services has not yet been provided");
+                break;
+            case kCLAuthorizationStatusRestricted:
+                NSLog(@"Error: permission to use location services has been restricted (parental controls?)");
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,10 +68,11 @@
 // Start to record location
 - (IBAction)btnStartRecord:(id)sender
 {
+    [locationManager.delegate locationManager:locationManager didUpdateLocations:[[NSArray alloc] init]];
+    
     NSLog(@"btnStartRecord Pressed");
     
-    // Reset and start the timer
-    myTimer = [[Timer alloc] init];
+    // Start the timer
     [myTimer startTimer];
     
     // Start recording locations
@@ -75,24 +108,49 @@
     // Reinitialize the parse object
     parseObject = [PFObject objectWithClassName:@"Locations"];
     
+    // Reset location count + update label
+    locationCount = 0;
+    [lblLocationCount setText:@"Logged Locations: 0"];
+    
     NSLog(@"Parse Object + Timer Reinitialized");
 }
 
 - (void)locationManager:(CLLocationManager *)manager
-   didUpdateToLocation:(CLLocation *)newLocation
-          fromLocation:(CLLocation *)oldLocation
+     didUpdateLocations:(NSArray *)locations
 {
     NSLog(@"Received Location Update");
     
-    // Update the parse container with the new data
-    parseObject[[NSString stringWithFormat:@"%f", [myTimer timeElapsedInMilliseconds]]] = newLocation;
+    // Get the latest location
+    currentLocation = [locations lastObject];
     
-    NSLog(@"Updated Parse Object");
-    
-    // Increment the location counter
-    locationCount += 1;
-    [lblLocationCount setText:[NSString stringWithFormat:@"%f", [myTimer timeElapsedInMilliseconds]]];
-    
-    NSLog(@"Incremented Location Count");
+    // Update the parse container with any new data
+    if (currentLocation)
+    {
+        Location *location = [[Location alloc] initWithLocation:currentLocation andTime:[myTimer timeElapsedInMilliseconds]];
+        
+        NSLog(@"Created Location Object");
+        
+        [locationHistory addObject:location];
+        
+        NSLog(@"Added Location Object to History Array");
+         
+//        parseObject[[NSString stringWithFormat:@"%d", locationCount]] = location;
+//        
+//        NSLog(@"Updated Parse Object");
+        
+        locationCount += 1;
+        [lblLocationCount setText:[NSString stringWithFormat:@"Logged Locations: %d", locationCount]];
+        
+        NSLog(@"Incremented Location Count");
+    }
+    else
+        NSLog(@"No Location Data in Update");
 }
+
+- (void)locationManager:(CLLocationManager *)manager
+      didFailWithError:(NSError *)error
+{
+    NSLog(@"Location Manager Error: %@", [error localizedDescription]);
+}
+
 @end

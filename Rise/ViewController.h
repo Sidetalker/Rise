@@ -8,10 +8,11 @@
 
 #import "AppDelegate.h"
 #import "Timer.h"
+#import "Location.h"
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface ViewController : UIViewController < CLLocationManagerDelegate >
+@interface ViewController : UIViewController <CLLocationManagerDelegate>
 
 - (IBAction)btnStartRecord:(id)sender;
 - (IBAction)btnStopRecord:(id)sender;
@@ -20,9 +21,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblLocationCount;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *currentLocation;
+@property (strong, nonatomic) NSMutableArray *locationHistory;
 @property (strong, nonatomic) PFObject *parseObject;
 @property (strong, nonatomic) Timer *myTimer;
 
 @end
 
-double locationCount;
+int locationCount;
