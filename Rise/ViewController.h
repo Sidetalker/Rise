@@ -12,6 +12,7 @@
 
 #import "AppDelegate.h"
 #import "Location.h"
+#import "Helpers.h"
 #import "GRRequestsManager.h"
 
 @interface ViewController : UIViewController <CLLocationManagerDelegate, GRRequestsManagerDelegate>

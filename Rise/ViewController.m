@@ -26,6 +26,7 @@ locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
     FTPRequestManager = [[GRRequestsManager alloc] initWithHostname:@"ftp.sideapps.com"
                                                                user:@"rise@sideapps.com"
                                                            password:@"DlFLA?MxeK+t"];
+    FTPRequestManager.delegate = self;
     
     // Allocate space for our location history
     locationHistory = [[NSMutableArray alloc] init];
@@ -43,8 +44,10 @@ locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
     [locationManager requestAlwaysAuthorization];
     
     // Log the authorization status
-    if ([CLLocationManager locationServicesEnabled]) {
-        switch ([CLLocationManager authorizationStatus]) {
+    if ([CLLocationManager locationServicesEnabled])
+    {
+        switch ([CLLocationManager authorizationStatus])
+        {
             case kCLAuthorizationStatusAuthorizedAlways:
                 DDLogVerbose(@"Success: authorized to use location services at any time");
                 break;
@@ -165,26 +168,28 @@ locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
     }
     
     // Generate a text file from the NSString and store it temporarily
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fileName = [((Location*)[locationHistory lastObject]).timestampAbsolute description];
-    NSString *fullPath = [NSString stringWithFormat:@"%@/temp/%@.txt", documentsDirectory, fileName];
+    // The filename uses the absolute timestamp of the latest Location object (these will be unique filenames)
+    NSString *fileName = [[[((Location*)[locationHistory lastObject]).timestampAbsolute description]
+                          stringByReplacingOccurrencesOfString:@" " withString:@"."]
+                          stringByAppendingString:@".txt"];
+    NSString *path = [[Helpers applicationDocumentsDirectory].path stringByAppendingPathComponent:fileName];
     
     // Write the file to memory
     NSError *writeError = nil;
-    [allData writeToFile:fullPath atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&writeError];
+    [allData writeToFile:path atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&writeError];
     
     // Check for an error
     if (writeError)
     {
-        DDLogError(@"File Write Error: Unable to write location data to temporary file\n\t%@", [writeError localizedDescription]);
+        DDLogError(@"File Write Error: Unable to write location data to temporary file\n\t%@", [writeError description]);
         return;
     }
     
-    // Upload to SideApps to use for algorithm design
-    [FTPRequestManager addRequestForUploadFileAtLocalPath:fullPath toRemotePath:fileName];
-    [FTPRequestManager startProcessingRequests];
+    DDLogVerbose(@"Local file: %@\nRemote file: %@", path, fileName);
     
+    // Upload to SideApps to use for algorithm design
+    [FTPRequestManager addRequestForUploadFileAtLocalPath:path toRemotePath:fileName];
+    [FTPRequestManager startProcessingRequests];
 }
 
 #pragma mark - CLLocationManager Delegate Functions

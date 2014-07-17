@@ -62,4 +62,16 @@
     return [[NSDate date] timeIntervalSinceDate:launchTime];
 }
 
++ (NSString *) sanitizeFileNameString:(NSString *)fileName
+{
+    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
+    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+}
+
++ (NSURL *) applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                   inDomains:NSUserDomainMask] lastObject];
+}
+
 @end

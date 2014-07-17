@@ -15,5 +15,7 @@
 
 + (NSDictionary*) queryGoogleAltitudes:(NSArray*)locations;
 + (NSTimeInterval) timeSinceLaunch;
++ (NSString*) sanitizeFileNameString:(NSString *)fileName;
++ (NSURL *) applicationDocumentsDirectory;
 
 @end
