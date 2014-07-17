@@ -10,34 +10,68 @@
 
 @implementation Location
 
-@synthesize altitude, longitude, latitude, accuracyH, accuracyV, timestamp;
+@synthesize longitude, latitude, altitudeApple, altitudeGoogle,
+accuracyAppleH, accuracyAppleV, resolutionGoogle,
+timestampAbsolute, timestampLaunch, googleQueried;
 
 - (id)init
 {
     self = [super init];
+    
+    // Initialize all variables to 0.0
     if (self != nil) {
-        altitude = 0.0;
         longitude = 0.0;
         latitude = 0.0;
-        accuracyH = 0.0;
-        accuracyV = 0.0;
-        timestamp = 0.0;
+        altitudeApple = 0.0;
+        altitudeGoogle = 0.0;
+        accuracyAppleH = 0.0;
+        accuracyAppleV = 0.0;
+        resolutionGoogle = 0.0;
+        googleQueried = false;
+        timestampAbsolute = [NSDate date];
+        timestampLaunch = 0.0;
     }
+    
     return self;
 }
 
-- (id)initWithLocation:(CLLocation*)providedLocation andTime:(double)time
+- (id)initWithLocation:(CLLocation*)location
 {
     self = [super init];
+    
     if (self != nil) {
-        altitude = providedLocation.altitude;
-        longitude = providedLocation.coordinate.longitude;
-        latitude = providedLocation.coordinate.latitude;
-        accuracyH = providedLocation.horizontalAccuracy;
-        accuracyV = providedLocation.verticalAccuracy;
-        timestamp = time;
+        longitude = location.coordinate.longitude;
+        latitude = location.coordinate.latitude;
+        altitudeApple = location.altitude;
+        accuracyAppleH = location.horizontalAccuracy;
+        accuracyAppleV = location.verticalAccuracy;
+        timestampAbsolute = location.timestamp;
+        timestampLaunch = [Helpers timeSinceLaunch];
+        
+        altitudeGoogle = 0.0;
+        resolutionGoogle = 0.0;
+        googleQueried = false;
     }
+    
     return self;
+}
+
+- (NSString*)getBasicString
+{
+    // Return a string with a timestamp and Apple's altitude calculation
+    return [NSString stringWithFormat:@"%f: %f meters", timestampLaunch, altitudeApple];
+}
+
+- (NSString*)getComplexString
+{
+    NSMutableString *complex = [NSMutableString stringWithFormat:@"%f:\n\t", timestampLaunch];
+    
+    [complex appendFormat:@"Long/Lat: %f/%f\n\t\tAccuracy: %f\n\t", longitude, latitude, accuracyAppleH];
+    [complex appendFormat:@"Apple Altitude: %f\n\t\tAccuracy: %f\n\t", altitudeApple, accuracyAppleV];
+    [complex appendFormat:@"Google Altitude: %f\n\t\tResolution: %f", altitudeGoogle, resolutionGoogle];
+    
+    // Return a string with lat/long and altitude data along with reported accuracies
+    return complex;
 }
 
 @end

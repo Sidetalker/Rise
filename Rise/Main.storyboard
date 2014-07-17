@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.21" systemVersion="14A261i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="e5y-sO-k2F">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.21" systemVersion="14A283o" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="e5y-sO-k2F">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
     </dependencies>
@@ -20,7 +20,7 @@
             </objects>
             <point key="canvasLocation" x="-34" y="505"/>
         </scene>
-        <!--View Controller-->
+        <!--View Controller - Record-->
         <scene sceneID="hF9-L2-SzD">
             <objects>
                 <viewController id="jdE-Hr-5Xe" customClass="ViewController" sceneMemberID="viewController">
@@ -32,17 +32,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5s7-PZ-ptM">
-                                <rect key="frame" x="106" y="141" width="108" height="30"/>
-                                <state key="normal" title="Start Recording">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="btnStartRecord:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="Kfv-ta-EYP"/>
-                                </connections>
-                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logged Locations: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R50-c5-0X4">
+                                <rect key="frame" x="20" y="527" width="280" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="H6a-8M-iq4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hz4-ip-TQX">
-                                <rect key="frame" x="106" y="179" width="108" height="30"/>
+                                <rect key="frame" x="106" y="130" width="108" height="30"/>
                                 <state key="normal" title="Stop Recording">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -50,14 +50,8 @@
                                     <action selector="btnStopRecord:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="PQ6-YX-eEf"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Logged Locations: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R50-c5-0X4">
-                                <rect key="frame" x="20" y="527" width="143" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYG-oH-nRJ">
-                                <rect key="frame" x="111" y="217" width="98" height="30"/>
+                                <rect key="frame" x="111" y="168" width="98" height="30"/>
                                 <state key="normal" title="Clear Records">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -65,12 +59,55 @@
                                     <action selector="btnClearRecord:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="fYR-Gr-j4J"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5s7-PZ-ptM">
+                                <rect key="frame" x="106" y="92" width="108" height="30"/>
+                                <state key="normal" title="Start Recording">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnStartRecord:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="Kfv-ta-EYP"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="99h-lc-Add">
+                                <rect key="frame" x="20" y="282" width="280" height="237"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDb-Mp-oX4">
+                                <rect key="frame" x="113" y="206" width="95" height="30"/>
+                                <state key="normal" title="Google Query">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnGoogleQuery:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="T7F-oO-85q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="clP-H7-93j">
+                                <rect key="frame" x="117" y="244" width="86" height="30"/>
+                                <state key="normal" title="Upload Data">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnUploadData:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="ngb-a9-Xa7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="R50-c5-0X4" firstAttribute="leading" secondItem="6ul-w0-SC6" secondAttribute="leading" constant="20" id="3dJ-rC-BEQ"/>
+                            <constraint firstItem="R50-c5-0X4" firstAttribute="top" secondItem="99h-lc-Add" secondAttribute="bottom" constant="8" id="F0w-2m-8a5"/>
+                            <constraint firstAttribute="trailing" secondItem="99h-lc-Add" secondAttribute="trailing" constant="20" id="Kev-Ri-sQS"/>
+                            <constraint firstItem="99h-lc-Add" firstAttribute="leading" secondItem="6ul-w0-SC6" secondAttribute="leading" constant="20" id="L5Q-bJ-S06"/>
+                            <constraint firstItem="99h-lc-Add" firstAttribute="top" secondItem="clP-H7-93j" secondAttribute="bottom" constant="8" id="kL4-mP-SO6"/>
+                            <constraint firstItem="XP6-KY-WKi" firstAttribute="top" secondItem="R50-c5-0X4" secondAttribute="bottom" constant="20" id="meT-fS-Kcu"/>
+                            <constraint firstAttribute="trailing" secondItem="R50-c5-0X4" secondAttribute="trailing" constant="20" id="p0n-Hm-2tF"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="RiA-bV-iBX"/>
+                    <navigationItem key="navigationItem" title="Record" id="RiA-bV-iBX"/>
                     <connections>
                         <outlet property="lblLocationCount" destination="R50-c5-0X4" id="qMh-JD-jKR"/>
+                        <outlet property="lblLocationData" destination="99h-lc-Add" id="r8r-Xz-Vbv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HrX-xK-vra" userLabel="First Responder" sceneMemberID="firstResponder"/>

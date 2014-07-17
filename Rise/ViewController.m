@@ -10,17 +10,25 @@
 
 @implementation ViewController
 
-@synthesize lblLocationCount, locationManager, currentLocation, locationHistory, parseObject, myTimer;
+@synthesize lblLocationCount, lblLocationData, locationManager, locationHistory,
+locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
+
+#pragma mark - UIView Handlers
             
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    NSLog(@"Loaded");
-    NSLog(@"Location Services Enabled: %d", [CLLocationManager locationServicesEnabled]);
+    DDLogVerbose(@"Loaded");
+    DDLogVerbose(@"Location Services Enabled: %d", [CLLocationManager locationServicesEnabled]);
     
-    // Create the container for locational parse data
-    parseObject = [PFObject objectWithClassName:@"Locations"];
+    // Configure our FTP interface
+    FTPRequestManager = [[GRRequestsManager alloc] initWithHostname:@"ftp.sideapps.com"
+                                                               user:@"rise@sideapps.com"
+                                                           password:@"DlFLA?MxeK+t"];
+    
+    // Allocate space for our location history
+    locationHistory = [[NSMutableArray alloc] init];
     
     // Initialize the location manager and set its delegate
     locationManager = [[CLLocationManager alloc] init];
@@ -38,19 +46,19 @@
     if ([CLLocationManager locationServicesEnabled]) {
         switch ([CLLocationManager authorizationStatus]) {
             case kCLAuthorizationStatusAuthorizedAlways:
-                NSLog(@"Success: authorized to use location services at any time");
+                DDLogVerbose(@"Success: authorized to use location services at any time");
                 break;
             case kCLAuthorizationStatusAuthorizedWhenInUse:
-                NSLog(@"Success: authorized to use location services when the app is in use");
+                DDLogVerbose(@"Success: authorized to use location services when the app is in use");
                 break;
             case kCLAuthorizationStatusDenied:
-                NSLog(@"Error: permission to use location services has been denied");
+                DDLogVerbose(@"Error: permission to use location services has been denied");
                 break;
             case kCLAuthorizationStatusNotDetermined:
-                NSLog(@"Error: permission to use location services has not yet been provided");
+                DDLogVerbose(@"Error: permission to use location services has not yet been provided");
                 break;
             case kCLAuthorizationStatusRestricted:
-                NSLog(@"Error: permission to use location services has been restricted (parental controls?)");
+                DDLogVerbose(@"Error: permission to use location services has been restricted (parental controls?)");
                 break;
                 
             default:
@@ -65,29 +73,25 @@
     // Retain all resources in an attempt to crash the user's device
 }
 
+#pragma mark - Button Handlers
+
 // Start to record location
 - (IBAction)btnStartRecord:(id)sender
 {
     [locationManager.delegate locationManager:locationManager didUpdateLocations:[[NSArray alloc] init]];
     
-    NSLog(@"btnStartRecord Pressed");
-    
-    // Start the timer
-    [myTimer startTimer];
+    DDLogVerbose(@"btnStartRecord Pressed");
     
     // Start recording locations
     [locationManager startUpdatingLocation];
     
-    NSLog(@"Started Recording Location");
+    DDLogVerbose(@"Started Recording Location");
 }
 
 // Stop recording location
 - (IBAction)btnStopRecord:(id)sender
 {
-    NSLog(@"btnStopRecord Pressed");
-    
-    // Stop the timer
-    [myTimer stopTimer];
+    DDLogVerbose(@"btnStopRecord Pressed");
     
     // Upload the data to the Parse cloud
     [parseObject saveInBackground];
@@ -95,62 +99,183 @@
     // Stop recording the location
     [locationManager stopUpdatingLocation];
     
-    NSLog(@"Stopped Recording Location");
+    DDLogVerbose(@"Stopped Recording Location");
 }
 
 - (IBAction)btnClearRecord:(id)sender
 {
-    NSLog(@"btnClearRecord Pressed");
-    
-    // Reinitialize the timer
-    myTimer = [[Timer alloc] init];
+    DDLogVerbose(@"btnClearRecord Pressed");
     
     // Reinitialize the parse object
     parseObject = [PFObject objectWithClassName:@"Locations"];
     
-    // Reset location count + update label
+    // Reset location data
     locationCount = 0;
+    queryCount = 0;
     [lblLocationCount setText:@"Logged Locations: 0"];
+    [lblLocationData setText:@""];
+    [locationHistory removeAllObjects];
     
-    NSLog(@"Parse Object + Timer Reinitialized");
+    DDLogVerbose(@"Location Data Cleared");
 }
+
+- (IBAction)btnGoogleQuery:(id)sender
+{
+    // Created a subarray with the latest location data
+    NSArray* latestLocations = [locationHistory subarrayWithRange:NSMakeRange(locationCount - queryCount, queryCount)];
+    
+    queryCount = 0;
+    
+    DDLogVerbose(@"Total Location Count: %lu", (unsigned long)[locationHistory count]);
+    DDLogVerbose(@"Google Query Count: %lu", (unsigned long)[latestLocations count]);
+    
+    // Grab the Google elevation data when requested
+    NSDictionary* googleAltitudes = [Helpers queryGoogleAltitudes:latestLocations];
+    
+    int curLocation = 0;
+    
+    // Loop through the dictionary and update locations with Google's data
+    for (id key in googleAltitudes[@"results"])
+    {
+        [(Location*)latestLocations[curLocation] setAltitudeGoogle:[key[@"elevation"] floatValue]];
+        [(Location*)latestLocations[curLocation] setResolutionGoogle:[key[@"resolution"] floatValue]];
+        
+        curLocation++;
+    }
+}
+
+- (IBAction)btnUploadData:(id)sender
+{
+    // If there are no data points, do nothing
+    if ([locationHistory count] == 0)
+    {
+        DDLogError(@"Upload Data Failed: No data points to upload");
+        return;
+    }
+    
+    // Build the string for the text file to be created
+    NSMutableString *allData = [[NSMutableString alloc] init];
+    
+    for (Location *curLoc in locationHistory)
+    {
+        // Add detailed data for each data point
+        [allData appendFormat:@"%@\n\n", [curLoc getComplexString]];
+        
+        DDLogVerbose([curLoc getComplexString]);
+    }
+    
+    // Generate a text file from the NSString and store it temporarily
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *fileName = [((Location*)[locationHistory lastObject]).timestampAbsolute description];
+    NSString *fullPath = [NSString stringWithFormat:@"%@/temp/%@.txt", documentsDirectory, fileName];
+    
+    // Write the file to memory
+    NSError *writeError = nil;
+    [allData writeToFile:fullPath atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&writeError];
+    
+    // Check for an error
+    if (writeError)
+    {
+        DDLogError(@"File Write Error: Unable to write location data to temporary file\n\t%@", [writeError localizedDescription]);
+        return;
+    }
+    
+    // Upload to SideApps to use for algorithm design
+    [FTPRequestManager addRequestForUploadFileAtLocalPath:fullPath toRemotePath:fileName];
+    [FTPRequestManager startProcessingRequests];
+    
+}
+
+#pragma mark - CLLocationManager Delegate Functions
 
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray *)locations
 {
-    NSLog(@"Received Location Update");
+    DDLogVerbose(@"Received Location Update");
     
     // Get the latest location
     currentLocation = [locations lastObject];
     
-    // Update the parse container with any new data
+    // Store the location and display it in the scrolling textBox
     if (currentLocation)
     {
-        Location *location = [[Location alloc] initWithLocation:currentLocation andTime:[myTimer timeElapsedInMilliseconds]];
+        // Initialize a Location object with the latest location
+        Location *location = [[Location alloc] initWithLocation:currentLocation];
         
-        NSLog(@"Created Location Object");
+        DDLogVerbose(@"Created Location Object");
         
+        // Add the Location object to the history array
         [locationHistory addObject:location];
         
-        NSLog(@"Added Location Object to History Array");
-         
-//        parseObject[[NSString stringWithFormat:@"%d", locationCount]] = location;
-//        
-//        NSLog(@"Updated Parse Object");
+        DDLogVerbose(@"Added Location Object to History Array");
+        DDLogVerbose(@"Total Location Count is now %lu", [locationHistory count]);
         
+        // Increment counters
         locationCount += 1;
-        [lblLocationCount setText:[NSString stringWithFormat:@"Logged Locations: %d", locationCount]];
+        queryCount += 1;
         
-        NSLog(@"Incremented Location Count");
+        // Update the textBox and scroll to the bottom
+        [lblLocationCount setText:[NSString stringWithFormat:@"Logged Locations: %d", locationCount]];
+        [lblLocationData setText:[NSString stringWithFormat:@"%@\n%@", [lblLocationData text], [location getBasicString]]];
+        [lblLocationData scrollRangeToVisible:NSMakeRange([lblLocationData.text length], 0)];
+        
+        DDLogVerbose(@"Updated Labels and Counts");
     }
     else
-        NSLog(@"No Location Data in Update");
+        DDLogVerbose(@"No Location Data in Update");
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-      didFailWithError:(NSError *)error
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"Location Manager Error: %@", [error localizedDescription]);
+    DDLogError(@"Location Manager Error: %@", [error localizedDescription]);
+}
+
+#pragma mark - GRRequestsManager Delegate Functions
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didScheduleRequest:(id<GRRequestProtocol>)request
+{
+    DDLogVerbose(@"requestsManager:didScheduleRequest:");
+}
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteListingRequest:(id<GRRequestProtocol>)request listing:(NSArray *)listing
+{
+    DDLogVerbose(@"requestsManager:didCompleteListingRequest:listing: \n%@", listing);
+}
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteCreateDirectoryRequest:(id<GRRequestProtocol>)request
+{
+    DDLogVerbose(@"requestsManager:didCompleteCreateDirectoryRequest:");
+}
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteDeleteRequest:(id<GRRequestProtocol>)request
+{
+    DDLogVerbose(@"requestsManager:didCompleteDeleteRequest:");
+}
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompletePercent:(float)percent forRequest:(id<GRRequestProtocol>)request
+{
+    DDLogVerbose(@"requestsManager:didCompletePercent:forRequest: %f", percent);
+}
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteUploadRequest:(id<GRDataExchangeRequestProtocol>)request
+{
+    DDLogVerbose(@"requestsManager:didCompleteUploadRequest:");
+}
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteDownloadRequest:(id<GRDataExchangeRequestProtocol>)request
+{
+    DDLogVerbose(@"requestsManager:didCompleteDownloadRequest:");
+}
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didFailWritingFileAtPath:(NSString *)path forRequest:(id<GRDataExchangeRequestProtocol>)request error:(NSError *)error
+{
+    DDLogVerbose(@"requestsManager:didFailWritingFileAtPath:forRequest:error: \n %@", error);
+}
+
+- (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didFailRequest:(id<GRRequestProtocol>)request withError:(NSError *)error
+{
+    DDLogVerbose(@"requestsManager:didFailRequest:withError: \n %@", error);
 }
 
 @end

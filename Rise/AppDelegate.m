@@ -18,14 +18,25 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize appDelegate;
+@synthesize launchTime;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Make AppDelegate variables available globally
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     // Configure Parse
     [Parse setApplicationId:@"3nDsWICDXUdW3BHDti34XiR2lIe4hW97BnTaWwDg"
                   clientKey:@"3x8oWhkLBGXdDOuGMslJyk1BkSG4rt55UTKOWWhJ"];
     
-    // Perform analytics
+    // Set up Parse analytic tracking
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    // Set up Lumberjack logging (in XCode only for now TODO if needed)
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    
+    // Obtain and set the launch time
+    launchTime = [NSDate date];
     
     return YES;
 }
@@ -61,7 +72,7 @@
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
              // Replace this implementation with code to handle the error appropriately.
              // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            DDLogVerbose(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         } 
     }
@@ -130,7 +141,7 @@
          Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
          
          */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        DDLogVerbose(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }    
     
