@@ -11,13 +11,16 @@
 @implementation ViewController
 
 @synthesize lblLocationCount, lblLocationData, locationManager, locationHistory,
-locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
+uploadAlert, uploadFilename, locationCount, queryCount, currentLocation,
+parseObject, FTPRequestManager, progressBar, progressUploading;
 
 #pragma mark - UIView Handlers
             
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.view addSubview:progressBar];
     
     DDLogVerbose(@"Loaded");
     DDLogVerbose(@"Location Services Enabled: %d", [CLLocationManager locationServicesEnabled]);
@@ -132,19 +135,50 @@ locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
     DDLogVerbose(@"Total Location Count: %lu", (unsigned long)[locationHistory count]);
     DDLogVerbose(@"Google Query Count: %lu", (unsigned long)[latestLocations count]);
     
-    // Grab the Google elevation data when requested
-    NSDictionary* googleAltitudes = [Helpers queryGoogleAltitudes:latestLocations];
+    // Toggle the progress bar
+    [progressBar setProgress:0 animated:NO];
+    [lblLocationCount setAlpha:0];
+    [progressBar setAlpha:1];
+    [progressBar setProgress:0.8 animated:YES];
     
-    int curLocation = 0;
-    
-    // Loop through the dictionary and update locations with Google's data
-    for (id key in googleAltitudes[@"results"])
-    {
-        [(Location*)latestLocations[curLocation] setAltitudeGoogle:[key[@"elevation"] floatValue]];
-        [(Location*)latestLocations[curLocation] setResolutionGoogle:[key[@"resolution"] floatValue]];
+    // Set up another thread and retrieve google data in the background
+    dispatch_queue_t myQueue = dispatch_queue_create("My Queue",NULL);
+    dispatch_async(myQueue, ^{
+        // Grab elevation data from Google
+        NSDictionary* googleAltitudes = [Helpers queryGoogleAltitudes:latestLocations];
         
-        curLocation++;
-    }
+        DDLogVerbose(@"Starting background process to retrieve Google data");
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DDLogVerbose(@"Background process completed");
+            
+            // Animate the progress bar completion
+            [UIView animateWithDuration:0.25
+                                  delay:0
+                                options: UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 [progressBar setAlpha:0];
+                                 [progressBar setProgress:1];
+                                 
+                             }
+                             completion:^(BOOL finished){
+                                 [lblLocationCount setAlpha:1];
+                                 [progressBar setProgress:0];
+                             }];
+            
+            // Update locations with Google's data
+            int curLocation = 0;
+            
+            // Loop through the dictionary and update locations with Google's data
+            for (id key in googleAltitudes[@"results"])
+            {
+                [(Location*)latestLocations[curLocation] setAltitudeGoogle:[key[@"elevation"] floatValue]];
+                [(Location*)latestLocations[curLocation] setResolutionGoogle:[key[@"resolution"] floatValue]];
+                
+                curLocation++;
+            }
+        });
+    });
 }
 
 - (IBAction)btnUploadData:(id)sender
@@ -187,9 +221,28 @@ locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
     
     DDLogVerbose(@"Local file: %@\nRemote file: %@", path, fileName);
     
+    // Set up the progress bar stuff
+    [progressBar setAlpha:1];
+    [lblLocationCount setAlpha:0];
+    [progressBar setProgress:.8 animated:YES];
+    
     // Upload to SideApps to use for algorithm design
     [FTPRequestManager addRequestForUploadFileAtLocalPath:path toRemotePath:fileName];
     [FTPRequestManager startProcessingRequests];
+}
+
+#pragma mark - UIAlertView Delegate Functions
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView == uploadAlert)
+    {
+        DDLogVerbose(@"Upload Alert Button: %ld", (long)buttonIndex);
+        DDLogVerbose(@"Upload Alert Filename: %@", [[alertView textFieldAtIndex:0] text]);
+        
+        uploadFilename = [NSString stringWithFormat:@"%@.txt", [[alertView textFieldAtIndex:0] text]];
+    }
+    NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
 }
 
 #pragma mark - CLLocationManager Delegate Functions
@@ -214,7 +267,7 @@ locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
         [locationHistory addObject:location];
         
         DDLogVerbose(@"Added Location Object to History Array");
-        DDLogVerbose(@"Total Location Count is now %lu", [locationHistory count]);
+        DDLogVerbose(@"Total Location Count is now %lu", (unsigned long)[locationHistory count]);
         
         // Increment counters
         locationCount += 1;
@@ -261,11 +314,26 @@ locationCount, queryCount, currentLocation, parseObject, FTPRequestManager;
 - (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompletePercent:(float)percent forRequest:(id<GRRequestProtocol>)request
 {
     DDLogVerbose(@"requestsManager:didCompletePercent:forRequest: %f", percent);
+    [progressBar setProgress:percent animated:YES];
 }
 
 - (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteUploadRequest:(id<GRDataExchangeRequestProtocol>)request
 {
     DDLogVerbose(@"requestsManager:didCompleteUploadRequest:");
+    
+    // Animate the progress bar completion
+    [UIView animateWithDuration:0.25
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [progressBar setAlpha:0];
+                         [progressBar setProgress:1];
+                         
+                     }
+                     completion:^(BOOL finished){
+                         [lblLocationCount setAlpha:1];
+                         [progressBar setProgress:0];
+                     }];
 }
 
 - (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteDownloadRequest:(id<GRDataExchangeRequestProtocol>)request

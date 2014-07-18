@@ -92,6 +92,9 @@
                                     <action selector="btnUploadData:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="ngb-a9-Xa7"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="5LB-Fm-Tvd">
+                                <rect key="frame" x="20" y="537" width="280" height="2.5"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -108,6 +111,7 @@
                     <connections>
                         <outlet property="lblLocationCount" destination="R50-c5-0X4" id="qMh-JD-jKR"/>
                         <outlet property="lblLocationData" destination="99h-lc-Add" id="r8r-Xz-Vbv"/>
+                        <outlet property="progressBar" destination="5LB-Fm-Tvd" id="8Yh-Uy-mue"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HrX-xK-vra" userLabel="First Responder" sceneMemberID="firstResponder"/>

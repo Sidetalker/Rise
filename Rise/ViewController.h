@@ -15,7 +15,7 @@
 #import "Helpers.h"
 #import "GRRequestsManager.h"
 
-@interface ViewController : UIViewController <CLLocationManagerDelegate, GRRequestsManagerDelegate>
+@interface ViewController : UIViewController <CLLocationManagerDelegate, GRRequestsManagerDelegate, UIAlertViewDelegate>
 
 - (IBAction)btnStartRecord:(id)sender;
 - (IBAction)btnStopRecord:(id)sender;
@@ -25,6 +25,10 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *lblLocationCount;
 @property (strong, nonatomic) IBOutlet UITextView *lblLocationData;
+@property (strong, nonatomic) IBOutlet UIProgressView *progressBar;
+
+@property (strong, nonatomic) UIAlertView *uploadAlert;
+@property (strong, nonatomic) NSString *uploadFilename;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (strong, nonatomic) NSMutableArray *locationHistory;
@@ -33,5 +37,6 @@
 
 @property (nonatomic) int locationCount;
 @property (nonatomic) int queryCount;
+@property (nonatomic) bool progressUploading;
 
 @end

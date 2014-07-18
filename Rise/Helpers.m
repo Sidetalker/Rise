@@ -34,21 +34,27 @@
     
     // Generate the request URL
     NSURL* requestURL = [NSURL URLWithString:[query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSURLRequest* request = [NSURLRequest requestWithURL:requestURL];
+    NSURLRequest* request = [NSURLRequest requestWithURL:requestURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:1000];
     
     // Send the request to Google and receive the response TODO: Make asynchronous
     NSError* dataRequestError = nil;
     NSData* response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&dataRequestError];
     
     if (dataRequestError)
+    {
         DDLogError(@"Data Request Error: %@", [dataRequestError localizedDescription]);
+        return [[NSDictionary alloc] init];
+    }
     
     // Convert the JSON data response to a dictionary object
     NSError* jsonParsingError = nil;
     NSDictionary *locationResults = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonParsingError];
     
     if (jsonParsingError)
+    {
         DDLogError(@"JSON Parsing Error: %@", [jsonParsingError localizedDescription]);
+        return [[NSDictionary alloc] init];
+    }
     
     DDLogVerbose(@"Google API Dictionary:\n%@", locationResults);
     
