@@ -12,13 +12,14 @@
 @interface DataViewController : UIViewController <UIWebViewDelegate>
 
 - (IBAction)btnTextOrCSV:(id)sender;
+- (IBAction)btnShare:(id)sender;
 
 - (void)loadText;
 - (void)loadCSV;
 
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 
-@property (strong, nonatomic) NSString *currentURL;
+@property (strong, nonatomic) NSURL *currentURL;
 
 @property (nonatomic) bool isLoading;
 

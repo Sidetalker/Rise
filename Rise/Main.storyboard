@@ -145,7 +145,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Latest Data" id="Cke-WU-kEb"/>
+                    <navigationItem key="navigationItem" title="Latest Data" id="Cke-WU-kEb">
+                        <barButtonItem key="rightBarButtonItem" title="Share" id="dhx-CK-wN4">
+                            <connections>
+                                <action selector="btnShare:" destination="ASe-cf-ebK" id="ZyN-yx-55I"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="webView" destination="IqI-iy-n0x" id="ede-iF-1Pb"/>
                     </connections>

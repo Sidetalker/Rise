@@ -52,6 +52,9 @@
     
     NSURLRequest* request = [NSURLRequest requestWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30];
     
+    isLoading = YES;
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     [webView loadRequest:request];
 }
 
@@ -62,6 +65,9 @@
     
     NSURLRequest* request = [NSURLRequest requestWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30];
     
+    isLoading = YES;
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     [webView loadRequest:request];
 }
 
@@ -69,8 +75,6 @@
 {
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
     NSString *segmentTitle = [segmentedControl titleForSegmentAtIndex: [segmentedControl selectedSegmentIndex]];
-    
-    isLoading = YES;
     
     // Load the appropriate data
     if ([segmentTitle isEqualToString:@"Text"])
@@ -85,17 +89,48 @@
     }
 }
 
+- (IBAction)btnShare:(id)sender
+{
+    if (!isLoading)
+    {
+        // Allocate the Activity View Controller with the current URL
+        UIActivityViewController *activityController = [[UIActivityViewController alloc]
+                                                        initWithActivityItems:[NSMutableArray arrayWithObjects:currentURL, nil]
+                                                        applicationActivities:nil];
+        [self presentViewController:activityController animated:YES completion:nil];
+    }
+    else
+    {
+        // Request that the user wait for the current page to finish loading
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please Wait"
+                                                        message:@"Please wait for the current page to finish loading"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK, Fine"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
+}
+
 #pragma mark - WebView Delegate Methods
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    DDLogVerbose(@"Finished Loading Webview")
+    DDLogVerbose(@"Finished Loading Webview");
+    
+    // Stop the network spinner
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
+    currentURL = self.webView.request.URL;
     
     isLoading = NO;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    // Stop the network spinner
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
     // Display an error with the appropriate message
     NSString *errorText = [error localizedDescription];
     
