@@ -25,6 +25,7 @@
 - (IBAction)btnUploadData:(id)sender;
 
 @property (strong, nonatomic) IBOutlet UILabel *lblLocationCount;
+@property (strong, nonatomic) IBOutlet UILabel *lblCurrentLocation;
 @property (strong, nonatomic) IBOutlet UIProgressView *progressBar;
 
 @property (strong, nonatomic) UIAlertView *uploadAlert;
@@ -37,6 +38,7 @@
 
 @property (nonatomic) int locationCount;
 @property (nonatomic) int queryCount;
+@property (nonatomic) int requestCount;
 @property (nonatomic) bool progressUploading;
 
 @end

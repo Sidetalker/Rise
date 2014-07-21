@@ -10,9 +10,9 @@
 
 @implementation ViewController
 
-@synthesize lblLocationCount, locationManager, locationHistory,
+@synthesize lblLocationCount, lblCurrentLocation,  locationManager, locationHistory,
 uploadAlert, uploadFilename, locationCount, queryCount, currentLocation,
-parseObject, FTPRequestManager, progressBar, progressUploading;
+parseObject, FTPRequestManager, progressBar, progressUploading, requestCount;
 
 #pragma mark - UIView Handlers
             
@@ -144,11 +144,13 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
     dispatch_queue_t myQueue = dispatch_queue_create("My Queue", NULL);
     dispatch_async(myQueue, ^{
         // Grab elevation data from Google
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         NSDictionary* googleAltitudes = [Helpers queryGoogleAltitudes:latestLocations];
         
         DDLogVerbose(@"Starting background process to retrieve Google data");
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             DDLogVerbose(@"Background process completed");
             
             // Animate the progress bar completion
@@ -235,10 +237,14 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
     [progressBar setProgress:.8 animated:YES];
     
     // Upload to SideApps to use for algorithm design
+    requestCount++;
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [FTPRequestManager addRequestForUploadFileAtLocalPath:pathText toRemotePath:fileNameText];
     [FTPRequestManager startProcessingRequests];
     
     // Upload to SideApps to use for algorithm design
+    requestCount++;
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [FTPRequestManager addRequestForUploadFileAtLocalPath:pathCSV toRemotePath:fileNameCSV];
     [FTPRequestManager startProcessingRequests];
 }
@@ -285,6 +291,18 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
         locationCount += 1;
         queryCount += 1;
         
+        // Configure the UILabel for current location display to use some animation
+        CATransition *transitionAnimation = [CATransition animation];
+        [transitionAnimation setType:kCATransitionFade];
+        [transitionAnimation setDuration:0.3f];
+        [transitionAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        [transitionAnimation setFillMode:kCAFillModeBoth];
+        
+        [lblCurrentLocation.layer addAnimation:transitionAnimation forKey:@"fadeAnimation"];
+        
+        // Animate the latest location update
+        [lblCurrentLocation setText:[location getBasicString]];
+        
         // Update the textBox and scroll to the bottom
         [lblLocationCount setText:[NSString stringWithFormat:@"Logged Locations: %d", locationCount]];
         
@@ -324,26 +342,32 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
 - (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompletePercent:(float)percent forRequest:(id<GRRequestProtocol>)request
 {
     DDLogVerbose(@"requestsManager:didCompletePercent:forRequest: %f", percent);
-    [progressBar setProgress:percent animated:YES];
 }
 
 - (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteUploadRequest:(id<GRDataExchangeRequestProtocol>)request
 {
     DDLogVerbose(@"requestsManager:didCompleteUploadRequest:");
     
-    // Animate the progress bar completion
-    [UIView animateWithDuration:0.25
-                          delay:0.0
-                        options: UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         [progressBar setAlpha:0];
-                         [progressBar setProgress:1];
-                         
-                     }
-                     completion:^(BOOL finished){
-                         [lblLocationCount setAlpha:1];
-                         [progressBar setProgress:0];
-                     }];
+    requestCount--;
+    
+    if (requestCount == 0)
+    {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
+        // Animate the progress bar completion
+        [UIView animateWithDuration:0.25
+                              delay:0.0
+                            options: UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [progressBar setAlpha:0];
+                             [progressBar setProgress:1 animated:YES];
+                             
+                         }
+                         completion:^(BOOL finished){
+                             [lblLocationCount setAlpha:1];
+                             [progressBar setProgress:0];
+                         }];
+    }
 }
 
 - (void)requestsManager:(id<GRRequestsManagerProtocol>)requestsManager didCompleteDownloadRequest:(id<GRDataExchangeRequestProtocol>)request

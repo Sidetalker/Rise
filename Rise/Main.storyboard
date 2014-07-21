@@ -98,6 +98,12 @@
                                     <segue destination="ASe-cf-ebK" kind="push" id="oOY-D7-efX"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvf-pF-Ouj">
+                                <rect key="frame" x="20" y="320" width="280" height="199"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -108,6 +114,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Record" id="RiA-bV-iBX"/>
                     <connections>
+                        <outlet property="lblCurrentLocation" destination="Zvf-pF-Ouj" id="jh9-iv-m6I"/>
                         <outlet property="lblLocationCount" destination="R50-c5-0X4" id="qMh-JD-jKR"/>
                         <outlet property="progressBar" destination="5LB-Fm-Tvd" id="8Yh-Uy-mue"/>
                     </connections>
