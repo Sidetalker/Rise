@@ -10,7 +10,7 @@
 
 @implementation ViewController
 
-@synthesize lblLocationCount, lblLocationData, locationManager, locationHistory,
+@synthesize lblLocationCount, locationManager, locationHistory,
 uploadAlert, uploadFilename, locationCount, queryCount, currentLocation,
 parseObject, FTPRequestManager, progressBar, progressUploading;
 
@@ -119,7 +119,6 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
     locationCount = 0;
     queryCount = 0;
     [lblLocationCount setText:@"Logged Locations: 0"];
-    [lblLocationData setText:@""];
     [locationHistory removeAllObjects];
     
     DDLogVerbose(@"Location Data Cleared");
@@ -142,7 +141,7 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
     [progressBar setProgress:0.8 animated:YES];
     
     // Set up another thread and retrieve google data in the background
-    dispatch_queue_t myQueue = dispatch_queue_create("My Queue",NULL);
+    dispatch_queue_t myQueue = dispatch_queue_create("My Queue", NULL);
     dispatch_async(myQueue, ^{
         // Grab elevation data from Google
         NSDictionary* googleAltitudes = [Helpers queryGoogleAltitudes:latestLocations];
@@ -191,26 +190,34 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
     }
     
     // Build the string for the text file to be created
-    NSMutableString *allData = [[NSMutableString alloc] init];
+    NSMutableString *allDataText = [[NSMutableString alloc] init];
+    NSMutableString *allDataCSV = [NSMutableString stringWithString:
+                                   @"Time,Longitude,Latitude,Horizontal Accuracy,Apple Altitude,Vertical Accuracy,Google Altitude,Resolution\n"];
     
     for (Location *curLoc in locationHistory)
     {
-        // Add detailed data for each data point
-        [allData appendFormat:@"%@\n\n", [curLoc getComplexString]];
+        // Add detailed data for each data point (plaintext and CSV)
+        [allDataText appendFormat:@"%@\n\n", [curLoc getComplexString]];
+        [allDataCSV appendFormat:@"%@\n", [curLoc getCSVString]];
         
         DDLogVerbose([curLoc getComplexString]);
     }
     
     // Generate a text file from the NSString and store it temporarily
     // The filename uses the absolute timestamp of the latest Location object (these will be unique filenames)
-    NSString *fileName = [[[((Location*)[locationHistory lastObject]).timestampAbsolute description]
+    NSString *fileNameText = [[[((Location*)[locationHistory lastObject]).timestampAbsolute description]
                           stringByReplacingOccurrencesOfString:@" " withString:@"."]
                           stringByAppendingString:@".txt"];
-    NSString *path = [[Helpers applicationDocumentsDirectory].path stringByAppendingPathComponent:fileName];
+    NSString *pathText = [[Helpers applicationDocumentsDirectory].path stringByAppendingPathComponent:fileNameText];
+    NSString *fileNameCSV = [[[((Location*)[locationHistory lastObject]).timestampAbsolute description]
+                               stringByReplacingOccurrencesOfString:@" " withString:@"."]
+                              stringByAppendingString:@".csv"];
+    NSString *pathCSV = [[Helpers applicationDocumentsDirectory].path stringByAppendingPathComponent:fileNameCSV];
     
     // Write the file to memory
     NSError *writeError = nil;
-    [allData writeToFile:path atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&writeError];
+    [allDataText writeToFile:pathText atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&writeError];
+    [allDataCSV writeToFile:pathCSV atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&writeError];
     
     // Check for an error
     if (writeError)
@@ -219,7 +226,8 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
         return;
     }
     
-    DDLogVerbose(@"Local file: %@\nRemote file: %@", path, fileName);
+    DDLogVerbose(@"Local text file: %@\nRemote file: %@", pathText, fileNameText);
+    DDLogVerbose(@"Local CSV file: %@\nRemote file: %@", pathText, fileNameText);
     
     // Set up the progress bar stuff
     [progressBar setAlpha:1];
@@ -227,7 +235,11 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
     [progressBar setProgress:.8 animated:YES];
     
     // Upload to SideApps to use for algorithm design
-    [FTPRequestManager addRequestForUploadFileAtLocalPath:path toRemotePath:fileName];
+    [FTPRequestManager addRequestForUploadFileAtLocalPath:pathText toRemotePath:fileNameText];
+    [FTPRequestManager startProcessingRequests];
+    
+    // Upload to SideApps to use for algorithm design
+    [FTPRequestManager addRequestForUploadFileAtLocalPath:pathCSV toRemotePath:fileNameCSV];
     [FTPRequestManager startProcessingRequests];
 }
 
@@ -275,8 +287,6 @@ parseObject, FTPRequestManager, progressBar, progressUploading;
         
         // Update the textBox and scroll to the bottom
         [lblLocationCount setText:[NSString stringWithFormat:@"Logged Locations: %d", locationCount]];
-        [lblLocationData setText:[NSString stringWithFormat:@"%@\n%@", [lblLocationData text], [location getBasicString]]];
-        [lblLocationData scrollRangeToVisible:NSMakeRange([lblLocationData.text length], 0)];
         
         DDLogVerbose(@"Updated Labels and Counts");
     }

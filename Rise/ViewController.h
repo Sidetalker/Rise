@@ -14,6 +14,7 @@
 #import "Location.h"
 #import "Helpers.h"
 #import "GRRequestsManager.h"
+#import "DataViewController.h"
 
 @interface ViewController : UIViewController <CLLocationManagerDelegate, GRRequestsManagerDelegate, UIAlertViewDelegate>
 
@@ -24,7 +25,6 @@
 - (IBAction)btnUploadData:(id)sender;
 
 @property (strong, nonatomic) IBOutlet UILabel *lblLocationCount;
-@property (strong, nonatomic) IBOutlet UITextView *lblLocationData;
 @property (strong, nonatomic) IBOutlet UIProgressView *progressBar;
 
 @property (strong, nonatomic) UIAlertView *uploadAlert;

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5106CE78195F6D55000BDD5E /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 5106CE77195F6D55000BDD5E /* Location.m */; };
 		5132BEB719772B6A0085DE66 /* Rise120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 5132BEB619772B6A0085DE66 /* Rise120x120.png */; };
+		515A62EC19797B000014CC77 /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 515A62EB19797B000014CC77 /* DataViewController.m */; };
 		515B9D0219550E5B00AE2D05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 515B9D0119550E5B00AE2D05 /* main.m */; };
 		515B9D0519550E5B00AE2D05 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 515B9D0419550E5B00AE2D05 /* AppDelegate.m */; };
 		515B9D0819550E5B00AE2D05 /* Rise.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 515B9D0619550E5B00AE2D05 /* Rise.xcdatamodeld */; };
@@ -45,6 +46,8 @@
 		5106CE76195F6D55000BDD5E /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		5106CE77195F6D55000BDD5E /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		5132BEB619772B6A0085DE66 /* Rise120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Rise120x120.png; path = ../../../../../../Desktop/Rise120x120.png; sourceTree = "<group>"; };
+		515A62EA19797B000014CC77 /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
+		515A62EB19797B000014CC77 /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
 		515B9CFC19550E5B00AE2D05 /* Rise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		515B9D0019550E5B00AE2D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		515B9D0119550E5B00AE2D05 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -144,6 +147,8 @@
 				515B9D0419550E5B00AE2D05 /* AppDelegate.m */,
 				515B9D0919550E5B00AE2D05 /* ViewController.h */,
 				515B9D0A19550E5B00AE2D05 /* ViewController.m */,
+				515A62EA19797B000014CC77 /* DataViewController.h */,
+				515A62EB19797B000014CC77 /* DataViewController.m */,
 				5106CE76195F6D55000BDD5E /* Location.h */,
 				5106CE77195F6D55000BDD5E /* Location.m */,
 				515B9D0F19550E5B00AE2D05 /* Images.xcassets */,
@@ -336,6 +341,7 @@
 				515B9D0519550E5B00AE2D05 /* AppDelegate.m in Sources */,
 				515B9D0819550E5B00AE2D05 /* Rise.xcdatamodeld in Sources */,
 				515B9D0B19550E5B00AE2D05 /* ViewController.m in Sources */,
+				515A62EC19797B000014CC77 /* DataViewController.m in Sources */,
 				518D76E3196EFE2800EC00BA /* Helpers.m in Sources */,
 				5106CE78195F6D55000BDD5E /* Location.m in Sources */,
 				515B9D0219550E5B00AE2D05 /* main.m in Sources */,
