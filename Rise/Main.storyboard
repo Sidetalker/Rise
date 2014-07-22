@@ -99,11 +99,20 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvf-pF-Ouj">
-                                <rect key="frame" x="20" y="320" width="280" height="199"/>
+                                <rect key="frame" x="20" y="358" width="280" height="161"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIy-hF-dx9">
+                                <rect key="frame" x="126" y="320" width="64" height="30"/>
+                                <state key="normal" title="Plot Data">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="FYU-GG-9ZC" kind="push" id="zd0-ef-s68"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -122,6 +131,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HrX-xK-vra" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="410" y="505"/>
+        </scene>
+        <!--Graph View Controller-->
+        <scene sceneID="6hK-K1-8b3">
+            <objects>
+                <viewController id="FYU-GG-9ZC" customClass="GraphViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZFd-0d-eNC"/>
+                        <viewControllerLayoutGuide type="bottom" id="zVC-QY-uEh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VUu-4P-WIx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DGR-BG-xnt"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aDk-QT-8CE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="836" y="795"/>
         </scene>
         <!--Data View Controller - Latest Data-->
         <scene sceneID="GYD-I6-UT9">

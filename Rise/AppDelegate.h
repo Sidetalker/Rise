@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import <Parse/Parse.h>
+#import <CorePlot/CorePlot-CocoaTouch.h>
 
 #import "DDTTYLogger.h"
 

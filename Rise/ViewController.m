@@ -229,7 +229,7 @@ parseObject, FTPRequestManager, progressBar, progressUploading, requestCount;
     }
     
     DDLogVerbose(@"Local text file: %@\nRemote file: %@", pathText, fileNameText);
-    DDLogVerbose(@"Local CSV file: %@\nRemote file: %@", pathText, fileNameText);
+    DDLogVerbose(@"Local CSV file: %@\nRemote file: %@", pathCSV, fileNameCSV);
     
     // Set up the progress bar stuff
     [progressBar setAlpha:1];
