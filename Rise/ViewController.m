@@ -12,7 +12,7 @@
 
 @synthesize lblLocationCount, lblCurrentLocation,  locationManager, locationHistory,
 uploadAlert, uploadFilename, locationCount, queryCount, currentLocation,
-parseObject, FTPRequestManager, progressBar, progressUploading, requestCount;
+FTPRequestManager, progressBar, progressUploading, requestCount;
 
 #pragma mark - UIView Handlers
             
@@ -99,9 +99,6 @@ parseObject, FTPRequestManager, progressBar, progressUploading, requestCount;
 {
     DDLogVerbose(@"btnStopRecord Pressed");
     
-    // Upload the data to the Parse cloud
-    [parseObject saveInBackground];
-    
     // Stop recording the location
     [locationManager stopUpdatingLocation];
     
@@ -111,9 +108,6 @@ parseObject, FTPRequestManager, progressBar, progressUploading, requestCount;
 - (IBAction)btnClearRecord:(id)sender
 {
     DDLogVerbose(@"btnClearRecord Pressed");
-    
-    // Reinitialize the parse object
-    parseObject = [PFObject objectWithClassName:@"Locations"];
     
     // Reset location data
     locationCount = 0;

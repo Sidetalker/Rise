@@ -33,7 +33,6 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (strong, nonatomic) NSMutableArray *locationHistory;
-@property (strong, nonatomic) PFObject *parseObject;
 @property (strong, nonatomic) GRRequestsManager *FTPRequestManager;
 
 @property (nonatomic) int locationCount;

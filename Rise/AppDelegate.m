@@ -25,13 +25,6 @@
     // Make AppDelegate variables available globally
     appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    // Configure Parse
-    [Parse setApplicationId:@"3nDsWICDXUdW3BHDti34XiR2lIe4hW97BnTaWwDg"
-                  clientKey:@"3x8oWhkLBGXdDOuGMslJyk1BkSG4rt55UTKOWWhJ"];
-    
-    // Set up Parse analytic tracking
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
     // Set up Lumberjack logging (in XCode only for now TODO if needed)
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     

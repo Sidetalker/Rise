@@ -19,7 +19,6 @@
 		515B9D281956D26B00AE2D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 515B9D271956D26B00AE2D05 /* Main.storyboard */; };
 		518D76E3196EFE2800EC00BA /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 518D76E2196EFE2800EC00BA /* Helpers.m */; };
 		519D6C26195CD03C005F6DF8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C25195CD03C005F6DF8 /* CoreLocation.framework */; };
-		519D6C28195CDE55005F6DF8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C27195CDE55005F6DF8 /* Parse.framework */; };
 		519D6C2A195CDE79005F6DF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C29195CDE79005F6DF8 /* AudioToolbox.framework */; };
 		519D6C2C195CDE81005F6DF8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C2B195CDE81005F6DF8 /* CFNetwork.framework */; };
 		519D6C2E195CDE88005F6DF8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C2D195CDE88005F6DF8 /* CoreGraphics.framework */; };
@@ -65,7 +64,6 @@
 		518D76E1196EFE2800EC00BA /* Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
 		518D76E2196EFE2800EC00BA /* Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helpers.m; sourceTree = "<group>"; };
 		519D6C25195CD03C005F6DF8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		519D6C27195CDE55005F6DF8 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		519D6C29195CDE79005F6DF8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		519D6C2B195CDE81005F6DF8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		519D6C2D195CDE88005F6DF8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -95,7 +93,6 @@
 				519D6C2E195CDE88005F6DF8 /* CoreGraphics.framework in Frameworks */,
 				519D6C2C195CDE81005F6DF8 /* CFNetwork.framework in Frameworks */,
 				519D6C2A195CDE79005F6DF8 /* AudioToolbox.framework in Frameworks */,
-				519D6C28195CDE55005F6DF8 /* Parse.framework in Frameworks */,
 				519D6C26195CD03C005F6DF8 /* CoreLocation.framework in Frameworks */,
 				A745B2E9F964431FBA793357 /* libPods-Rise.a in Frameworks */,
 			);
@@ -201,7 +198,6 @@
 				519D6C2D195CDE88005F6DF8 /* CoreGraphics.framework */,
 				519D6C2B195CDE81005F6DF8 /* CFNetwork.framework */,
 				519D6C29195CDE79005F6DF8 /* AudioToolbox.framework */,
-				519D6C27195CDE55005F6DF8 /* Parse.framework */,
 				519D6C25195CD03C005F6DF8 /* CoreLocation.framework */,
 				645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */,
 			);
@@ -463,7 +459,7 @@
 				);
 				INFOPLIST_FILE = Rise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -480,7 +476,7 @@
 				);
 				INFOPLIST_FILE = Rise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

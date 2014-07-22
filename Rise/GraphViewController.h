@@ -15,9 +15,11 @@
 @private
     NSMutableArray *plotData;
     CPTGraphHostingView *hostView;
-    CPTGraph *graph;
-    CPTScatterPlot *plot;
+//    CPTGraph *graph;
+//    CPTScatterPlot *plot;
     NSTimer *dataTimer;
 }
+
+//- (void)initializePlot;
 
 @end

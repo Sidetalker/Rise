@@ -105,12 +105,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIy-hF-dx9">
-                                <rect key="frame" x="126" y="320" width="64" height="30"/>
+                                <rect key="frame" x="128" y="320" width="64" height="30"/>
                                 <state key="normal" title="Plot Data">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="FYU-GG-9ZC" kind="push" id="zd0-ef-s68"/>
+                                    <segue destination="FYU-GG-9ZC" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="zd0-ef-s68"/>
                                 </connections>
                             </button>
                         </subviews>
