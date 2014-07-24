@@ -14,6 +14,9 @@
 
 @implementation GraphViewController
 
+#pragma mark - Load and Dismiss View
+
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -23,116 +26,10 @@
     return self;
 }
 
-
-
-
-
-
-
-//- (void)viewDidLoad {
-//    [super viewDidLoad];
-//    
-//    hostView = [[CPTGraphHostingView alloc] initWithFrame:self.view.bounds];
-//    hostView.allowPinchScaling = YES;
-//    
-//    graph = [[CPTXYGraph alloc] initWithFrame: hostView.bounds];
-//    [graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
-//    hostView.hostedGraph = graph;
-//    graph.paddingLeft = 20.0;
-//    graph.paddingTop = 20.0;
-//    graph.paddingRight = 20.0;
-//    graph.paddingBottom = 20.0;
-//    
-//    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
-//    plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(-6)
-//                                                   length:CPTDecimalFromFloat(12)];
-//    plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(-5)
-//                                                   length:CPTDecimalFromFloat(30)];
-//    
-//    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)graph.axisSet;
-//    
-//    CPTMutableLineStyle *lineStyle = [CPTLineStyle lineStyle];
-//    lineStyle.lineColor = [CPTColor blackColor];
-//    lineStyle.lineWidth = 2.0f;
-//    
-////    axisSet.xAxis.majorIntervalLength = @"5";
-//    axisSet.xAxis.minorTicksPerInterval = 4;
-//    axisSet.xAxis.majorTickLineStyle = lineStyle;
-//    axisSet.xAxis.minorTickLineStyle = lineStyle;
-//    axisSet.xAxis.axisLineStyle = lineStyle;
-//    axisSet.xAxis.minorTickLength = 5.0f;
-//    axisSet.xAxis.majorTickLength = 7.0f;
-//    
-////    axisSet.yAxis.majorIntervalLength = [NSDecimalNumber init:@"5"];
-//    axisSet.yAxis.minorTicksPerInterval = 4;
-//    axisSet.yAxis.majorTickLineStyle = lineStyle;
-//    axisSet.yAxis.minorTickLineStyle = lineStyle;
-//    axisSet.yAxis.axisLineStyle = lineStyle;
-//    axisSet.yAxis.minorTickLength = 5.0f;
-//    axisSet.yAxis.majorTickLength = 7.0f;
-//    
-//    CPTScatterPlot *xSquaredPlot = [[CPTScatterPlot alloc]
-//                                    initWithFrame:graph.bounds];
-//    xSquaredPlot.identifier = @"X Squared Plot";
-//    CPTMutableLineStyle *styleA = [[CPTMutableLineStyle alloc] init];
-//    styleA.lineWidth = 1.0f;
-//    styleA.lineColor = [CPTColor redColor];
-//    xSquaredPlot.dataLineStyle = styleA;
-////    xSquaredPlot.dataLineStyle.lineWidth = 1.0f;
-////    xSquaredPlot.dataLineStyle.lineColor = [CPTColor redColor];
-//    xSquaredPlot.dataSource = self;
-//    [graph addPlot:xSquaredPlot];
-//    
-//    CPTPlotSymbol *greenCirclePlotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-//    greenCirclePlotSymbol.fill = [CPTFill fillWithColor:[CPTColor greenColor]];
-//    greenCirclePlotSymbol.size = CGSizeMake(2.0, 2.0);
-//    xSquaredPlot.plotSymbol = greenCirclePlotSymbol;
-//    
-//    CPTScatterPlot *xInversePlot = [[CPTScatterPlot alloc]
-//                                    initWithFrame:graph.bounds];
-//    xInversePlot.identifier = @"X Inverse Plot";
-////    xInversePlot.dataLineStyle.lineWidth = 1.0f;
-////    xInversePlot.dataLineStyle.lineColor = [CPColor blueColor];
-//    xInversePlot.dataSource = self;
-//    [graph addPlot:xInversePlot];
-//    [self.view addSubview:hostView];
-//}
-
--(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
-    return 51;
-}
-
--(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum
-               recordIndex:(NSUInteger)index
+- (void)viewWillAppear:(BOOL) animated
 {
-    double val = (index/5.0)-5;
-    if(fieldEnum == CPTScatterPlotFieldX)
-    { return [NSNumber numberWithDouble:val]; }
-    else
-    { 
-        if([plot.identifier  isEqual: @"APPL"])
-        { return [NSNumber numberWithDouble:val*val]; }
-        else
-        { return [NSNumber numberWithDouble:1/val]; }
-    }
-}
-
-
-
-
-
-- (IBAction) buttonClicked: (id)sender
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
--(BOOL)prefersStatusBarHidden { return YES; }
-
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+//    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
     
     [self initializePlot];
     
@@ -141,8 +38,41 @@
     [button setTitle:@"Press Me" forState:UIControlStateNormal];
     [button sizeToFit];
     [button addTarget: self
-              action: @selector(buttonClicked:)
-    forControlEvents: UIControlEventTouchUpInside];
+               action: @selector(buttonClicked:)
+     forControlEvents: UIControlEventTouchUpInside];
+}
+
+- (void)receivedRotate:(NSNotification*)notification
+{
+    UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
+    if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+    {
+//        [self performSegueWithIdentifier:@"/* Segue from the VCPotrait to VCLandscape*/" sender: self];
+    }
+}
+
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+//}
+
+//- (BOOL)shouldAutorotate
+//{
+//    return NO;
+//}
+//
+//- (NSUInteger)supportedInterfaceOrientations
+//{
+//    return (UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationLandscapeLeft);
+//}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    
+    
+    DDLogCVerbose(@"Current orientation: %ld", [[UIDevice currentDevice] orientation]);
     
     
     // Do any additional setup after loading the view.
@@ -210,6 +140,11 @@
 //    [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSRunLoopCommonModes];
 }
 
+- (IBAction) buttonClicked: (id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -227,6 +162,8 @@
 }
  */
 
+#pragma mark - Graph Setup and Configuration
+
 - (void)initializePlot
 {
     [self configureHost];
@@ -235,13 +172,15 @@
     [self configureAxes];
 }
 
--(void)configureHost {
+- (void)configureHost
+{
     hostView = [[CPTGraphHostingView alloc] initWithFrame:self.view.bounds];
     hostView.allowPinchScaling = YES;
     [self.view addSubview:hostView];
 }
 
--(void)configureGraph {
+- (void)configureGraph
+{
     // 1 - Create the graph
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:hostView.bounds];
     [graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
@@ -265,7 +204,8 @@
     plotSpace.allowsUserInteraction = YES;
 }
 
--(void)configurePlots {
+- (void)configurePlots
+{
     // 1 - Get graph and plot space
     CPTGraph *graph = hostView.hostedGraph;
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
@@ -329,7 +269,8 @@
     msftPlot.plotSymbol = msftSymbol;
 }
 
--(void)configureAxes {
+-(void)configureAxes
+{
     // 1 - Create styles
     CPTMutableTextStyle *axisTitleStyle = [CPTMutableTextStyle textStyle];
     axisTitleStyle.color = [CPTColor whiteColor];
@@ -438,6 +379,22 @@
     y.minorTickLocations = yMinorLocations; 
 }
 
+#pragma mark - Graph Delegate Functions
+
+-(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
+{
+    return 51;
+}
+
+-(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum
+               recordIndex:(NSUInteger)index
+{
+    if (fieldEnum == CPTScatterPlotFieldX)
+        return [NSNumber numberWithInteger:index];
+    else
+        return [NSNumber numberWithDouble:index*index];
+}
+
 #pragma mark - Timer Callback
 
 - (void)newData:(NSTimer *)theTimer
@@ -496,16 +453,6 @@
 ////    return num;
 //    return @(30);
 //}
-
--(NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskLandscape;
-}
-
--(BOOL)shouldAutorotate
-{
-    return NO;
-}
 
 #pragma mark - Core Plot Animation Delegates
 

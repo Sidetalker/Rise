@@ -243,6 +243,33 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     [FTPRequestManager startProcessingRequests];
 }
 
+- (IBAction)btnPlotData:(id)sender
+{
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+
+    // assuming your controller has identifier "privacy" in the Storyboard
+    
+//    ViewController *graphView = [[GraphViewController init] alloc];
+//    
+//    [self presentViewController:graphView animated:YES completion:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    DDLogCVerbose(@"Segue ID: %@", segue.identifier);
+    
+    if ([segue.identifier isEqualToString:@"graphView"])
+    {
+//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+        
+//        UINavigationController *navigationController = segue.destinationViewController;
+//        MoreOptionsViewController *controller = (MoreOptionsViewController *)navigationController.topViewController;
+//        controller.delegate = self;
+        
+        
+    }
+}
+
 #pragma mark - UIAlertView Delegate Functions
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

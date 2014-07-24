@@ -15,6 +15,7 @@
 #import "Helpers.h"
 #import "GRRequestsManager.h"
 #import "DataViewController.h"
+#import "GraphViewController.h"
 
 @interface ViewController : UIViewController <CLLocationManagerDelegate, GRRequestsManagerDelegate, UIAlertViewDelegate>
 
