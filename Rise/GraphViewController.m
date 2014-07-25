@@ -16,7 +16,6 @@
 
 #pragma mark - Load and Dismiss View
 
-
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,12 +27,11 @@
 
 - (void)viewWillAppear:(BOOL) animated
 {
-//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-//    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
-    
+    // Create the graph
     [self initializePlot];
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    // Add a button to segue back to main view
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.view addSubview:button];
     [button setTitle:@"Press Me" forState:UIControlStateNormal];
     [button sizeToFit];
@@ -42,35 +40,9 @@
      forControlEvents: UIControlEventTouchUpInside];
 }
 
-- (void)receivedRotate:(NSNotification*)notification
-{
-    UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
-    if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-    {
-//        [self performSegueWithIdentifier:@"/* Segue from the VCPotrait to VCLandscape*/" sender: self];
-    }
-}
-
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-//{
-//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
-//}
-
-//- (BOOL)shouldAutorotate
-//{
-//    return NO;
-//}
-//
-//- (NSUInteger)supportedInterfaceOrientations
-//{
-//    return (UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationLandscapeLeft);
-//}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
     
     DDLogCVerbose(@"Current orientation: %ld", [[UIDevice currentDevice] orientation]);
     
@@ -140,7 +112,7 @@
 //    [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSRunLoopCommonModes];
 }
 
-- (IBAction) buttonClicked: (id)sender
+- (IBAction)buttonClicked: (id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -161,6 +133,32 @@
     // Pass the selected object to the new view controller.
 }
  */
+
+#pragma mark - Orientation Configuration
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationLandscapeLeft;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+}
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (void)receivedRotate:(NSNotification*)notification
+{
+    UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
+    if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+    {
+        // Do nothing
+    }
+}
 
 #pragma mark - Graph Setup and Configuration
 

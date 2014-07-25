@@ -260,12 +260,6 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     
     if ([segue.identifier isEqualToString:@"graphView"])
     {
-//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-        
-//        UINavigationController *navigationController = segue.destinationViewController;
-//        MoreOptionsViewController *controller = (MoreOptionsViewController *)navigationController.topViewController;
-//        controller.delegate = self;
-        
         
     }
 }
