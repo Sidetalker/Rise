@@ -31,12 +31,7 @@
 //    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 //    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
     
-    if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft)
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-    else if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
-    else
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
     
     [self initializePlot];
     
@@ -154,17 +149,25 @@
 
 #pragma mark - Orientation Configuration
 
-// Don't allow the user to influence the app orientation
 - (BOOL)shouldAutorotate
 {
     return NO;
 }
 
-
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
 }
+
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+//{
+//    return UIInterfaceOrientationLandscapeLeft;
+//}
+
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+//}
 
 - (NSUInteger)supportedInterfaceOrientations
 {

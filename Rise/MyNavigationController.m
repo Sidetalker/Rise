@@ -44,9 +44,4 @@
         return [self.topViewController supportedInterfaceOrientations];
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 @end
