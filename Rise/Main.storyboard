@@ -110,7 +110,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="FYU-GG-9ZC" kind="custom" identifier="graphView" id="Z4y-VO-OTp"/>
+                                    <segue destination="FYU-GG-9ZC" kind="modal" identifier="graphView" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="Z4y-VO-OTp"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -42,15 +42,6 @@
      forControlEvents: UIControlEventTouchUpInside];
 }
 
-- (void)receivedRotate:(NSNotification*)notification
-{
-    UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
-    if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-    {
-//        [self performSegueWithIdentifier:@"/* Segue from the VCPotrait to VCLandscape*/" sender: self];
-    }
-}
-
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 //{
 //    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
@@ -161,6 +152,32 @@
     // Pass the selected object to the new view controller.
 }
  */
+
+#pragma mark - Orientation Configuration
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationLandscapeLeft;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+}
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (void)receivedRotate:(NSNotification*)notification
+{
+    UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
+    if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+    {
+        // Do nothing
+    }
+}
 
 #pragma mark - Graph Setup and Configuration
 
