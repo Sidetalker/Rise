@@ -28,6 +28,9 @@
 
 - (void)viewWillAppear:(BOOL) animated
 {
+//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    //    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
+    
     if (([[UIDevice currentDevice] orientation] == UIInterfaceOrientationPortrait) ||
         ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft))
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
