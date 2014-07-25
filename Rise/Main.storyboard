@@ -122,6 +122,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Record" id="RiA-bV-iBX"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="lblCurrentLocation" destination="Zvf-pF-Ouj" id="jh9-iv-m6I"/>
                         <outlet property="lblLocationCount" destination="R50-c5-0X4" id="qMh-JD-jKR"/>
@@ -153,7 +154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDk-QT-8CE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="836" y="1084"/>
+            <point key="canvasLocation" x="960" y="700"/>
         </scene>
         <!--Latest Data-->
         <scene sceneID="GYD-I6-UT9">

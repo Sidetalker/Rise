@@ -22,6 +22,10 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     
     [self.view addSubview:progressBar];
     
+    // Set up a handler for rotation events
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
+    
     DDLogVerbose(@"Loaded");
     DDLogVerbose(@"Location Services Enabled: %d", [CLLocationManager locationServicesEnabled]);
     
@@ -77,6 +81,46 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 {
     [super didReceiveMemoryWarning];
     // Retain all resources in an attempt to crash the user's device
+}
+
+#pragma mark - Orientation Configuration
+
+// Support only the portriat navigation (needed for a non modal segue)
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+//// Set the interface preference to landscape
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+//{
+//    return UIInterfaceOrientationPortrait;
+//}
+
+// Possibly not needed
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+// I think this makes the funtion above unnecessary
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+// Configured for future use
+- (void)receivedRotate:(NSNotification*)notification
+{
+    // For now just log some stuff - possibly will be extended in the future
+    DDLogVerbose(@"Current hardware orientation: %ld", [[UIDevice currentDevice] orientation]);
+    DDLogVerbose(@"Current view orientation: %ld", [[UIApplication sharedApplication] statusBarOrientation]);
+    
+    UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+    {
+        // Do nothing (FOR NOW)
+    }
 }
 
 #pragma mark - Button Handlers
@@ -260,13 +304,7 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     
     if ([segue.identifier isEqualToString:@"graphView"])
     {
-//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-        
-//        UINavigationController *navigationController = segue.destinationViewController;
-//        MoreOptionsViewController *controller = (MoreOptionsViewController *)navigationController.topViewController;
-//        controller.delegate = self;
-        
-        
+
     }
 }
 
