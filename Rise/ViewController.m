@@ -87,13 +87,38 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (BOOL)shouldAutorotate
 {
+    return NO;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
     return YES;
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    DDLogCVerbose(@"Segue ID: %@", segue.identifier);
+    
+    if ([segue.identifier isEqualToString:@"graphView"])
+    {
+        //        [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
+        
+//                [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+        
+        //        UINavigationController *navigationController = segue.destinationViewController;
+        //        MoreOptionsViewController *controller = (MoreOptionsViewController *)navigationController.topViewController;
+        //        controller.delegate = self;
+        
+        
+    }
+}
+
+
 
 //// Support only the portriat navigation (needed for a non modal segue)
 //-(NSUInteger)supportedInterfaceOrientations
@@ -305,25 +330,6 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 //    ViewController *graphView = [[GraphViewController init] alloc];
 //    
 //    [self presentViewController:graphView animated:YES completion:nil];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    DDLogCVerbose(@"Segue ID: %@", segue.identifier);
-    
-    if ([segue.identifier isEqualToString:@"graphView"])
-    {
-        MyNavigationController *navController = [self navigationController];
-        navController.forceLandscape = YES;
-        
-//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-        
-//        UINavigationController *navigationController = segue.destinationViewController;
-//        MoreOptionsViewController *controller = (MoreOptionsViewController *)navigationController.topViewController;
-//        controller.delegate = self;
-        
-        
-    }
 }
 
 #pragma mark - UIAlertView Delegate Functions

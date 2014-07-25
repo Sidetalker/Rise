@@ -26,39 +26,22 @@
     // Dispose of any resources that can be recreated.
 }
 
-//- (BOOL)shouldAutorotate
-//{
-////    id currentViewController = self.topViewController;
-//    
-//    return YES;
-//}
-
-//- (BOOL)shouldAutorotate
-//{
-//    return YES;
-//}
-//
-//- (NSUInteger)supportedInterfaceOrientations
-//{
-//    if (self.isLandscapeOK) {
-//        // for iPhone, you could also return UIInterfaceOrientationMaskAllButUpsideDown
-//        return UIInterfaceOrientationMaskAll;
-//    }
-//    return UIInterfaceOrientationMaskPortrait;
-//}
-
 - (BOOL)shouldAutorotate
 {
-    return YES;
+//    DDLogVerbose(@"Presented View Controller: %@", [self.presentedViewController class]);
+    
+    if (self.presentedViewController)
+        return [self.presentedViewController shouldAutorotate];
+    else
+        return [self.topViewController shouldAutorotate];
 }
-
+//
 - (NSUInteger)supportedInterfaceOrientations
 {
-    if (!forceLandscape) {
-        return UIInterfaceOrientationMaskAll;
-    }
-    
-    return UIInterfaceOrientationMaskLandscapeLeft;
+    if (self.presentedViewController)
+        return [self.presentedViewController supportedInterfaceOrientations];
+    else
+        return [self.topViewController supportedInterfaceOrientations];
 }
 
 @end

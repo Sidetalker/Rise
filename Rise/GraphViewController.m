@@ -31,6 +31,8 @@
 //    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 //    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
     
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+    
     [self initializePlot];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -60,8 +62,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
     
     DDLogCVerbose(@"Current orientation: %ld", [[UIDevice currentDevice] orientation]);
     
@@ -131,10 +131,12 @@
 //    [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSRunLoopCommonModes];
 }
 
-- (IBAction) buttonClicked: (id)sender
+- (IBAction)buttonClicked: (id)sender
 {
-    MyNavigationController *navController = [self navigationController];
-    navController.forceLandscape = NO;
+//    MyNavigationController *navController = [self navigationController];
+//    navController.forceLandscape = NO;
+    
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -147,24 +149,29 @@
 
 #pragma mark - Orientation Configuration
 
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 //{
 //    return UIInterfaceOrientationLandscapeLeft;
 //}
-//
+
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 //{
 //    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 //}
 
-//- (BOOL)shouldAutorotate
-//{
-//    return NO;
-//}
-
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskLandscapeLeft;
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)receivedRotate:(NSNotification*)notification
