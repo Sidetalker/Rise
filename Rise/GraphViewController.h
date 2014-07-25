@@ -18,6 +18,7 @@
 //    CPTGraph *graph;
 //    CPTScatterPlot *plot;
     NSTimer *dataTimer;
+    BOOL orientationFlag;
 }
 
 - (void)initializePlot;

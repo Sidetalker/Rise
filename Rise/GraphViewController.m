@@ -150,6 +150,8 @@
 //    MyNavigationController *navController = [self navigationController];
 //    navController.forceLandscape = NO;
     
+    orientationFlag = YES;
+    
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -168,7 +170,8 @@
     int orientation = [[UIDevice currentDevice] orientation];
     
     if (!(orientation == UIInterfaceOrientationPortrait) &&
-        !(orientation == UIInterfaceOrientationPortraitUpsideDown))
+        !(orientation == UIInterfaceOrientationPortraitUpsideDown) &&
+        !orientationFlag)
     {
         return YES;
     }
