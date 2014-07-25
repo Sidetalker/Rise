@@ -165,15 +165,16 @@
 
 - (BOOL)shouldAutorotate
 {
-    int orientation = [[UIDevice currentDevice] orientation];
-    
-    if (!(orientation == UIInterfaceOrientationPortrait) &&
-        !(orientation == UIInterfaceOrientationPortraitUpsideDown))
-    {
-        return YES;
-    }
-    
-    return NO;
+//    int orientation = [[UIDevice currentDevice] orientation];
+//    
+//    if (!(orientation == UIInterfaceOrientationPortrait) &&
+//        !(orientation == UIInterfaceOrientationPortraitUpsideDown))
+//    {
+//        return NO;
+//    }
+//    
+//    return YES;
+    return YES;
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -194,7 +195,7 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
+    return (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight);
 }
 
 - (void)receivedRotate:(NSNotification*)notification

@@ -92,6 +92,13 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 
 - (BOOL)shouldAutorotate
 {
+//    int orientation = [[UIDevice currentDevice] orientation];
+//    
+//    if (!(orientation == UIInterfaceOrientationPortrait))
+//        return NO;
+//    
+//    return YES;
+    
     return NO;
 }
 
