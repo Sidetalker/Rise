@@ -27,6 +27,7 @@
 		519D6C36195CDEAA005F6DF8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C35195CDEAA005F6DF8 /* Security.framework */; };
 		519D6C38195CDEB1005F6DF8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C37195CDEB1005F6DF8 /* StoreKit.framework */; };
 		519D6C3A195CDEB7005F6DF8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */; };
+		51E4A3911981FA6100297C22 /* MyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E4A3901981FA6100297C22 /* MyNavigationController.m */; };
 		51F7DA47197E1367004353B1 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F7DA46197E1367004353B1 /* GraphViewController.m */; };
 		A745B2E9F964431FBA793357 /* libPods-Rise.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */; };
 /* End PBXBuildFile section */
@@ -72,6 +73,8 @@
 		519D6C35195CDEAA005F6DF8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		519D6C37195CDEB1005F6DF8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		51E4A38F1981FA6100297C22 /* MyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNavigationController.h; sourceTree = "<group>"; };
+		51E4A3901981FA6100297C22 /* MyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNavigationController.m; sourceTree = "<group>"; };
 		51F7DA45197E1367004353B1 /* GraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphViewController.h; sourceTree = "<group>"; };
 		51F7DA46197E1367004353B1 /* GraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphViewController.m; sourceTree = "<group>"; };
 		645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Rise.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +142,8 @@
 		515B9CFE19550E5B00AE2D05 /* Rise */ = {
 			isa = PBXGroup;
 			children = (
+				51E4A38F1981FA6100297C22 /* MyNavigationController.h */,
+				51E4A3901981FA6100297C22 /* MyNavigationController.m */,
 				51F7DA45197E1367004353B1 /* GraphViewController.h */,
 				51F7DA46197E1367004353B1 /* GraphViewController.m */,
 				518D76E1196EFE2800EC00BA /* Helpers.h */,
@@ -340,6 +345,7 @@
 				515B9D0519550E5B00AE2D05 /* AppDelegate.m in Sources */,
 				51F7DA47197E1367004353B1 /* GraphViewController.m in Sources */,
 				515B9D0819550E5B00AE2D05 /* Rise.xcdatamodeld in Sources */,
+				51E4A3911981FA6100297C22 /* MyNavigationController.m in Sources */,
 				515B9D0B19550E5B00AE2D05 /* ViewController.m in Sources */,
 				515A62EC19797B000014CC77 /* DataViewController.m in Sources */,
 				518D76E3196EFE2800EC00BA /* Helpers.m in Sources */,

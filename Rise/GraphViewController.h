@@ -20,6 +20,6 @@
     NSTimer *dataTimer;
 }
 
-//- (void)initializePlot;
+- (void)initializePlot;
 
 @end

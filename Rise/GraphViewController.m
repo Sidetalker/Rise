@@ -133,6 +133,9 @@
 
 - (IBAction) buttonClicked: (id)sender
 {
+    MyNavigationController *navController = [self navigationController];
+    navController.forceLandscape = NO;
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -142,32 +145,26 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
- */
-
 #pragma mark - Orientation Configuration
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationLandscapeLeft;
-}
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+//{
+//    return UIInterfaceOrientationLandscapeLeft;
+//}
+//
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+//}
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
-}
+//- (BOOL)shouldAutorotate
+//{
+//    return NO;
+//}
 
-- (BOOL)shouldAutorotate
+- (NSUInteger)supportedInterfaceOrientations
 {
-    return NO;
+    return UIInterfaceOrientationMaskLandscapeLeft;
 }
 
 - (void)receivedRotate:(NSNotification*)notification

@@ -4,10 +4,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--My Navigation Controller-->
         <scene sceneID="hyJ-Rz-dIW">
             <objects>
-                <navigationController id="e5y-sO-k2F" sceneMemberID="viewController">
+                <navigationController id="e5y-sO-k2F" customClass="MyNavigationController" sceneMemberID="viewController">
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="McR-sw-vqf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -122,6 +123,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Record" id="RiA-bV-iBX"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="lblCurrentLocation" destination="Zvf-pF-Ouj" id="jh9-iv-m6I"/>
                         <outlet property="lblLocationCount" destination="R50-c5-0X4" id="qMh-JD-jKR"/>

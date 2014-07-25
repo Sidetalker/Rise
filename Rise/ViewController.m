@@ -20,6 +20,10 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 {
     [super viewDidLoad];
     
+    // Set up a handler for rotation events
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
+    
     [self.view addSubview:progressBar];
     
     DDLogVerbose(@"Loaded");
@@ -77,6 +81,55 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 {
     [super didReceiveMemoryWarning];
     // Retain all resources in an attempt to crash the user's device
+}
+
+#pragma mark - Orientation Configuration
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+//// Support only the portriat navigation (needed for a non modal segue)
+//-(NSUInteger)supportedInterfaceOrientations
+//{
+//    return UIInterfaceOrientationMaskPortrait;
+//}
+//
+////- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+////{
+////    return UIInterfaceOrientationPortrait;
+////}
+////
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    UIViewController *currentViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+//    
+//    while (currentViewController.presentedViewController) {
+//        currentViewController = currentViewController.presentedViewController;
+//    }
+//    
+//    if ([currentViewController isKindOfClass:[ViewController class]])
+//        return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//    else if ([currentViewController isKindOfClass:[GraphViewController class]])
+//        return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+//    
+//    return NO;
+//}
+
+
+- (void)receivedRotate:(NSNotification*)notification
+{
+    UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
+    if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+    {
+        // Do nothing
+    }
 }
 
 #pragma mark - Button Handlers
@@ -260,6 +313,9 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     
     if ([segue.identifier isEqualToString:@"graphView"])
     {
+        MyNavigationController *navController = [self navigationController];
+        navController.forceLandscape = YES;
+        
 //        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
         
 //        UINavigationController *navigationController = segue.destinationViewController;
