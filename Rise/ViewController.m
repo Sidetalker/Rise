@@ -85,19 +85,23 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 
 #pragma mark - Orientation Configuration
 
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
+// Don't allow the device orientation to affect the view orientation
 - (BOOL)shouldAutorotate
 {
     return NO;
 }
 
+// Hide the status bar (all the cool kids are doing it - might change later)
+// A hidden status bar prevents an ugly transition when rotating to landscape
+// Ideally this would be set in prepareForSegue
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -106,6 +110,8 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     
     if ([segue.identifier isEqualToString:@"graphView"])
     {
+//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+        
         //        [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
         
 //                [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
