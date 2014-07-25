@@ -26,16 +26,13 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL) animated
 {
-    // Set up a handler for rotation events
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
+//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+//    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
     
-    // Initialize the graph
     [self initializePlot];
     
-    // Add a button to return to the main view
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.view addSubview:button];
     [button setTitle:@"Press Me" forState:UIControlStateNormal];
@@ -45,12 +42,28 @@
      forControlEvents: UIControlEventTouchUpInside];
 }
 
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+//}
+
+//- (BOOL)shouldAutorotate
+//{
+//    return NO;
+//}
+//
+//- (NSUInteger)supportedInterfaceOrientations
+//{
+//    return (UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationLandscapeLeft);
+//}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    DDLogVerbose(@"Current hardware orientation: %ld", [[UIDevice currentDevice] orientation]);
-    DDLogVerbose(@"Current view orientation: %ld", [[UIApplication sharedApplication] statusBarOrientation]);
+    
+    
+    DDLogCVerbose(@"Current orientation: %ld", [[UIDevice currentDevice] orientation]);
     
     
     // Do any additional setup after loading the view.
@@ -142,31 +155,27 @@
 
 #pragma mark - Orientation Configuration
 
-// Set the interface preference to landscape
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
     return UIInterfaceOrientationLandscapeLeft;
 }
 
-// Possibly not needed
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
 
-// I think this makes the funtion above unnecessary
 - (BOOL)shouldAutorotate
 {
     return NO;
 }
 
-// Configured for future use
 - (void)receivedRotate:(NSNotification*)notification
 {
     UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
     if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
     {
-        
+        // Do nothing
     }
 }
 
