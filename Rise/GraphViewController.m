@@ -29,9 +29,16 @@
 - (void)viewWillAppear:(BOOL) animated
 {
 //    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-//    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
     
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+    if (([[UIDevice currentDevice] orientation] == UIInterfaceOrientationPortrait) ||
+        ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft))
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
+    else if (([[UIDevice currentDevice] orientation] == UIInterfaceOrientationPortraitUpsideDown) ||
+        ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight))
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+    
+    
     
     [self initializePlot];
     
@@ -64,6 +71,13 @@
     [super viewDidLoad];
     
     DDLogCVerbose(@"Current orientation: %ld", [[UIDevice currentDevice] orientation]);
+    
+//    if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationPortrait ||
+//        [[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft)
+//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
+//    else if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationPortraitUpsideDown ||
+//             [[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
+//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
     
     
     // Do any additional setup after loading the view.
@@ -131,7 +145,7 @@
 //    [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSRunLoopCommonModes];
 }
 
-- (IBAction)buttonClicked: (id)sender
+- (IBAction)buttonClicked:(id)sender
 {
 //    MyNavigationController *navController = [self navigationController];
 //    navController.forceLandscape = NO;
@@ -151,6 +165,14 @@
 
 - (BOOL)shouldAutorotate
 {
+    int orientation = [[UIDevice currentDevice] orientation];
+    
+    if (!(orientation == UIInterfaceOrientationPortrait) &&
+        !(orientation == UIInterfaceOrientationPortraitUpsideDown))
+    {
+        return YES;
+    }
+    
     return NO;
 }
 
@@ -164,9 +186,10 @@
 //    return UIInterfaceOrientationLandscapeLeft;
 //}
 
+// Not called
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 //{
-//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+//    return ((interfaceOrientation == UIInterfaceOrientationLandscapeLeft) || (interfaceOrientation == UIInterfaceOrientationLandscapeRight));
 //}
 
 - (NSUInteger)supportedInterfaceOrientations
