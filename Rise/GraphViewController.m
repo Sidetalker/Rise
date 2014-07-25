@@ -31,7 +31,16 @@
 //    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 //    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
     
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+//    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
+    
+    startingOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if ((startingOrientation == UIInterfaceOrientationPortrait) ||
+        (startingOrientation == UIInterfaceOrientationLandscapeLeft))
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
+    else if ((startingOrientation == UIInterfaceOrientationPortraitUpsideDown) ||
+             (startingOrientation == UIInterfaceOrientationLandscapeRight))
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
     
     [self initializePlot];
     
@@ -136,7 +145,9 @@
 //    MyNavigationController *navController = [self navigationController];
 //    navController.forceLandscape = NO;
     
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+
+    if (startingOrientation != [[UIApplication sharedApplication] statusBarOrientation])
+        [[UIApplication sharedApplication] setStatusBarOrientation:startingOrientation animated:YES];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
