@@ -92,13 +92,6 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 
 - (BOOL)shouldAutorotate
 {
-//    int orientation = [[UIDevice currentDevice] orientation];
-//    
-//    if (!(orientation == UIInterfaceOrientationPortrait))
-//        return NO;
-//    
-//    return YES;
-    
     return NO;
 }
 
@@ -113,9 +106,6 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     
     if ([segue.identifier isEqualToString:@"graphView"])
     {
-        
-
-        
         //        [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
         
 //                [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
@@ -128,16 +118,6 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     }
 }
 
-
--(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
-    if([identifier isEqualToString:@"graphView"])
-    {
-
-    }
-    
-    return YES;
-}
 
 
 //// Support only the portriat navigation (needed for a non modal segue)
