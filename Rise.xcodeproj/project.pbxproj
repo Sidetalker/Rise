@@ -44,6 +44,7 @@
 /* Begin PBXFileReference section */
 		5106CE76195F6D55000BDD5E /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		5106CE77195F6D55000BDD5E /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		5132BEB619772B6A0085DE66 /* Rise120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Rise120x120.png; path = ../../../../../../Desktop/Rise120x120.png; sourceTree = "<group>"; };
 		515A62EA19797B000014CC77 /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
 		515A62EB19797B000014CC77 /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
 		515B9CFC19550E5B00AE2D05 /* Rise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rise.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +110,7 @@
 		5132BEB819772B7C0085DE66 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5132BEB619772B6A0085DE66 /* Rise120x120.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
