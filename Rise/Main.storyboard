@@ -111,7 +111,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="FYU-GG-9ZC" kind="modal" identifier="graphView" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="Z4y-VO-OTp"/>
+                                    <segue destination="FYU-GG-9ZC" kind="modal" id="XSj-OS-tf6"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -134,6 +134,30 @@
             </objects>
             <point key="canvasLocation" x="410" y="505"/>
         </scene>
+        <!--Push Graph View Controller-->
+        <scene sceneID="ERV-Cg-Oxr">
+            <objects>
+                <viewController id="itC-TE-rRe" customClass="PushGraphViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ewv-fG-eBb"/>
+                        <viewControllerLayoutGuide type="bottom" id="NBe-WX-OVf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9uX-za-Aij">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Gvr-jK-4Tx">
+                                <rect key="frame" x="140" y="286" width="94" height="29"/>
+                            </stepper>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="zrX-a0-yfc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NZ1-lu-Vax" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="886" y="777"/>
+        </scene>
         <!--Graph View Controller-->
         <scene sceneID="6hK-K1-8b3">
             <objects>
@@ -155,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDk-QT-8CE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="836" y="1084"/>
+            <point key="canvasLocation" x="410" y="1068"/>
         </scene>
         <!--Latest Data-->
         <scene sceneID="GYD-I6-UT9">
@@ -199,7 +223,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZvB-mJ-Va8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="836" y="143"/>
+            <point key="canvasLocation" x="886" y="151"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -33,15 +33,6 @@
     
 //    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
     
-    startingOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    if ((startingOrientation == UIInterfaceOrientationPortrait) ||
-        (startingOrientation == UIInterfaceOrientationLandscapeLeft))
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
-    else if ((startingOrientation == UIInterfaceOrientationPortraitUpsideDown) ||
-             (startingOrientation == UIInterfaceOrientationLandscapeRight))
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-    
     [self initializePlot];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -146,9 +137,6 @@
 //    navController.forceLandscape = NO;
     
 
-    if (startingOrientation != [[UIApplication sharedApplication] statusBarOrientation])
-        [[UIApplication sharedApplication] setStatusBarOrientation:startingOrientation animated:YES];
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -170,6 +158,11 @@
     return YES;
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 //{
 //    return UIInterfaceOrientationLandscapeLeft;
@@ -180,19 +173,7 @@
 //    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 //}
 
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
 
-- (void)receivedRotate:(NSNotification*)notification
-{
-    UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
-    if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-    {
-        // Do nothing
-    }
-}
 
 #pragma mark - Graph Setup and Configuration
 
