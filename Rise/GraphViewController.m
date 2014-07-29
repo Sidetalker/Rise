@@ -35,6 +35,25 @@
     
     [self initializePlot];
     
+//    int rows = 13, columns = 4;
+//    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 58*columns, 58*rows)];
+//    for (int y = 0; y < rows; y++) {
+//        for (int x = 0; x < columns; x++) {
+//            UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//            button.frame = CGRectMake(58 * x, 31 * y, 58, 31);
+//            
+//            [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//            [buttonView addSubview: button];
+//            
+//        }
+//    }
+//    
+//    // Center the view which contains your buttons
+//    CGPoint centerPoint = buttonView.center;
+//    centerPoint.x = self.view.center.x;
+//    buttonView.center = centerPoint;
+//    [self.view addSubview:buttonView];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.view addSubview:button];
     [button setTitle:@"Press Me" forState:UIControlStateNormal];
@@ -150,7 +169,7 @@
 
 - (BOOL)shouldAutorotate
 {
-    return NO;
+    return YES;
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -160,7 +179,12 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
 }
 
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
@@ -391,6 +415,8 @@
     y.majorTickLocations = yMajorLocations;
     y.minorTickLocations = yMinorLocations; 
 }
+
+//[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
 
 #pragma mark - Graph Delegate Functions
 

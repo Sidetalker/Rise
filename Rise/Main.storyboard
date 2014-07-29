@@ -29,7 +29,7 @@
                         <viewControllerLayoutGuide type="top" id="is2-Xc-T1x"/>
                         <viewControllerLayoutGuide type="bottom" id="XP6-KY-WKi"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="6ul-w0-SC6">
+                    <view key="view" autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="6ul-w0-SC6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -142,7 +142,7 @@
                         <viewControllerLayoutGuide type="top" id="Ewv-fG-eBb"/>
                         <viewControllerLayoutGuide type="bottom" id="NBe-WX-OVf"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9uX-za-Aij">
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="9uX-za-Aij">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

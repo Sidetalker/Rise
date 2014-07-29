@@ -25,7 +25,6 @@
 		519D6C32195CDE98005F6DF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C31195CDE98005F6DF8 /* MobileCoreServices.framework */; };
 		519D6C34195CDEA1005F6DF8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C33195CDEA1005F6DF8 /* QuartzCore.framework */; };
 		519D6C36195CDEAA005F6DF8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C35195CDEAA005F6DF8 /* Security.framework */; };
-		519D6C38195CDEB1005F6DF8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C37195CDEB1005F6DF8 /* StoreKit.framework */; };
 		519D6C3A195CDEB7005F6DF8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */; };
 		51E4A3911981FA6100297C22 /* MyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E4A3901981FA6100297C22 /* MyNavigationController.m */; };
 		51E7970B198803D300AC4292 /* PushGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E7970A198803D300AC4292 /* PushGraphViewController.m */; };
@@ -72,7 +71,6 @@
 		519D6C31195CDE98005F6DF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		519D6C33195CDEA1005F6DF8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		519D6C35195CDEAA005F6DF8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		519D6C37195CDEB1005F6DF8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		51E4A38F1981FA6100297C22 /* MyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNavigationController.h; sourceTree = "<group>"; };
 		51E4A3901981FA6100297C22 /* MyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNavigationController.m; sourceTree = "<group>"; };
@@ -90,7 +88,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				519D6C3A195CDEB7005F6DF8 /* SystemConfiguration.framework in Frameworks */,
-				519D6C38195CDEB1005F6DF8 /* StoreKit.framework in Frameworks */,
 				519D6C36195CDEAA005F6DF8 /* Security.framework in Frameworks */,
 				519D6C34195CDEA1005F6DF8 /* QuartzCore.framework in Frameworks */,
 				519D6C32195CDE98005F6DF8 /* MobileCoreServices.framework in Frameworks */,
@@ -199,7 +196,6 @@
 			isa = PBXGroup;
 			children = (
 				519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */,
-				519D6C37195CDEB1005F6DF8 /* StoreKit.framework */,
 				519D6C35195CDEAA005F6DF8 /* Security.framework */,
 				519D6C33195CDEA1005F6DF8 /* QuartzCore.framework */,
 				519D6C31195CDE98005F6DF8 /* MobileCoreServices.framework */,
@@ -264,6 +260,12 @@
 				TargetAttributes = {
 					515B9CFB19550E5B00AE2D05 = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = S7BT87895F;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					515B9D1419550E5B00AE2D05 = {
 						CreatedOnToolsVersion = 6.0;

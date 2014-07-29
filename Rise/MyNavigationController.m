@@ -26,16 +26,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+// Allow views to take care of themselves
 - (BOOL)shouldAutorotate
 {
-//    DDLogVerbose(@"Presented View Controller: %@", [self.presentedViewController class]);
-    
     if (self.presentedViewController)
         return [self.presentedViewController shouldAutorotate];
     else
         return [self.topViewController shouldAutorotate];
 }
-//
+
 - (NSUInteger)supportedInterfaceOrientations
 {
     if (self.presentedViewController)

@@ -87,12 +87,12 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (BOOL)shouldAutorotate
 {
-    return NO;
+    return YES;
 }
 
 - (BOOL)prefersStatusBarHidden
