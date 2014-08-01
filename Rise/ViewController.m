@@ -100,54 +100,6 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     return YES;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    DDLogCVerbose(@"Segue ID: %@", segue.identifier);
-    
-    if ([segue.identifier isEqualToString:@"graphView"])
-    {
-        //        [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
-        
-//                [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-        
-        //        UINavigationController *navigationController = segue.destinationViewController;
-        //        MoreOptionsViewController *controller = (MoreOptionsViewController *)navigationController.topViewController;
-        //        controller.delegate = self;
-        
-        
-    }
-}
-
-
-
-//// Support only the portriat navigation (needed for a non modal segue)
-//-(NSUInteger)supportedInterfaceOrientations
-//{
-//    return UIInterfaceOrientationMaskPortrait;
-//}
-//
-////- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-////{
-////    return UIInterfaceOrientationPortrait;
-////}
-////
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-//{
-//    UIViewController *currentViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-//    
-//    while (currentViewController.presentedViewController) {
-//        currentViewController = currentViewController.presentedViewController;
-//    }
-//    
-//    if ([currentViewController isKindOfClass:[ViewController class]])
-//        return (interfaceOrientation == UIInterfaceOrientationPortrait);
-//    else if ([currentViewController isKindOfClass:[GraphViewController class]])
-//        return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
-//    
-//    return NO;
-//}
-
-
 - (void)receivedRotate:(NSNotification*)notification
 {
     UIDeviceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
@@ -319,17 +271,6 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [FTPRequestManager addRequestForUploadFileAtLocalPath:pathCSV toRemotePath:fileNameCSV];
     [FTPRequestManager startProcessingRequests];
-}
-
-- (IBAction)btnPlotData:(id)sender
-{
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-
-    // assuming your controller has identifier "privacy" in the Storyboard
-    
-//    ViewController *graphView = [[GraphViewController init] alloc];
-//    
-//    [self presentViewController:graphView animated:YES completion:nil];
 }
 
 #pragma mark - UIAlertView Delegate Functions

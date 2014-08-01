@@ -16,7 +16,6 @@
 
 #pragma mark - Load and Dismiss View
 
-
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -26,136 +25,41 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL) animated
-{
-//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-//    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
-    
-//    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:YES];
-    
-    [self initializePlot];
-    
-//    int rows = 13, columns = 4;
-//    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 58*columns, 58*rows)];
-//    for (int y = 0; y < rows; y++) {
-//        for (int x = 0; x < columns; x++) {
-//            UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//            button.frame = CGRectMake(58 * x, 31 * y, 58, 31);
-//            
-//            [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//            [buttonView addSubview: button];
-//            
-//        }
-//    }
-//    
-//    // Center the view which contains your buttons
-//    CGPoint centerPoint = buttonView.center;
-//    centerPoint.x = self.view.center.x;
-//    buttonView.center = centerPoint;
-//    [self.view addSubview:buttonView];
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.view addSubview:button];
-    [button setTitle:@"Press Me" forState:UIControlStateNormal];
-    [button sizeToFit];
-    [button addTarget: self
-               action: @selector(buttonClicked:)
-     forControlEvents: UIControlEventTouchUpInside];
-}
-
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-//{
-//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
-//}
-
-//- (BOOL)shouldAutorotate
-//{
-//    return NO;
-//}
-//
-//- (NSUInteger)supportedInterfaceOrientations
-//{
-//    return (UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationLandscapeLeft);
-//}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    DDLogCVerbose(@"Current orientation: %ld", [[UIDevice currentDevice] orientation]);
+    // Configure the view so we can do the whole landscape in portrait shebang
+    [self configureView];
     
+    // Make the beautiful plot
+    [self initializePlot];
     
-    // Do any additional setup after loading the view.
+    // Create the exit button
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    // Position and rotate the button properly
+    button.center = CGPointMake(50, hostView.frame.size.width - 25);
+    button.transform =  CGAffineTransformMakeRotation(-M_PI_2);
+    button.transform = CGAffineTransformMakeScale(1, -1);
+    
+    // Add the button to the subview we just created
+    [hostView addSubview:button];
+    
+    // Set up an event handler for the exit button
+    [button setTitle:@"EXIT" forState:UIControlStateNormal];
+    [button sizeToFit];
+    [button addTarget: self
+               action: @selector(buttonClicked:)
+     forControlEvents: UIControlEventTouchUpInside];
 
-//    // 1 - Set up view frame
-//    CGRect parentRect = self.view.bounds;
-//    CGSize toolbarSize = self.toolbar.bounds.size;
-//    parentRect = CGRectMake(parentRect.origin.x,
-//                            (parentRect.origin.y + toolbarSize.height),
-//                            parentRect.size.width,
-//                            (parentRect.size.height - toolbarSize.height));
-//    // 2 - Create host view
-//    self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:parentRect];
-//    self.hostView.allowPinchScaling = NO;
-//    [self.view addSubview:self.hostView];
-    
-//    // Create the graph host view and add it to our main view
-//    hostView = [[CPTGraphHostingView alloc] init];
-//    [self.view addSubview:hostView];
-//    
-//    // Create and initialize graph
-//    graph = [[CPTXYGraph alloc] initWithFrame:hostView.bounds];
-//    hostView.hostedGraph = graph;
-//    graph.paddingLeft = 0.0f;
-//    graph.paddingTop = 0.0f;
-//    graph.paddingRight = 0.0f;
-//    graph.paddingBottom = 0.0f;
-//    graph.axisSet = nil;
-//
-//    // Set up text style
-//    CPTMutableTextStyle *textStyle = [CPTMutableTextStyle textStyle];
-//    textStyle.color = [CPTColor grayColor];
-//    textStyle.fontName = @"Helvetica-Bold";
-//    textStyle.fontSize = 16.0f;
-//
-////    // Configure title
-////    NSString *title = @"Test";
-////    graph.title = title;
-////    graph.titleTextStyle = textStyle;
-////    graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
-////    graph.titleDisplacement = CGPointMake(0.0f, -12.0f);
-////
-////    // Set theme
-////    [graph applyTheme:[CPTTheme themeNamed:kCPTPlainBlackTheme]];
-////    
-//    // Create the plot
-//    plot = [[CPTScatterPlot alloc] init];
-//    plot.identifier     = @"Altitude Plot";
-//    plot.cachePrecision = CPTPlotCachePrecisionDouble;
-//    
-//    CPTMutableLineStyle *lineStyle = [plot.dataLineStyle mutableCopy];
-//    lineStyle.lineWidth              = 0.5;
-//    lineStyle.lineColor              = [CPTColor greenColor];
-//    plot.dataLineStyle = lineStyle;
-//    
-//    plot.dataSource = self;
-//    [graph addPlot:plot];
-//    
-//    // Start adding the data using the timer
-//    dataTimer = [NSTimer timerWithTimeInterval:1.0 / 60.0
-//                                        target:self
-//                                      selector:@selector(newData:)
-//                                      userInfo:nil
-//                                       repeats:YES];
-//    [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSRunLoopCommonModes];
+    // TODO set an image instead of stupid text
+    //    UIImage *btnImage = [UIImage imageNamed:@"image.png"];
+    //    [btnTwo setImage:btnImage forState:UIControlStateNormal];
 }
 
 - (IBAction)buttonClicked: (id)sender
 {
-//    MyNavigationController *navController = [self navigationController];
-//    navController.forceLandscape = NO;
-    
-
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -177,128 +81,174 @@
     return YES;
 }
 
+// Portrait orientation only - landscape config will be done in a subview
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)configureView
 {
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+    // Get the current orientation and configure the view layout
+    int curOrientation = [[UIDevice currentDevice] orientation];
+    double myRotation = 0;
+    
+    DDLogCVerbose(@"Current orientation: %d", curOrientation);
+    
+    if (curOrientation == UIDeviceOrientationLandscapeLeft || curOrientation == UIDeviceOrientationPortraitUpsideDown)
+        myRotation = M_PI_2;
+    else
+        myRotation = -M_PI_2;
+    
+    // Create a graph subview that we can do whatever we want with
+    hostView = [[CPTGraphHostingView alloc] initWithFrame:self.view.frame];
+    hostView.allowPinchScaling = YES;
+    
+    // Rotate the view either landscape left or right
+    CGAffineTransform transform = CGAffineTransformMakeRotation(myRotation);
+    
+    // Set the bounds to be landscape and make the frame transformation
+    hostView.bounds = CGRectMake(0,0, self.view.frame.size.height, self.view.frame.size.width);
+    hostView.transform = transform;
+    
+    // Allow dem pinches and add the subview
+    hostView.allowPinchScaling = NO;
+    [self.view addSubview:hostView];
+    
+    // Start watching for orientation changes
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
-//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-//{
-//    return UIInterfaceOrientationLandscapeLeft;
-//}
-
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-//{
-//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
-//}
-
-
+- (void)deviceOrientationDidChange
+{
+    // Get the current orientation
+    int curOrientation = [[UIDevice currentDevice] orientation];
+    double myRotation = 0;
+    
+    // Create a rotation only if the device orientation is landscape
+    if (curOrientation == UIDeviceOrientationLandscapeLeft)
+        myRotation = M_PI_2;
+    else if (curOrientation == UIDeviceOrientationLandscapeRight)
+        myRotation = -M_PI_2;
+    else
+        return;
+    
+    // Perform the rotation if we made it this far
+    hostView.transform = CGAffineTransformMakeRotation(myRotation);
+}
 
 #pragma mark - Graph Setup and Configuration
 
 - (void)initializePlot
 {
-    [self configureHost];
     [self configureGraph];
     [self configurePlots];
     [self configureAxes];
 }
 
-- (void)configureHost
-{
-    hostView = [[CPTGraphHostingView alloc] initWithFrame:self.view.bounds];
-    hostView.allowPinchScaling = YES;
-    [self.view addSubview:hostView];
-}
-
 - (void)configureGraph
 {
-    // 1 - Create the graph
+    // Create the graph
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:hostView.bounds];
-    [graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
+    [graph applyTheme:[CPTTheme themeNamed:kCPTPlainWhiteTheme]];
     hostView.hostedGraph = graph;
-    // 2 - Set graph title
-    NSString *title = @"Portfolio Prices: April 2012";
+    
+    // Set graph title
+    NSString *title = @"Elevation Data";
     graph.title = title;
-    // 3 - Create and set text style
+    
+    // Create and set text style
     CPTMutableTextStyle *titleStyle = [CPTMutableTextStyle textStyle];
-    titleStyle.color = [CPTColor whiteColor];
+    titleStyle.color = [CPTColor blackColor];
     titleStyle.fontName = @"Helvetica-Bold";
     titleStyle.fontSize = 16.0f;
     graph.titleTextStyle = titleStyle;
     graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
     graph.titleDisplacement = CGPointMake(0.0f, 10.0f);
-    // 4 - Set padding for plot area
+    
+    // Set padding for plot area
     [graph.plotAreaFrame setPaddingLeft:30.0f];
     [graph.plotAreaFrame setPaddingBottom:30.0f];
-    // 5 - Enable user interactions for plot space
-    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
+    
+    // Enable user interactions for plot space
+    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
     plotSpace.allowsUserInteraction = YES;
 }
 
 - (void)configurePlots
 {
-    // 1 - Get graph and plot space
+    // Get graph and plot space
     CPTGraph *graph = hostView.hostedGraph;
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
-    // 2 - Create the three plots
+    
+    // Create the test plots
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
     aaplPlot.dataSource = self;
     aaplPlot.identifier = @"APPL";
     CPTColor *aaplColor = [CPTColor redColor];
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
+    
     CPTScatterPlot *googPlot = [[CPTScatterPlot alloc] init];
     googPlot.dataSource = self;
     googPlot.identifier = @"GOOG";
     CPTColor *googColor = [CPTColor greenColor];
     [graph addPlot:googPlot toPlotSpace:plotSpace];
+    
     CPTScatterPlot *msftPlot = [[CPTScatterPlot alloc] init];
     msftPlot.dataSource = self;
     msftPlot.identifier = @"MSFT";
     CPTColor *msftColor = [CPTColor blueColor];
     [graph addPlot:msftPlot toPlotSpace:plotSpace];
-    // 3 - Set up plot space
+    
+    // Set up plot space
     [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, googPlot, msftPlot, nil]];
+    
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
     [xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.1f)];
     plotSpace.xRange = xRange;
+    
     CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
     [yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
     plotSpace.yRange = yRange;
-    // 4 - Create styles and symbols
+    
+    // Create styles and symbols
     CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
     aaplLineStyle.lineWidth = 2.5;
     aaplLineStyle.lineColor = aaplColor;
     aaplPlot.dataLineStyle = aaplLineStyle;
+    
     CPTMutableLineStyle *aaplSymbolLineStyle = [CPTMutableLineStyle lineStyle];
     aaplSymbolLineStyle.lineColor = aaplColor;
+    
     CPTPlotSymbol *aaplSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     aaplSymbol.fill = [CPTFill fillWithColor:aaplColor];
     aaplSymbol.lineStyle = aaplSymbolLineStyle;
     aaplSymbol.size = CGSizeMake(6.0f, 6.0f);
     aaplPlot.plotSymbol = aaplSymbol;
+    
     CPTMutableLineStyle *googLineStyle = [googPlot.dataLineStyle mutableCopy];
     googLineStyle.lineWidth = 1.0;
     googLineStyle.lineColor = googColor;
     googPlot.dataLineStyle = googLineStyle;
+    
     CPTMutableLineStyle *googSymbolLineStyle = [CPTMutableLineStyle lineStyle];
     googSymbolLineStyle.lineColor = googColor;
+    
     CPTPlotSymbol *googSymbol = [CPTPlotSymbol starPlotSymbol];
     googSymbol.fill = [CPTFill fillWithColor:googColor];
     googSymbol.lineStyle = googSymbolLineStyle;
     googSymbol.size = CGSizeMake(6.0f, 6.0f);
     googPlot.plotSymbol = googSymbol;
+    
     CPTMutableLineStyle *msftLineStyle = [msftPlot.dataLineStyle mutableCopy];
     msftLineStyle.lineWidth = 2.0;
     msftLineStyle.lineColor = msftColor;
     msftPlot.dataLineStyle = msftLineStyle;
+    
     CPTMutableLineStyle *msftSymbolLineStyle = [CPTMutableLineStyle lineStyle];
     msftSymbolLineStyle.lineColor = msftColor;
+    
     CPTPlotSymbol *msftSymbol = [CPTPlotSymbol diamondPlotSymbol];
     msftSymbol.fill = [CPTFill fillWithColor:msftColor];
     msftSymbol.lineStyle = msftSymbolLineStyle;
@@ -308,23 +258,23 @@
 
 -(void)configureAxes
 {
-    // 1 - Create styles
+    // Create styles
     CPTMutableTextStyle *axisTitleStyle = [CPTMutableTextStyle textStyle];
-    axisTitleStyle.color = [CPTColor whiteColor];
+    axisTitleStyle.color = [CPTColor grayColor];
     axisTitleStyle.fontName = @"Helvetica-Bold";
     axisTitleStyle.fontSize = 12.0f;
     CPTMutableLineStyle *axisLineStyle = [CPTMutableLineStyle lineStyle];
     axisLineStyle.lineWidth = 2.0f;
-    axisLineStyle.lineColor = [CPTColor whiteColor];
+    axisLineStyle.lineColor = [CPTColor grayColor];
     CPTMutableTextStyle *axisTextStyle = [[CPTMutableTextStyle alloc] init];
-    axisTextStyle.color = [CPTColor whiteColor];
+    axisTextStyle.color = [CPTColor grayColor];
     axisTextStyle.fontName = @"Helvetica-Bold";
     axisTextStyle.fontSize = 11.0f;
     CPTMutableLineStyle *tickLineStyle = [CPTMutableLineStyle lineStyle];
-    tickLineStyle.lineColor = [CPTColor whiteColor];
+    tickLineStyle.lineColor = [CPTColor grayColor];
     tickLineStyle.lineWidth = 2.0f;
     CPTMutableLineStyle *gridLineStyle = [CPTMutableLineStyle lineStyle];
-    tickLineStyle.lineColor = [CPTColor blackColor];
+    tickLineStyle.lineColor = [CPTColor grayColor];
     tickLineStyle.lineWidth = 1.0f;
     // 2 - Get axis set
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *) hostView.hostedGraph.axisSet;

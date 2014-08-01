@@ -15,8 +15,6 @@
 @private
     NSMutableArray *plotData;
     CPTGraphHostingView *hostView;
-//    CPTGraph *graph;
-//    CPTScatterPlot *plot;
     NSTimer *dataTimer;
     int startingOrientation;
 }
