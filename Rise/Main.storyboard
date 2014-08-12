@@ -43,7 +43,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hz4-ip-TQX">
-                                <rect key="frame" x="106" y="130" width="108" height="30"/>
+                                <rect key="frame" x="106" y="157" width="108" height="30"/>
                                 <state key="normal" title="Stop Recording">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -52,7 +52,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYG-oH-nRJ">
-                                <rect key="frame" x="111" y="168" width="98" height="30"/>
+                                <rect key="frame" x="111" y="195" width="98" height="30"/>
                                 <state key="normal" title="Clear Records">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -61,7 +61,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5s7-PZ-ptM">
-                                <rect key="frame" x="106" y="92" width="108" height="30"/>
+                                <rect key="frame" x="106" y="119" width="108" height="30"/>
                                 <state key="normal" title="Start Recording">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -70,7 +70,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDb-Mp-oX4">
-                                <rect key="frame" x="113" y="206" width="95" height="30"/>
+                                <rect key="frame" x="113" y="233" width="95" height="30"/>
                                 <state key="normal" title="Google Query">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -79,7 +79,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="clP-H7-93j">
-                                <rect key="frame" x="117" y="244" width="86" height="30"/>
+                                <rect key="frame" x="117" y="271" width="86" height="30"/>
                                 <state key="normal" title="Upload Data">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -91,7 +91,7 @@
                                 <rect key="frame" x="20" y="537" width="280" height="2.5"/>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6A-Ff-eYc">
-                                <rect key="frame" x="126" y="282" width="69" height="30"/>
+                                <rect key="frame" x="126" y="309" width="69" height="30"/>
                                 <state key="normal" title="View Data">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -100,13 +100,22 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvf-pF-Ouj">
-                                <rect key="frame" x="20" y="358" width="280" height="161"/>
+                                <rect key="frame" x="20" y="385" width="280" height="134"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YsT-nN-v6o">
+                                <rect key="frame" x="79" y="81" width="162" height="30"/>
+                                <state key="normal" title="Generate Random Data">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnGenerateRandomData:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="5Ku-jN-XRK"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIy-hF-dx9">
-                                <rect key="frame" x="128" y="320" width="64" height="30"/>
+                                <rect key="frame" x="128" y="347" width="64" height="30"/>
                                 <state key="normal" title="Plot Data">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -134,30 +143,6 @@
             </objects>
             <point key="canvasLocation" x="410" y="505"/>
         </scene>
-        <!--Push Graph View Controller-->
-        <scene sceneID="ERV-Cg-Oxr">
-            <objects>
-                <viewController id="itC-TE-rRe" customClass="PushGraphViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Ewv-fG-eBb"/>
-                        <viewControllerLayoutGuide type="bottom" id="NBe-WX-OVf"/>
-                    </layoutGuides>
-                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="9uX-za-Aij">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Gvr-jK-4Tx">
-                                <rect key="frame" x="140" y="286" width="94" height="29"/>
-                            </stepper>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="zrX-a0-yfc"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NZ1-lu-Vax" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="886" y="777"/>
-        </scene>
         <!--Graph View Controller-->
         <scene sceneID="6hK-K1-8b3">
             <objects>
@@ -179,7 +164,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDk-QT-8CE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="410" y="1068"/>
+            <point key="canvasLocation" x="410" y="1064"/>
         </scene>
         <!--Latest Data-->
         <scene sceneID="GYD-I6-UT9">
@@ -223,7 +208,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZvB-mJ-Va8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="886" y="151"/>
+            <point key="canvasLocation" x="841" y="505"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

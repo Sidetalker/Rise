@@ -23,12 +23,14 @@
     
     int startingOrientation;
     int recordCount;
-    float testMod;
-    bool testFlag;
+    float maxX;
+    float maxY;
+    float minY;
 }
 
 - (bool)loadData:(NSMutableArray*)data;
 - (void)initializePlot;
 - (void)configureView;
+- (void)redrawAxesWithMinX:(float)minX maxX:(float)maxX minY:(float)minY maxY:(float)maxY;
 
 @end

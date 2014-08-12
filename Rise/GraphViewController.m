@@ -16,6 +16,14 @@
 
 int numXTicks = 5;
 int numYTicks = 5;
+float yPadding = 0.2f;
+
+// 0 -> Rise linearly from 0
+// 1 -> Flow in from left
+int animationType = 1;
+float animationMod = 0.0f;
+float animationFrameRate = 1 / 60.0;
+float animationTime = 2.0f;
 
 @implementation GraphViewController
 
@@ -58,7 +66,10 @@ int numYTicks = 5;
     // Add the button to the subview we just created
     [hostView addSubview:button];
     
-    dataTimer = [NSTimer timerWithTimeInterval:1.0 / 120
+    animationMod = 0.0f;
+    animationFrameRate = 1 / 60.0;
+    animationTime = 2.0f;
+    dataTimer = [NSTimer timerWithTimeInterval:animationFrameRate
                                         target:self
                                       selector:@selector(newData:)
                                       userInfo:nil
@@ -69,6 +80,8 @@ int numYTicks = 5;
     //    UIImage *btnImage = [UIImage imageNamed:@"image.png"];
     //    [btnTwo setImage:btnImage forState:UIControlStateNormal];
 }
+
+- (void)performAnimation
 
 - (bool)loadData:(NSMutableArray*)data
 {
@@ -91,6 +104,11 @@ int numYTicks = 5;
     DDLogCVerbose(@"All records added to appropriate arrays");
     
     recordCount = (int)data.count;
+    maxX = [[plotDataX lastObject] floatValue];
+    minY = [[plotDataY valueForKeyPath:@"@min.floatValue"] floatValue];
+    maxY = [[plotDataY valueForKeyPath:@"@max.floatValue"] floatValue];
+    minY -= (maxY - minY) * yPadding;
+    maxY += (maxY - minY) * yPadding;
     
     return YES;
 }
@@ -224,8 +242,8 @@ int numYTicks = 5;
     DDLogCVerbose(@"Text style created");
     
     // Set padding for plot area
-    [graph.plotAreaFrame setPaddingLeft:40.0f];
-    [graph.plotAreaFrame setPaddingBottom:40.0f];
+    [graph.plotAreaFrame setPaddingLeft:47.0f];
+    [graph.plotAreaFrame setPaddingBottom:36.0f];
     [graph.plotAreaFrame setPaddingRight:20.0f];
     [graph.plotAreaFrame setPaddingTop:20.0f];
     [graph.plotAreaFrame setBorderLineStyle:nil];
@@ -255,27 +273,14 @@ int numYTicks = 5;
     
     DDLogCVerbose(@"Plot created");
     
-//    CPTScatterPlot *googPlot = [[CPTScatterPlot alloc] init];
-//    googPlot.dataSource = self;
-//    googPlot.identifier = @"GOOG";
-//    CPTColor *googColor = [CPTColor greenColor];
-//    [graph addPlot:googPlot toPlotSpace:plotSpace];
-//    
-//    CPTScatterPlot *msftPlot = [[CPTScatterPlot alloc] init];
-//    msftPlot.dataSource = self;
-//    msftPlot.identifier = @"MSFT";
-//    CPTColor *msftColor = [CPTColor blueColor];
-//    [graph addPlot:msftPlot toPlotSpace:plotSpace];
-    
-    // Set up plot space
-    [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
-    
+    // Set up plot view
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
-    xRange.length = CPTDecimalFromFloat(recordCount);
+    xRange.length = CPTDecimalFromFloat(maxX);
+    xRange.location = CPTDecimalFromFloat(0.0f);
     plotSpace.xRange = xRange;
-    
     CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
-    yRange.length = CPTDecimalFromFloat(recordCount*recordCount);
+    yRange.length = CPTDecimalFromFloat(maxY - minY);
+    yRange.location = CPTDecimalFromFloat(minY);
     plotSpace.yRange = yRange;
     
     DDLogCVerbose(@"Plot XY configured");
@@ -289,44 +294,21 @@ int numYTicks = 5;
     CPTMutableLineStyle *aaplSymbolLineStyle = [CPTMutableLineStyle lineStyle];
     aaplSymbolLineStyle.lineColor = aaplColor;
     
-    CPTPlotSymbol *aaplSymbol = [CPTPlotSymbol plotSymbol];
+    CPTPlotSymbol *aaplSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     aaplSymbol.fill = [CPTFill fillWithColor:aaplColor];
     aaplSymbol.lineStyle = aaplSymbolLineStyle;
-    aaplSymbol.size = CGSizeMake(2.0f, 2.0f);
+    aaplSymbol.size = CGSizeMake(4.0f, 4.0f);
     aaplPlot.plotSymbol = aaplSymbol;
     
     DDLogCVerbose(@"Plot line styles configured");
-    
-//    CPTMutableLineStyle *googLineStyle = [googPlot.dataLineStyle mutableCopy];
-//    googLineStyle.lineWidth = 1.0;
-//    googLineStyle.lineColor = googColor;
-//    googPlot.dataLineStyle = googLineStyle;
-//    
-//    CPTMutableLineStyle *googSymbolLineStyle = [CPTMutableLineStyle lineStyle];
-//    googSymbolLineStyle.lineColor = googColor;
-//    
-//    CPTPlotSymbol *googSymbol = [CPTPlotSymbol starPlotSymbol];
-//    googSymbol.fill = [CPTFill fillWithColor:googColor];
-//    googSymbol.lineStyle = googSymbolLineStyle;
-//    googSymbol.size = CGSizeMake(6.0f, 6.0f);
-//    googPlot.plotSymbol = googSymbol;
-//    
-//    CPTMutableLineStyle *msftLineStyle = [msftPlot.dataLineStyle mutableCopy];
-//    msftLineStyle.lineWidth = 2.0;
-//    msftLineStyle.lineColor = msftColor;
-//    msftPlot.dataLineStyle = msftLineStyle;
-//    
-//    CPTMutableLineStyle *msftSymbolLineStyle = [CPTMutableLineStyle lineStyle];
-//    msftSymbolLineStyle.lineColor = msftColor;
-//    
-//    CPTPlotSymbol *msftSymbol = [CPTPlotSymbol diamondPlotSymbol];
-//    msftSymbol.fill = [CPTFill fillWithColor:msftColor];
-//    msftSymbol.lineStyle = msftSymbolLineStyle;
-//    msftSymbol.size = CGSizeMake(6.0f, 6.0f);
-//    msftPlot.plotSymbol = msftSymbol;
 }
 
 -(void)configureAxes
+{
+    [self redrawAxesWithMinX:0.0f maxX:maxX minY:minY maxY:maxY];
+}
+
+- (void)redrawAxesWithMinX:(float)xMin maxX:(float)xMax minY:(float)yMin maxY:(float)yMax
 {
     // Create styles
     CPTMutableTextStyle *axisTitleStyle = [CPTMutableTextStyle textStyle];
@@ -349,45 +331,43 @@ int numYTicks = 5;
     
     DDLogCVerbose(@"Axis styles created");
     
-    // 2 - Get axis set
+    // Get axis set
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)hostView.hostedGraph.axisSet;
     
-    // 3 - Configure x-axis
+    // Configure x-axis
     CPTXYAxis *x = axisSet.xAxis;
     x.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
-    x.title = @"Data Point";
+    x.title = @"Time";
     x.titleTextStyle = axisTitleStyle;
     x.titleOffset = 20.0f;
     x.axisLineStyle = axisLineStyle;
-    x.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
+    x.labelingPolicy = CPTAxisLabelingPolicyNone;
     x.labelTextStyle = axisTextStyle;
     x.majorTickLineStyle = axisLineStyle;
     x.majorTickLength = 4.0f;
     x.tickDirection = CPTSignNegative;
-    x.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
     
-    float maxTime = [[plotDataX lastObject] floatValue];
     int xTickCount = numXTicks;
     
     if (recordCount < xTickCount)
         xTickCount = recordCount;
     
-    float interval = maxTime / xTickCount;
+    float interval = (xMax - xMin) / xTickCount;
+    float i = 0;
     
     NSMutableSet *xLabels = [NSMutableSet setWithCapacity:xTickCount];
     NSMutableSet *xLocations = [NSMutableSet setWithCapacity:xTickCount];
-    NSInteger i = 0;
-
-    for (i = 0; i <= xTickCount; i++)
+    
+    for (i = xMin + interval; i <= xMax - (interval / 2); i += interval)
     {
-        NSString *labelText = [NSString stringWithFormat:@"%f", i*interval];
+        NSString *labelText = [NSString stringWithFormat:@"%.2f", i];
         
         CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:labelText textStyle:x.labelTextStyle];
-        label.tickLocation = CPTDecimalFromCGFloat(i*interval);
+        label.tickLocation = CPTDecimalFromCGFloat(i);
         label.offset = x.majorTickLength;
         if (label) {
             [xLabels addObject:label];
-            [xLocations addObject:[NSNumber numberWithFloat:i*interval]];
+            [xLocations addObject:[NSNumber numberWithFloat:i]];
         }
     }
     
@@ -396,59 +376,47 @@ int numYTicks = 5;
     
     DDLogCVerbose(@"X Axis manual configuration complete");
     
-    // 4 - Configure y-axis
+    // Configure y-axis
     CPTXYAxis *y = axisSet.yAxis;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
     y.title = @"Elevation";
     y.titleTextStyle = axisTitleStyle;
-    y.titleOffset = 20.0f;
+    y.titleOffset = 31.0f;
     y.axisLineStyle = axisLineStyle;
     y.majorGridLineStyle = gridLineStyle;
-    y.gridLinesRange = [[CPTPlotRange alloc] initWithLocation:[[NSNumber numberWithFloat:0.0f] decimalValue] length:[[NSNumber numberWithFloat:recordCount] decimalValue]];
-    y.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
+    y.gridLinesRange = [[CPTPlotRange alloc] initWithLocation:[[NSNumber numberWithFloat:0.0f] decimalValue] length:[[NSNumber numberWithFloat:[[plotDataX lastObject] floatValue]] decimalValue]];
+    y.labelingPolicy = CPTAxisLabelingPolicyNone;
     y.labelTextStyle = axisTextStyle;
-    y.labelOffset = 20.0f;
     y.majorTickLineStyle = axisLineStyle;
     y.majorTickLength = 4.0f;
     y.minorTickLength = 2.0f;
     y.tickDirection = CPTSignNegative;
     
-    float maxHeight = [[plotDataY lastObject] floatValue];
     int yTickCount = numYTicks;
     
     if (recordCount < yTickCount)
         yTickCount = recordCount;
     
-    interval = maxHeight / yTickCount;
+    interval = (yMax - yMin) / yTickCount;
     
-    NSInteger majorIncrement = interval;
-    NSInteger minorIncrement = interval / 2;
     NSMutableSet *yLabels = [NSMutableSet set];
-    NSMutableSet *yMajorLocations = [NSMutableSet set];
-    NSMutableSet *yMinorLocations = [NSMutableSet set];
+    NSMutableSet *yLocations = [NSMutableSet set];
     
-    for (i = minorIncrement; i <= maxHeight; i += minorIncrement)
+    for (i = yMin + interval; i <= yMax - (interval / 2); i += interval)
     {
-        NSUInteger mod = i % majorIncrement;
+        NSString *labelText = [NSString stringWithFormat:@"%.1f", i];
         
-        if (mod == 0) {
-            CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:[NSString stringWithFormat:@"%ld", (long)i] textStyle:y.labelTextStyle];
-            label.tickLocation = CPTDecimalFromCGFloat(i);
-            label.offset = y.majorTickLength;
-            
-            if (label)
-            {
-                [yLabels addObject:label];
-                [yMajorLocations addObject:[NSNumber numberWithFloat:i]];
-            }
+        CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:labelText textStyle:y.labelTextStyle];
+        label.tickLocation = CPTDecimalFromCGFloat(i);
+        label.offset = y.majorTickLength;
+        if (label) {
+            [yLabels addObject:label];
+            [yLocations addObject:[NSNumber numberWithFloat:i]];
         }
-        else
-            [yMinorLocations addObject:[NSDecimalNumber decimalNumberWithDecimal:CPTDecimalFromInteger(i)]];
     }
     
-    y.axisLabels = yLabels;    
-    y.majorTickLocations = yMajorLocations;
-    y.minorTickLocations = yMinorLocations;
+    y.axisLabels = yLabels;
+    y.majorTickLocations = yLocations;
     
     DDLogCVerbose(@"Y Axis manual configuration complete");
 }
@@ -457,6 +425,9 @@ int numYTicks = 5;
 
 -(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
+    if (animationType == 1)
+        return animationMod;
+    
     return recordCount;
 }
 
@@ -468,15 +439,19 @@ int numYTicks = 5;
     
     if (fieldEnum == CPTScatterPlotFieldX)
         return [plotDataX objectAtIndex:index];
-//        return [NSNumber numberWithInteger:index];
     else
-        return [plotDataY objectAtIndex:index];
-//        return [NSNumber numberWithDouble:(index*index) - (index*index*testMod)];
+    {
+        if (animationType == 0)
+            return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue] * animationMod];
+        else
+            return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue]];
+    }
+    
 }
 
 // This delegate is used to restrict the user's bounds to the
 // the section containing the data plot view
--(CPTPlotRange *)plotSpace:(CPTPlotSpace *)space
+-(CPTPlotRange *)plotSpace:(CPTXYPlotSpace *)space
      willChangePlotRangeTo:(CPTPlotRange *)newRange
              forCoordinate:(CPTCoordinate)coordinate
 {
@@ -491,25 +466,25 @@ int numYTicks = 5;
                 updatedRange = mutableRange;
             }
             // Don't allow the range to extend past the requested x range
-            else if (newRange.locationDouble + newRange.lengthDouble > recordCount)
+            else if (newRange.locationDouble + newRange.lengthDouble > maxX)
             {
                 CPTMutablePlotRange *mutableRange = [newRange mutableCopy];
                 
-                float newLocation = recordCount - newRange.lengthDouble;
+                float newLocation = maxX - newRange.lengthDouble;
                 if (newLocation < 0.0f)
                     newLocation = 0.0f;
                 float newLength = newRange.lengthDouble;
-                if (newLength > recordCount)
-                    newLength = recordCount;
+                if (newLength > maxX)
+                    newLength = maxX;
                 
                 mutableRange.location = CPTDecimalFromFloat(newLocation);
                 mutableRange.length = CPTDecimalFromFloat(newLength);
                 updatedRange = mutableRange;
             }
-            else if (newRange.lengthDouble > recordCount)
+            else if (newRange.lengthDouble > maxX)
             {
                 CPTMutablePlotRange *mutableRange = [newRange mutableCopy];
-                mutableRange.length = CPTDecimalFromFloat(recordCount);
+                mutableRange.length = CPTDecimalFromFloat(maxX);
                 updatedRange = mutableRange;
             }
             else {
@@ -517,30 +492,30 @@ int numYTicks = 5;
             }
             break;
         case CPTCoordinateY:
-            if (newRange.locationDouble < 0.0f) {
+            if (newRange.locationDouble < (minY - (maxY - minY) / 3)) {
                 CPTMutablePlotRange *mutableRange = [newRange mutableCopy];
-                mutableRange.location = CPTDecimalFromFloat(0.0f);
+                mutableRange.location = CPTDecimalFromFloat((minY - (maxY - minY) / 3));
                 updatedRange = mutableRange;
             }
-            else if (newRange.locationDouble + newRange.lengthDouble > recordCount*recordCount)
+            else if (newRange.locationDouble + newRange.lengthDouble > (maxY + (maxY - minY) / 3))
             {
                 CPTMutablePlotRange *mutableRange = [newRange mutableCopy];
                 
-                float newLocation = recordCount*recordCount - newRange.lengthDouble;
+                float newLocation = (maxY + (maxY - minY) / 3) - newRange.lengthDouble;
                 if (newLocation < 0.0f)
                     newLocation = 0.0f;
                 float newLength = newRange.lengthDouble;
-                if (newLength > recordCount*recordCount)
-                    newLength = recordCount*recordCount;
+                if (newLength > maxY)
+                    newLength = maxY;
                 
                 mutableRange.location = CPTDecimalFromFloat(newLocation);
                 mutableRange.length = CPTDecimalFromFloat(newLength);
                 updatedRange = mutableRange;
             }
-            else if (newRange.lengthDouble > recordCount*recordCount)
+            else if (newRange.lengthDouble > (maxY - minY))
             {
                 CPTMutablePlotRange *mutableRange = [newRange mutableCopy];
-                mutableRange.length = CPTDecimalFromFloat(recordCount*recordCount);
+                mutableRange.length = CPTDecimalFromFloat((maxY - minY));
                 updatedRange = mutableRange;
             }
             else {
@@ -548,8 +523,12 @@ int numYTicks = 5;
             }
             break;
         case CPTCoordinateZ:
-            updatedRange = ((CPTXYPlotSpace *)space).yRange;
+            updatedRange = newRange;
+            break;
     }
+    
+    [self redrawAxesWithMinX:space.xRange.locationDouble maxX:space.xRange.locationDouble + space.xRange.lengthDouble minY:space.yRange.locationDouble maxY:space.yRange.locationDouble + space.yRange.lengthDouble];
+    
     return updatedRange;
 }
 
@@ -557,29 +536,31 @@ int numYTicks = 5;
 {
     if (interactionScale < 1.0f)
     {
-        if (space.xRange.lengthDouble / interactionScale > recordCount + 1)
+        if (space.xRange.lengthDouble / interactionScale > maxX)
         {
             CPTMutablePlotRange *xRange = [space.xRange mutableCopy];
-            xRange.length = CPTDecimalFromFloat(recordCount);
+            xRange.length = CPTDecimalFromFloat(maxX);
             space.xRange = xRange;
             CPTMutablePlotRange *yRange = [space.yRange mutableCopy];
-            yRange.length = CPTDecimalFromFloat(recordCount*recordCount);
+            yRange.length = CPTDecimalFromFloat(maxY - minY);
             space.yRange = yRange;
             
             return NO;
         }
-        else if (space.yRange.lengthDouble / interactionScale > recordCount*recordCount + 1)
+        else if (space.yRange.lengthDouble / interactionScale > (maxY- minY))
         {
             CPTMutablePlotRange *xRange = [space.xRange mutableCopy];
-            xRange.length = CPTDecimalFromFloat(recordCount);
+            xRange.length = CPTDecimalFromFloat(maxX);
             space.xRange = xRange;
             CPTMutablePlotRange *yRange = [space.yRange mutableCopy];
-            yRange.length = CPTDecimalFromFloat(recordCount*recordCount);
+            yRange.length = CPTDecimalFromFloat(maxY - minY);
             space.yRange = yRange;
             
             return NO;
         }
     }
+    
+    [self redrawAxesWithMinX:space.xRange.locationDouble maxX:space.xRange.locationDouble + space.xRange.lengthDouble minY:space.yRange.locationDouble maxY:space.yRange.locationDouble + space.yRange.lengthDouble];
 
     return YES;
 }
@@ -588,17 +569,31 @@ int numYTicks = 5;
 
 - (void)newData:(NSTimer *)theTimer
 {
-    DDLogVerbose(@"Data Update");
-    
-    if (testMod <= 0.0f)
-        testFlag = NO;
-    else if (testMod >= 1.0f)
-        testFlag = YES;
-    
-    if (testFlag)
-        testMod -= 0.01f;
-    else
-        testMod += 0.01f;
+    switch (animationType) {
+        case 0:
+            if (animationMod < 1.0f)
+                animationMod += 1.0f * animationFrameRate / animationTime;
+            else
+                [theTimer invalidate];
+            break;
+            
+        case 1:
+            [dataTimer invalidate];
+            
+            dataTimer = [NSTimer timerWithTimeInterval:animationFrameRate
+                                                target:self
+                                              selector:@selector(newData:)
+                                              userInfo:nil
+                                               repeats:YES];
+            [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSDefaultRunLoopMode];
+            
+            if (animationMod < recordCount)
+                animationMod += 1;
+            else
+                [theTimer invalidate];
+        default:
+            break;
+    }
     
     [hostView.hostedGraph reloadData];
 }

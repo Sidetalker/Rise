@@ -82,7 +82,7 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     // Make sure your segue name in storyboard is the same as this line
     if ([identifier isEqualToString:@"graphViewSegue"])
     {
-        if (locationHistory.count <= 0)
+        if (locationHistory.count < 5)
             return NO;
     }
     
@@ -296,6 +296,41 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [FTPRequestManager addRequestForUploadFileAtLocalPath:pathCSV toRemotePath:fileNameCSV];
     [FTPRequestManager startProcessingRequests];
+}
+
+- (IBAction)btnGenerateRandomData:(id)sender
+{
+    [locationHistory removeAllObjects];
+    
+    for (int i = 0; i < 50; i++)
+    {
+        Location *curLocation = [[Location alloc] init];
+        
+        curLocation.timestampLaunch += i;
+        curLocation.altitudeApple = arc4random() % 50 + 25;
+        
+        // Add the Location object to the history array
+        [locationHistory addObject:curLocation];
+        
+        // Increment counters
+        locationCount += 1;
+        queryCount += 1;
+        
+        // Configure the UILabel for current location display to use some animation
+        CATransition *transitionAnimation = [CATransition animation];
+        [transitionAnimation setType:kCATransitionFade];
+        [transitionAnimation setDuration:0.3f];
+        [transitionAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        [transitionAnimation setFillMode:kCAFillModeBoth];
+        
+        [lblCurrentLocation.layer addAnimation:transitionAnimation forKey:@"fadeAnimation"];
+        
+        // Animate the latest location update
+        [lblCurrentLocation setText:[curLocation getBasicString]];
+        
+        // Update the textBox and scroll to the bottom
+        [lblLocationCount setText:[NSString stringWithFormat:@"Logged Locations: %d", locationCount]];
+    }
 }
 
 #pragma mark - UIAlertView Delegate Functions

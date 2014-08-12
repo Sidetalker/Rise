@@ -29,7 +29,7 @@ timestampAbsolute, timestampLaunch, googleQueried;
         resolutionGoogle = 0.0;
         googleQueried = false;
         timestampAbsolute = [NSDate date];
-        timestampLaunch = 0.0;
+        timestampLaunch = [Helpers timeSinceLaunch];
     }
     
     return self;

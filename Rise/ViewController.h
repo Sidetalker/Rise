@@ -24,6 +24,7 @@
 - (IBAction)btnClearRecord:(id)sender;
 - (IBAction)btnGoogleQuery:(id)sender;
 - (IBAction)btnUploadData:(id)sender;
+- (IBAction)btnGenerateRandomData:(id)sender;
 
 @property (strong, nonatomic) IBOutlet UILabel *lblLocationCount;
 @property (strong, nonatomic) IBOutlet UILabel *lblCurrentLocation;
