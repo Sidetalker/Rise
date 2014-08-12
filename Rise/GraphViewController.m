@@ -66,7 +66,8 @@ float yPadding = 0.2f;
 - (void)performAnimationWithType:(int)type framerate:(float)framerate duration:(float)duration
 {
     animationType = type;
-    plotDataAnimation = [[NSMutableArray alloc] init];
+    plotDataAnimationApple = [[NSMutableArray alloc] init];
+    plotDataAnimationGoogle = [[NSMutableArray alloc] init];
     
     DDLogVerbose(@"Performing animation %d", type);
     
@@ -78,12 +79,12 @@ float yPadding = 0.2f;
             animationFrames = ceil(1 / framerate * duration);
             animationCount = 0;
             
-            float average = [[plotDataY valueForKeyPath:@"@avg.floatValue"] floatValue];
+            float average = [[plotDataYApple valueForKeyPath:@"@avg.floatValue"] floatValue];
             
-            for (int i = 0; i < plotDataY.count; i++)
+            for (int i = 0; i < plotDataYApple.count; i++)
             {
                 NSMutableArray *curPoints = [[NSMutableArray alloc] init];
-                float finisher = [[plotDataY objectAtIndex:i] floatValue];
+                float finisher = [[plotDataYApple objectAtIndex:i] floatValue];
                 float increment = (finisher - average) / animationFrames;
                 
                 for (int y = 0; y < animationFrames; y++)
@@ -94,7 +95,26 @@ float yPadding = 0.2f;
                         [curPoints addObject:[NSNumber numberWithFloat:[[curPoints lastObject] floatValue] + increment]];
                 }
                 
-                [plotDataAnimation addObject:curPoints];
+                [plotDataAnimationApple addObject:curPoints];
+            }
+            
+            average = [[plotDataYGoogle valueForKeyPath:@"@avg.floatValue"] floatValue];
+            
+            for (int i = 0; i < plotDataYGoogle.count; i++)
+            {
+                NSMutableArray *curPoints = [[NSMutableArray alloc] init];
+                float finisher = [[plotDataYGoogle objectAtIndex:i] floatValue];
+                float increment = (finisher - average) / animationFrames;
+                
+                for (int y = 0; y < animationFrames; y++)
+                {
+                    if (y == 0)
+                        [curPoints addObject:[NSNumber numberWithFloat:average]];
+                    else
+                        [curPoints addObject:[NSNumber numberWithFloat:[[curPoints lastObject] floatValue] + increment]];
+                }
+                
+                [plotDataAnimationGoogle addObject:curPoints];
             }
             
             break;
@@ -123,7 +143,8 @@ float yPadding = 0.2f;
         NO;
     
     plotDataX = [[NSMutableArray alloc] init];
-    plotDataY = [[NSMutableArray alloc] init];
+    plotDataYApple = [[NSMutableArray alloc] init];
+    plotDataYGoogle = [[NSMutableArray alloc] init];
     
     float tMinus = [(Location*)[data objectAtIndex:0] timestampLaunch];
     
@@ -132,15 +153,22 @@ float yPadding = 0.2f;
     for (Location *curLoc in data)
     {
         [plotDataX addObject:[NSNumber numberWithFloat:([curLoc timestampLaunch] - tMinus)]];
-        [plotDataY addObject:[NSNumber numberWithFloat:([curLoc altitudeApple])]];
+        [plotDataYApple addObject:[NSNumber numberWithFloat:[curLoc altitudeApple]]];
+        [plotDataYGoogle addObject:[NSNumber numberWithFloat:[curLoc altitudeGoogle]]];
     }
     
     DDLogVerbose(@"All records added to appropriate arrays");
     
     recordCount = (int)data.count;
     maxX = [[plotDataX lastObject] floatValue];
-    minY = [[plotDataY valueForKeyPath:@"@min.floatValue"] floatValue];
-    maxY = [[plotDataY valueForKeyPath:@"@max.floatValue"] floatValue];
+    minY = [[plotDataYApple valueForKeyPath:@"@min.floatValue"] floatValue];
+    maxY = [[plotDataYApple valueForKeyPath:@"@max.floatValue"] floatValue];
+    
+    if ([[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue] < minY)
+        minY = [[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue];
+    if ([[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue] > maxY)
+        maxY = [[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue];
+    
     minY -= (maxY - minY) * yPadding;
     maxY += (maxY - minY) * yPadding;
     
@@ -302,10 +330,18 @@ float yPadding = 0.2f;
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
     aaplPlot.dataSource = self;
     aaplPlot.identifier = @"APPL";
-    CPTColor *aaplColor = [CPTColor blueColor];
+    CPTColor *aaplColor = [CPTColor redColor];
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
     
-    DDLogVerbose(@"Plot created");
+    DDLogVerbose(@"Apple plot created");
+    
+    CPTScatterPlot *googPlot = [[CPTScatterPlot alloc] init];
+    googPlot.dataSource = self;
+    googPlot.identifier = @"GOOG";
+    CPTColor *googColor = [CPTColor blueColor];
+    [graph addPlot:googPlot toPlotSpace:plotSpace];
+    
+    DDLogVerbose(@"Google plot created");
     
     // Set up plot view
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
@@ -326,14 +362,11 @@ float yPadding = 0.2f;
     aaplLineStyle.lineJoin = kCGLineJoinRound;
     aaplPlot.dataLineStyle = aaplLineStyle;
     
-    CPTMutableLineStyle *aaplSymbolLineStyle = [CPTMutableLineStyle lineStyle];
-    aaplSymbolLineStyle.lineColor = aaplColor;
-    
-    CPTPlotSymbol *aaplSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-    aaplSymbol.fill = [CPTFill fillWithColor:aaplColor];
-    aaplSymbol.lineStyle = aaplSymbolLineStyle;
-    aaplSymbol.size = CGSizeMake(4.0f, 4.0f);
-//    aaplPlot.plotSymbol = aaplSymbol;
+    CPTMutableLineStyle *googLineStyle = [aaplPlot.dataLineStyle mutableCopy];
+    googLineStyle.lineWidth = 0.8;
+    googLineStyle.lineColor = googColor;
+    googLineStyle.lineJoin = kCGLineJoinRound;
+    googPlot.dataLineStyle = googLineStyle;
     
     DDLogVerbose(@"Plot line styles configured");
 }
@@ -469,6 +502,25 @@ float yPadding = 0.2f;
 -(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum
                recordIndex:(NSUInteger)index
 {
+    NSMutableArray *currentAnimationArray;
+    NSMutableArray *currentDataArray;
+    
+    if ([plot.identifier isEqual: @"APPL"])
+    {
+        currentDataArray = [NSMutableArray arrayWithArray:plotDataYApple];
+        currentAnimationArray = [NSMutableArray arrayWithArray:plotDataAnimationApple];
+    }
+    else if ([plot.identifier isEqual:@"GOOG"])
+    {
+        currentDataArray = [NSMutableArray arrayWithArray:plotDataYGoogle];
+        currentAnimationArray = [NSMutableArray arrayWithArray:plotDataAnimationGoogle];
+    }
+    else
+    {
+        DDLogError(@"Plots should always have a recognizable identifier");
+        return 0;
+    }
+    
     if (index >= recordCount)
         return 0;
     
@@ -477,9 +529,9 @@ float yPadding = 0.2f;
     else
     {
         if (animationType == 0)
-            return [NSNumber numberWithFloat:[[[plotDataAnimation objectAtIndex:index] objectAtIndex:animationCount] floatValue]];
+            return [NSNumber numberWithFloat:[[[currentAnimationArray objectAtIndex:index] objectAtIndex:animationCount] floatValue]];
         else
-            return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue]];
+            return [NSNumber numberWithFloat:[[currentDataArray objectAtIndex:index] floatValue]];
     }
 }
 
