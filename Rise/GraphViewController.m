@@ -302,7 +302,7 @@ float yPadding = 0.2f;
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
     aaplPlot.dataSource = self;
     aaplPlot.identifier = @"APPL";
-    CPTColor *aaplColor = [CPTColor redColor];
+    CPTColor *aaplColor = [CPTColor blueColor];
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
     
     DDLogVerbose(@"Plot created");
@@ -321,8 +321,9 @@ float yPadding = 0.2f;
     
     // Create styles and symbols
     CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
-    aaplLineStyle.lineWidth = 1.5;
+    aaplLineStyle.lineWidth = 0.8;
     aaplLineStyle.lineColor = aaplColor;
+    aaplLineStyle.lineJoin = kCGLineJoinRound;
     aaplPlot.dataLineStyle = aaplLineStyle;
     
     CPTMutableLineStyle *aaplSymbolLineStyle = [CPTMutableLineStyle lineStyle];
@@ -332,7 +333,7 @@ float yPadding = 0.2f;
     aaplSymbol.fill = [CPTFill fillWithColor:aaplColor];
     aaplSymbol.lineStyle = aaplSymbolLineStyle;
     aaplSymbol.size = CGSizeMake(4.0f, 4.0f);
-    aaplPlot.plotSymbol = aaplSymbol;
+//    aaplPlot.plotSymbol = aaplSymbol;
     
     DDLogVerbose(@"Plot line styles configured");
 }
