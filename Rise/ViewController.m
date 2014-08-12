@@ -77,6 +77,31 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     }
 }
 
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    // Make sure your segue name in storyboard is the same as this line
+    if ([identifier isEqualToString:@"graphViewSegue"])
+    {
+        if (locationHistory.count <= 0)
+            return NO;
+    }
+    
+    return YES;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"graphViewSegue"])
+    {
+        // Get reference to the destination view controller
+        GraphViewController *vc = [segue destinationViewController];
+        
+        // Pass any objects to the view controller here, like...
+        [vc loadData:locationHistory];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

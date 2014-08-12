@@ -10,15 +10,25 @@
 
 #import "AppDelegate.h"
 #import "Helpers.h"
+#import "ViewController.h"
 
-@interface GraphViewController : UIViewController <CPTAnimationDelegate, CPTPlotDataSource, CPTScatterPlotDelegate> {
+@interface GraphViewController : UIViewController <CPTAnimationDelegate, CPTPlotDataSource, CPTPlotSpaceDelegate, CPTScatterPlotDelegate>
+{
 @private
     NSMutableArray *plotData;
+    NSMutableArray *plotDataY;
+    NSMutableArray *plotDataX;
     CPTGraphHostingView *hostView;
     NSTimer *dataTimer;
+    
     int startingOrientation;
+    int recordCount;
+    float testMod;
+    bool testFlag;
 }
 
+- (bool)loadData:(NSMutableArray*)data;
 - (void)initializePlot;
+- (void)configureView;
 
 @end

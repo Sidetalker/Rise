@@ -111,7 +111,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="FYU-GG-9ZC" kind="modal" id="XSj-OS-tf6"/>
+                                    <segue destination="FYU-GG-9ZC" kind="modal" identifier="graphViewSegue" id="XSj-OS-tf6"/>
                                 </connections>
                             </button>
                         </subviews>
