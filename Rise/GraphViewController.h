@@ -15,9 +15,9 @@
 @interface GraphViewController : UIViewController <CPTAnimationDelegate, CPTPlotDataSource, CPTPlotSpaceDelegate, CPTScatterPlotDelegate>
 {
 @private
-    NSMutableArray *plotData;
     NSMutableArray *plotDataY;
     NSMutableArray *plotDataX;
+    NSMutableArray *plotDataAnimation;
     CPTGraphHostingView *hostView;
     NSTimer *dataTimer;
     
@@ -26,6 +26,15 @@
     float maxX;
     float maxY;
     float minY;
+    
+    // 0 -> Rise linearly from 0
+    // 1 -> Flow in from left
+    int animationType;
+    float animationMod;
+    float animationFrameRate;
+    float animationTime;
+    int animationFrames;
+    int animationCount;
 }
 
 - (bool)loadData:(NSMutableArray*)data;

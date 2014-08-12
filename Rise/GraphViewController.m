@@ -18,13 +18,6 @@ int numXTicks = 5;
 int numYTicks = 5;
 float yPadding = 0.2f;
 
-// 0 -> Rise linearly from 0
-// 1 -> Flow in from left
-int animationType = 1;
-float animationMod = 0.0f;
-float animationFrameRate = 1 / 60.0;
-float animationTime = 2.0f;
-
 @implementation GraphViewController
 
 #pragma mark - Load and Dismiss View
@@ -66,22 +59,85 @@ float animationTime = 2.0f;
     // Add the button to the subview we just created
     [hostView addSubview:button];
     
-    animationMod = 0.0f;
-    animationFrameRate = 1 / 60.0;
-    animationTime = 2.0f;
+    // Animate the data to the screen
+    [self performAnimationWithType:0.0 framerate:1.0/60.0 duration:1.2];
+}
+
+- (void)performAnimationWithType:(int)type framerate:(float)framerate duration:(float)duration
+{
+    animationType = type;
+    plotDataAnimation = [[NSMutableArray alloc] init];
+    
+    DDLogVerbose(@"Performing animation %d", type);
+    
+    switch (type) {
+        case 0:
+            animationMod = 0.0f;
+            animationFrameRate = framerate;
+            animationTime = duration;
+            animationFrames = ceil(1 / framerate * duration);
+            animationCount = 0;
+            
+            float average = [[plotDataY valueForKeyPath:@"@avg.floatValue"] floatValue];
+            
+            for (int i = 0; i < plotDataY.count; i++)
+            {
+                NSMutableArray *curPoints = [[NSMutableArray alloc] init];
+                float finisher = [[plotDataY objectAtIndex:i] floatValue];
+                float increment = (finisher - average) / animationFrames;
+                
+                for (int y = 0; y < animationFrames; y++)
+                {
+                    if (y == 0)
+                        [curPoints addObject:[NSNumber numberWithFloat:average]];
+                    else
+                        [curPoints addObject:[NSNumber numberWithFloat:[[curPoints lastObject] floatValue] + increment]];
+                }
+                
+                [plotDataAnimation addObject:curPoints];
+            }
+            
+            break;
+                
+        case 1:
+            animationMod = 0.0f;
+            animationFrameRate = framerate;
+            animationTime = duration;
+            animationFrames = ceil(1 / framerate * duration);
+            animationCount = 0;
+            
+            float average = [[plotDataY valueForKeyPath:@"@avg.floatValue"] floatValue];
+            
+            for (int i = 0; i < plotDataY.count; i++)
+            {
+                NSMutableArray *curPoints = [[NSMutableArray alloc] init];
+                float finisher = [[plotDataY objectAtIndex:i] floatValue];
+                float increment = (finisher - average) / animationFrames;
+                
+                for (int y = 0; y < animationFrames; y++)
+                {
+                    if (y == 0)
+                        [curPoints addObject:[NSNumber numberWithFloat:average]];
+                    else
+                        [curPoints addObject:[NSNumber numberWithFloat:[[curPoints lastObject] floatValue] + increment]];
+                }
+                
+                [plotDataAnimation addObject:curPoints];
+            }
+            
+            break;
+            
+        default:
+            break;
+    }
+    
     dataTimer = [NSTimer timerWithTimeInterval:animationFrameRate
                                         target:self
                                       selector:@selector(newData:)
                                       userInfo:nil
                                        repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSDefaultRunLoopMode];
-
-    // TODO set an image instead of stupid text
-    //    UIImage *btnImage = [UIImage imageNamed:@"image.png"];
-    //    [btnTwo setImage:btnImage forState:UIControlStateNormal];
 }
-
-- (void)performAnimation
 
 - (bool)loadData:(NSMutableArray*)data
 {
@@ -442,11 +498,10 @@ float animationTime = 2.0f;
     else
     {
         if (animationType == 0)
-            return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue] * animationMod];
+            return [NSNumber numberWithFloat:[[[plotDataAnimation objectAtIndex:index] objectAtIndex:animationCount] floatValue]];
         else
             return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue]];
     }
-    
 }
 
 // This delegate is used to restrict the user's bounds to the
@@ -569,31 +624,35 @@ float animationTime = 2.0f;
 
 - (void)newData:(NSTimer *)theTimer
 {
-    switch (animationType) {
-        case 0:
-            if (animationMod < 1.0f)
-                animationMod += 1.0f * animationFrameRate / animationTime;
-            else
-                [theTimer invalidate];
-            break;
-            
-        case 1:
-            [dataTimer invalidate];
-            
-            dataTimer = [NSTimer timerWithTimeInterval:animationFrameRate
-                                                target:self
-                                              selector:@selector(newData:)
-                                              userInfo:nil
-                                               repeats:YES];
-            [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSDefaultRunLoopMode];
-            
-            if (animationMod < recordCount)
-                animationMod += 1;
-            else
-                [theTimer invalidate];
-        default:
-            break;
-    }
+    if (animationCount > animationFrames - 2)
+        [theTimer invalidate];
+    else
+        animationCount++;
+    
+//    switch (animationType) {
+//        case 0:
+//            if (animationCount > animationFrames - 2)
+//                [theTimer invalidate];
+//            else
+//                animationCount++;
+//            
+//        case 1:
+//            [dataTimer invalidate];
+//            
+//            dataTimer = [NSTimer timerWithTimeInterval:animationFrameRate
+//                                                target:self
+//                                              selector:@selector(newData:)
+//                                              userInfo:nil
+//                                               repeats:YES];
+//            [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSDefaultRunLoopMode];
+//            
+//            if (animationMod < recordCount)
+//                animationMod += 1;
+//            else
+//                [theTimer invalidate];
+//        default:
+//            break;
+//    }
     
     [hostView.hostedGraph reloadData];
 }
