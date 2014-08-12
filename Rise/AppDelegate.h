@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import <CorePlot/CorePlot-CocoaTouch.h>
 
-#import "DDTTYLogger.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "MyNavigationController.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;

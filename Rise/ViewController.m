@@ -14,6 +14,8 @@
 uploadAlert, uploadFilename, locationCount, queryCount, currentLocation,
 FTPRequestManager, progressBar, progressUploading, requestCount;
 
+int testPointCount = 75;
+
 #pragma mark - UIView Handlers
             
 - (void)viewDidLoad
@@ -302,7 +304,7 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 {
     [locationHistory removeAllObjects];
     
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < testPointCount; i++)
     {
         Location *curLocation = [[Location alloc] init];
         

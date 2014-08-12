@@ -60,7 +60,7 @@ float yPadding = 0.2f;
     [hostView addSubview:button];
     
     // Animate the data to the screen
-    [self performAnimationWithType:0.0 framerate:1.0/60.0 duration:1.2];
+    [self performAnimationWithType:0 framerate:1.0/60.0 duration:1.8];
 }
 
 - (void)performAnimationWithType:(int)type framerate:(float)framerate duration:(float)duration
@@ -101,31 +101,13 @@ float yPadding = 0.2f;
                 
         case 1:
             animationMod = 0.0f;
-            animationFrameRate = framerate;
-            animationTime = duration;
-            animationFrames = ceil(1 / framerate * duration);
-            animationCount = 0;
-            
-            float average = [[plotDataY valueForKeyPath:@"@avg.floatValue"] floatValue];
-            
-            for (int i = 0; i < plotDataY.count; i++)
-            {
-                NSMutableArray *curPoints = [[NSMutableArray alloc] init];
-                float finisher = [[plotDataY objectAtIndex:i] floatValue];
-                float increment = (finisher - average) / animationFrames;
-                
-                for (int y = 0; y < animationFrames; y++)
-                {
-                    if (y == 0)
-                        [curPoints addObject:[NSNumber numberWithFloat:average]];
-                    else
-                        [curPoints addObject:[NSNumber numberWithFloat:[[curPoints lastObject] floatValue] + increment]];
-                }
-                
-                [plotDataAnimation addObject:curPoints];
-            }
+            animationFrameRate = duration / recordCount;
             
             break;
+            
+        case 2:
+            animationMod = 0.0f;
+            animationFrameRate = framerate;
             
         default:
             break;
@@ -149,7 +131,7 @@ float yPadding = 0.2f;
     
     float tMinus = [(Location*)[data objectAtIndex:0] timestampLaunch];
     
-    DDLogCVerbose(@"Launch time offset calculated");
+    DDLogVerbose(@"Launch time offset calculated");
     
     for (Location *curLoc in data)
     {
@@ -157,7 +139,7 @@ float yPadding = 0.2f;
         [plotDataY addObject:[NSNumber numberWithFloat:([curLoc altitudeApple])]];
     }
     
-    DDLogCVerbose(@"All records added to appropriate arrays");
+    DDLogVerbose(@"All records added to appropriate arrays");
     
     recordCount = (int)data.count;
     maxX = [[plotDataX lastObject] floatValue];
@@ -205,7 +187,7 @@ float yPadding = 0.2f;
     int curOrientation = [[UIDevice currentDevice] orientation];
     double myRotation = 0;
     
-    DDLogCVerbose(@"Current orientation: %d", curOrientation);
+    DDLogVerbose(@"Current orientation: %d", curOrientation);
     
     if (curOrientation == UIDeviceOrientationLandscapeLeft || curOrientation == UIDeviceOrientationPortraitUpsideDown)
         myRotation = M_PI_2;
@@ -227,18 +209,18 @@ float yPadding = 0.2f;
     hostView.allowPinchScaling = YES;
     [self.view addSubview:hostView];
     
-    DDLogCVerbose(@"Host view added and transformed");
+    DDLogVerbose(@"Host view added and transformed");
     
     // Start watching for orientation changes
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
     
-    DDLogCVerbose(@"Monitoring orientation changes");
+    DDLogVerbose(@"Monitoring orientation changes");
 }
 
 - (void)deviceOrientationDidChange
 {
-    DDLogCVerbose(@"Received orientation change");
+    DDLogVerbose(@"Received orientation change");
     
     // Get the current orientation
     int curOrientation = [[UIDevice currentDevice] orientation];
@@ -255,22 +237,22 @@ float yPadding = 0.2f;
     // Perform the rotation if we made it this far
     hostView.transform = CGAffineTransformMakeRotation(myRotation);
     
-    DDLogCVerbose(@"Performed appropriate rotation");
+    DDLogVerbose(@"Performed appropriate rotation");
 }
 
 #pragma mark - Graph Setup and Configuration
 
 - (void)initializePlot
 {
-    DDLogCVerbose(@"Initializing Graph");
+    DDLogVerbose(@"Initializing Graph");
     [self configureGraph];
-    DDLogCVerbose(@"Graph Initialized Successfully");
-    DDLogCVerbose(@"Initializing Plots");
+    DDLogVerbose(@"Graph Initialized Successfully");
+    DDLogVerbose(@"Initializing Plots");
     [self configurePlots];
-    DDLogCVerbose(@"Plots Initialized Successfully");
-    DDLogCVerbose(@"Initializing Axes");
+    DDLogVerbose(@"Plots Initialized Successfully");
+    DDLogVerbose(@"Initializing Axes");
     [self configureAxes];
-    DDLogCVerbose(@"Axes Initialized Successfully");
+    DDLogVerbose(@"Axes Initialized Successfully");
 }
 
 - (void)configureGraph
@@ -280,7 +262,7 @@ float yPadding = 0.2f;
     [graph applyTheme:[CPTTheme themeNamed:kCPTPlainWhiteTheme]];
     hostView.hostedGraph = graph;
     
-    DDLogCVerbose(@"Graph created and added to host view");
+    DDLogVerbose(@"Graph created and added to host view");
     
     // Set graph title
     NSString *title = @"Elevation Data";
@@ -295,23 +277,23 @@ float yPadding = 0.2f;
     graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
     graph.titleDisplacement = CGPointMake(0.0f, 10.0f);
     
-    DDLogCVerbose(@"Text style created");
+    DDLogVerbose(@"Text style created");
     
     // Set padding for plot area
-    [graph.plotAreaFrame setPaddingLeft:47.0f];
-    [graph.plotAreaFrame setPaddingBottom:36.0f];
+    [graph.plotAreaFrame setPaddingLeft:44.5f];
+    [graph.plotAreaFrame setPaddingBottom:33.5f];
     [graph.plotAreaFrame setPaddingRight:20.0f];
     [graph.plotAreaFrame setPaddingTop:20.0f];
     [graph.plotAreaFrame setBorderLineStyle:nil];
     
-    DDLogCVerbose(@"Plot padding and borders configured");
+    DDLogVerbose(@"Plot padding and borders configured");
     
     // Enable user interactions for plot space
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
     plotSpace.allowsUserInteraction = YES;
     plotSpace.delegate = self;
     
-    DDLogCVerbose(@"User interactions and delegates configured");
+    DDLogVerbose(@"User interactions and delegates configured");
 }
 
 - (void)configurePlots
@@ -327,7 +309,7 @@ float yPadding = 0.2f;
     CPTColor *aaplColor = [CPTColor redColor];
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
     
-    DDLogCVerbose(@"Plot created");
+    DDLogVerbose(@"Plot created");
     
     // Set up plot view
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
@@ -339,7 +321,7 @@ float yPadding = 0.2f;
     yRange.location = CPTDecimalFromFloat(minY);
     plotSpace.yRange = yRange;
     
-    DDLogCVerbose(@"Plot XY configured");
+    DDLogVerbose(@"Plot XY configured");
     
     // Create styles and symbols
     CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
@@ -356,7 +338,7 @@ float yPadding = 0.2f;
     aaplSymbol.size = CGSizeMake(4.0f, 4.0f);
     aaplPlot.plotSymbol = aaplSymbol;
     
-    DDLogCVerbose(@"Plot line styles configured");
+    DDLogVerbose(@"Plot line styles configured");
 }
 
 -(void)configureAxes
@@ -385,7 +367,7 @@ float yPadding = 0.2f;
     gridLineStyle.lineColor = [CPTColor grayColor];
     gridLineStyle.lineWidth = 0.3f;
     
-    DDLogCVerbose(@"Axis styles created");
+    DDLogVerbose(@"Axis styles created");
     
     // Get axis set
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)hostView.hostedGraph.axisSet;
@@ -430,7 +412,7 @@ float yPadding = 0.2f;
     x.axisLabels = xLabels;
     x.majorTickLocations = xLocations;
     
-    DDLogCVerbose(@"X Axis manual configuration complete");
+    DDLogVerbose(@"X Axis manual configuration complete");
     
     // Configure y-axis
     CPTXYAxis *y = axisSet.yAxis;
@@ -474,7 +456,7 @@ float yPadding = 0.2f;
     y.axisLabels = yLabels;
     y.majorTickLocations = yLocations;
     
-    DDLogCVerbose(@"Y Axis manual configuration complete");
+    DDLogVerbose(@"Y Axis manual configuration complete");
 }
 
 #pragma mark - Graph Delegate Functions
@@ -497,10 +479,14 @@ float yPadding = 0.2f;
         return [plotDataX objectAtIndex:index];
     else
     {
-        if (animationType == 0)
-            return [NSNumber numberWithFloat:[[[plotDataAnimation objectAtIndex:index] objectAtIndex:animationCount] floatValue]];
-        else
-            return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue]];
+        switch (animationType)
+        {
+            case 0:
+                return [NSNumber numberWithFloat:[[[plotDataAnimation objectAtIndex:index] objectAtIndex:animationCount] floatValue]];
+            
+            default:
+                return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue]];
+        }
     }
 }
 
@@ -624,35 +610,30 @@ float yPadding = 0.2f;
 
 - (void)newData:(NSTimer *)theTimer
 {
-    if (animationCount > animationFrames - 2)
-        [theTimer invalidate];
-    else
-        animationCount++;
-    
-//    switch (animationType) {
-//        case 0:
-//            if (animationCount > animationFrames - 2)
-//                [theTimer invalidate];
-//            else
-//                animationCount++;
-//            
-//        case 1:
-//            [dataTimer invalidate];
-//            
-//            dataTimer = [NSTimer timerWithTimeInterval:animationFrameRate
-//                                                target:self
-//                                              selector:@selector(newData:)
-//                                              userInfo:nil
-//                                               repeats:YES];
-//            [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSDefaultRunLoopMode];
-//            
-//            if (animationMod < recordCount)
-//                animationMod += 1;
-//            else
-//                [theTimer invalidate];
-//        default:
-//            break;
-//    }
+    switch (animationType) {
+        case 0:
+            if (animationCount > animationFrames - 2)
+                [dataTimer invalidate];
+            else
+                animationCount++;
+            
+        case 1:
+            if (animationMod > recordCount - 1)
+                [dataTimer invalidate];
+            else
+                animationMod += 1 ;
+            
+        case 2:
+            if (animationMod > 1.0f)
+                [dataTimer invalidate];
+            else
+            {
+                animationMod += animationFrameRate / animationTime;
+            }
+            
+        default:
+            break;
+    }
     
     [hostView.hostedGraph reloadData];
 }
