@@ -1,8 +1,8 @@
 //
-//  GraphViewController.h
+//  GraphViewControllerCleaned.h
 //  Rise
 //
-//  Created by Kevin Sullivan on 7/21/14.
+//  Created by Kevin Sullivan on 8/12/14.
 //  Copyright (c) 2014 com.sideapps.rise. All rights reserved.
 //
 
@@ -12,15 +12,14 @@
 #import "Helpers.h"
 #import "ViewController.h"
 
-@interface GraphViewController : UIViewController <CPTAnimationDelegate, CPTPlotDataSource, CPTPlotSpaceDelegate, CPTScatterPlotDelegate>
+@interface GraphViewControllerCleaned : UIViewController <CPTAnimationDelegate, CPTPlotDataSource, CPTPlotSpaceDelegate, CPTScatterPlotDelegate>
 {
 @private
-    NSMutableArray *plotDataYApple;
-    NSMutableArray *plotDataYGoogle;
     NSMutableArray *plotDataX;
-    NSMutableArray *plotDataAnimationApple;
-    NSMutableArray *plotDataAnimationGoogle;
-    NSMutableArray *plotDataSlope;
+    NSMutableArray *plotDataY;
+    NSMutableArray *plotDataAnimation;
+    NSMutableArray *plotDataSlopes;
+    
     CPTGraphHostingView *hostView;
     NSTimer *dataTimer;
     

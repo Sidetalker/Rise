@@ -1,14 +1,14 @@
 //
-//  GraphViewController.m
+//  GraphViewControllerCleaned.m
 //  Rise
 //
-//  Created by Kevin Sullivan on 7/21/14.
+//  Created by Kevin Sullivan on 8/12/14.
 //  Copyright (c) 2014 com.sideapps.rise. All rights reserved.
 //
 
-#import "GraphViewController.h"
+#import "GraphViewControllerCleaned.h"
 
-@interface GraphViewController ()
+@interface GraphViewControllerCleaned ()
 
 @end
 
@@ -18,7 +18,7 @@ int numXTicks = 5;
 int numYTicks = 5;
 float yPadding = 0.2f;
 
-@implementation GraphViewController
+@implementation GraphViewControllerCleaned
 
 #pragma mark - Load and Dismiss View
 
@@ -66,8 +66,7 @@ float yPadding = 0.2f;
 - (void)performAnimationWithType:(int)type framerate:(float)framerate duration:(float)duration
 {
     animationType = type;
-    plotDataAnimationApple = [[NSMutableArray alloc] init];
-    plotDataAnimationGoogle = [[NSMutableArray alloc] init];
+    plotDataAnimation = [[NSMutableArray alloc] init];
     
     DDLogVerbose(@"Performing animation %d", type);
     
@@ -79,12 +78,12 @@ float yPadding = 0.2f;
             animationFrames = ceil(1 / framerate * duration);
             animationCount = 0;
             
-            float average = [[plotDataYApple valueForKeyPath:@"@avg.floatValue"] floatValue];
+            float average = [[plotDataY valueForKeyPath:@"@avg.floatValue"] floatValue];
             
-            for (int i = 0; i < plotDataYApple.count; i++)
+            for (int i = 0; i < plotDataY.count; i++)
             {
                 NSMutableArray *curPoints = [[NSMutableArray alloc] init];
-                float finisher = [[plotDataYApple objectAtIndex:i] floatValue];
+                float finisher = [[plotDataY objectAtIndex:i] floatValue];
                 float increment = (finisher - average) / animationFrames;
                 
                 for (int y = 0; y < animationFrames; y++)
@@ -95,30 +94,11 @@ float yPadding = 0.2f;
                         [curPoints addObject:[NSNumber numberWithFloat:[[curPoints lastObject] floatValue] + increment]];
                 }
                 
-                [plotDataAnimationApple addObject:curPoints];
-            }
-            
-            average = [[plotDataYGoogle valueForKeyPath:@"@avg.floatValue"] floatValue];
-            
-            for (int i = 0; i < plotDataYGoogle.count; i++)
-            {
-                NSMutableArray *curPoints = [[NSMutableArray alloc] init];
-                float finisher = [[plotDataYGoogle objectAtIndex:i] floatValue];
-                float increment = (finisher - average) / animationFrames;
-                
-                for (int y = 0; y < animationFrames; y++)
-                {
-                    if (y == 0)
-                        [curPoints addObject:[NSNumber numberWithFloat:average]];
-                    else
-                        [curPoints addObject:[NSNumber numberWithFloat:[[curPoints lastObject] floatValue] + increment]];
-                }
-                
-                [plotDataAnimationGoogle addObject:curPoints];
+                [plotDataAnimation addObject:curPoints];
             }
             
             break;
-                
+            
         case 1:
             animationFrameRate = duration / recordCount;
             animationMod = 0.0f;
@@ -143,8 +123,7 @@ float yPadding = 0.2f;
         NO;
     
     plotDataX = [[NSMutableArray alloc] init];
-    plotDataYApple = [[NSMutableArray alloc] init];
-    plotDataYGoogle = [[NSMutableArray alloc] init];
+    plotDataY = [[NSMutableArray alloc] init];
     
     float tMinus = [(Location*)[data objectAtIndex:0] timestampLaunch];
     
@@ -155,27 +134,26 @@ float yPadding = 0.2f;
     
     for (Location *curLoc in data)
     {
-        if (plotDataYGoogle)
-            lastY = [[plotDataYGoogle lastObject] floatValue];
+        if (plotDataY)
+            lastY = [[plotDataY lastObject] floatValue];
         
         newY = [curLoc altitudeGoogle];
         
         [plotDataX addObject:[NSNumber numberWithFloat:([curLoc timestampLaunch] - tMinus)]];
-        [plotDataYApple addObject:[NSNumber numberWithFloat:[curLoc altitudeApple]]];
-        [plotDataYGoogle addObject:[NSNumber numberWithFloat:[curLoc altitudeGoogle]]];
+        [plotDataY addObject:[NSNumber numberWithFloat:[curLoc altitudeApple]]];
     }
     
     DDLogVerbose(@"All records added to appropriate arrays");
     
     recordCount = (int)data.count;
     maxX = [[plotDataX lastObject] floatValue];
-    minY = [[plotDataYApple valueForKeyPath:@"@min.floatValue"] floatValue];
-    maxY = [[plotDataYApple valueForKeyPath:@"@max.floatValue"] floatValue];
+    minY = [[plotDataY valueForKeyPath:@"@min.floatValue"] floatValue];
+    maxY = [[plotDataY valueForKeyPath:@"@max.floatValue"] floatValue];
     
-    if ([[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue] < minY)
-        minY = [[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue];
-    if ([[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue] > maxY)
-        maxY = [[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue];
+//    if ([[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue] < minY)
+//        minY = [[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue];
+//    if ([[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue] > maxY)
+//        maxY = [[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue];
     
     minY -= (maxY - minY) * yPadding;
     maxY += (maxY - minY) * yPadding;
@@ -334,22 +312,38 @@ float yPadding = 0.2f;
     CPTGraph *graph = hostView.hostedGraph;
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
     
-    // Create the test plots
-    CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
-    aaplPlot.dataSource = self;
-    aaplPlot.identifier = @"APPL";
-    CPTColor *aaplColor = [CPTColor redColor];
-    [graph addPlot:aaplPlot toPlotSpace:plotSpace];
+    // Create the plots
+    CPTScatterPlot *lightUpPlot = [[CPTScatterPlot alloc] init];
+    lightUpPlot.dataSource = self;
+    lightUpPlot.identifier = @"lightUp";
+    CPTColor *lightUpColor = [CPTColor redColor];
+    [graph addPlot:lightUpPlot toPlotSpace:plotSpace];
     
-    DDLogVerbose(@"Apple plot created");
+    DDLogVerbose(@"lightUpPlot plot created");
     
-    CPTScatterPlot *googPlot = [[CPTScatterPlot alloc] init];
-    googPlot.dataSource = self;
-    googPlot.identifier = @"GOOG";
-    CPTColor *googColor = [CPTColor blueColor];
-    [graph addPlot:googPlot toPlotSpace:plotSpace];
+    CPTScatterPlot *heavyUpPlot = [[CPTScatterPlot alloc] init];
+    heavyUpPlot.dataSource = self;
+    heavyUpPlot.identifier = @"heavyUp";
+    CPTColor *heavyUpColor = [CPTColor greenColor];
+    [graph addPlot:heavyUpPlot toPlotSpace:plotSpace];
     
-    DDLogVerbose(@"Google plot created");
+    DDLogVerbose(@"heavyUpPlot plot created");
+    
+    CPTScatterPlot *lightDownPlot = [[CPTScatterPlot alloc] init];
+    lightDownPlot.dataSource = self;
+    lightDownPlot.identifier = @"lightDown";
+    CPTColor *lightDownColor = [CPTColor yellowColor];
+    [graph addPlot:lightDownPlot toPlotSpace:plotSpace];
+    
+    DDLogVerbose(@"lightDownPlot plot created");
+    
+    CPTScatterPlot *heavyDownPlot = [[CPTScatterPlot alloc] init];
+    heavyDownPlot.dataSource = self;
+    heavyDownPlot.identifier = @"heavyDown";
+    CPTColor *heavyDownColor = [CPTColor purpleColor];
+    [graph addPlot:heavyDownPlot toPlotSpace:plotSpace];
+    
+    DDLogVerbose(@"heavyDownPlot plot created");
     
     // Set up plot view
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
@@ -363,18 +357,30 @@ float yPadding = 0.2f;
     
     DDLogVerbose(@"Plot XY configured");
     
-    // Create styles and symbols
-    CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
-    aaplLineStyle.lineWidth = 0.8;
-    aaplLineStyle.lineColor = aaplColor;
-    aaplLineStyle.lineJoin = kCGLineJoinRound;
-    aaplPlot.dataLineStyle = aaplLineStyle;
+    // Create and apply line styles
+    CPTMutableLineStyle *lightUpLineStyle = [lightUpPlot.dataLineStyle mutableCopy];
+    lightUpLineStyle.lineWidth = 0.8;
+    lightUpLineStyle.lineColor = lightUpColor;
+    lightUpLineStyle.lineJoin = kCGLineJoinRound;
+    lightUpPlot.dataLineStyle = lightUpLineStyle;
     
-    CPTMutableLineStyle *googLineStyle = [aaplPlot.dataLineStyle mutableCopy];
-    googLineStyle.lineWidth = 0.8;
-    googLineStyle.lineColor = googColor;
-    googLineStyle.lineJoin = kCGLineJoinRound;
-    googPlot.dataLineStyle = googLineStyle;
+    CPTMutableLineStyle *heavyUpLineStyle = [heavyUpPlot.dataLineStyle mutableCopy];
+    heavyUpLineStyle.lineWidth = 0.8;
+    heavyUpLineStyle.lineColor = heavyUpColor;
+    heavyUpLineStyle.lineJoin = kCGLineJoinRound;
+    heavyUpPlot.dataLineStyle = heavyUpLineStyle;
+    
+    CPTMutableLineStyle *lightDownLineStyle = [lightDownPlot.dataLineStyle mutableCopy];
+    lightDownLineStyle.lineWidth = 0.8;
+    lightDownLineStyle.lineColor = lightDownColor;
+    lightDownLineStyle.lineJoin = kCGLineJoinRound;
+    lightDownPlot.dataLineStyle = lightDownLineStyle;
+    
+    CPTMutableLineStyle *heavyDownLineStyle = [lightUpPlot.dataLineStyle mutableCopy];
+    heavyDownLineStyle.lineWidth = 0.8;
+    heavyDownLineStyle.lineColor = heavyDownColor;
+    heavyDownLineStyle.lineJoin = kCGLineJoinRound;
+    heavyDownPlot.dataLineStyle = heavyDownLineStyle;
     
     DDLogVerbose(@"Plot line styles configured");
 }
@@ -518,16 +524,16 @@ float yPadding = 0.2f;
         if (index > 20 || index < 10)
             return nil;
         
-        currentDataArray = [NSMutableArray arrayWithArray:plotDataYApple];
-        currentAnimationArray = [NSMutableArray arrayWithArray:plotDataAnimationApple];
+        currentDataArray = [NSMutableArray arrayWithArray:plotDataY];
+        currentAnimationArray = [NSMutableArray arrayWithArray:plotDataAnimation];
     }
     else if ([plot.identifier isEqual:@"GOOG"])
     {
         if (!(index >= 20 || index <= 10))
             return nil;
         
-        currentDataArray = [NSMutableArray arrayWithArray:plotDataYGoogle];
-        currentAnimationArray = [NSMutableArray arrayWithArray:plotDataAnimationGoogle];
+        currentDataArray = [NSMutableArray arrayWithArray:plotDataY];
+        currentAnimationArray = [NSMutableArray arrayWithArray:plotDataAnimation];
     }
     else
         return nil;
@@ -535,17 +541,14 @@ float yPadding = 0.2f;
     if (index >= recordCount)
         return nil;
     
-    currentDataArray = [NSMutableArray arrayWithArray:plotDataYGoogle];
-    currentAnimationArray = [NSMutableArray arrayWithArray:plotDataAnimationGoogle];
-    
     if (fieldEnum == CPTScatterPlotFieldX)
         return [plotDataX objectAtIndex:index];
     else
     {
         if (animationType == 0)
-            return [NSNumber numberWithFloat:[[[currentAnimationArray objectAtIndex:index] objectAtIndex:animationCount] floatValue]];
+            return [NSNumber numberWithFloat:[[[plotDataAnimation objectAtIndex:index] objectAtIndex:animationCount] floatValue]];
         else
-            return [NSNumber numberWithFloat:[[currentDataArray objectAtIndex:index] floatValue]];
+            return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue]];
     }
 }
 
@@ -663,7 +666,7 @@ float yPadding = 0.2f;
     }
     
     [self redrawAxesWithMinX:space.xRange.locationDouble maxX:space.xRange.locationDouble + space.xRange.lengthDouble minY:space.yRange.locationDouble maxY:space.yRange.locationDouble + space.yRange.lengthDouble];
-
+    
     return YES;
 }
 
