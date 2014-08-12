@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import <CorePlot/CorePlot-CocoaTouch.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
 
-#import "DDTTYLogger.h"
 #import "MyNavigationController.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
