@@ -60,14 +60,15 @@ float yPadding = 0.2f;
     [hostView addSubview:button];
     
     // Animate the data to the screen
-    [self performAnimationWithType:1 framerate:1.0/60.0 duration:3];
+    [self performAnimationWithType:0 framerate:1.0/60.0 duration:1.2];
 }
 
-//TODO: Clean up unnecessary animation variables
 - (void)performAnimationWithType:(int)type framerate:(float)framerate duration:(float)duration
 {
     animationType = type;
     plotDataAnimation = [[NSMutableArray alloc] init];
+    
+    float animationFrameRate = framerate;
     
     DDLogVerbose(@"Performing animation %d", type);
     
@@ -76,10 +77,7 @@ float yPadding = 0.2f;
         // rise or fall linearlly to their appropriate positions
         case 0:
             animationMod = 0.0f;
-            animationFrameRate = framerate;
-            animationTime = duration;
             animationFrames = ceil(1 / framerate * duration);
-            animationCount = 0;
             
             // Get the average value of all Y data
             float average = [[plotDataY valueForKeyPath:@"@avg.floatValue"] floatValue];
@@ -117,27 +115,28 @@ float yPadding = 0.2f;
             break;
     }
     
-    dataTimer = [NSTimer timerWithTimeInterval:animationFrameRate
+    // Start the animation timer
+    animationTimer = [NSTimer timerWithTimeInterval:animationFrameRate
                                         target:self
                                       selector:@selector(newData:)
                                       userInfo:nil
                                        repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop mainRunLoop] addTimer:animationTimer forMode:NSDefaultRunLoopMode];
 }
 
-- (bool)loadData:(NSMutableArray*)data
+- (void)loadData:(NSMutableArray*)data
 {
-    if ([data count] == 0)
-        NO;
+    DDLogVerbose(@"Beginning to load data");
     
+    // Initialize data arrays
     plotDataX = [[NSMutableArray alloc] init];
     plotDataY = [[NSMutableArray alloc] init];
     plotDataStrength = [[NSMutableArray alloc] init];
     
+    // Scale times for 0 (this will probably be distance in the future)
     float tMinus = [(Location*)[data objectAtIndex:0] timestampLaunch];
     
-    DDLogVerbose(@"Launch time offset calculated");
-    
+    // Populate data arrays with provided location data
     for (Location *curLoc in data)
     {
         [plotDataX addObject:[NSNumber numberWithFloat:([curLoc timestampLaunch] - tMinus)]];
@@ -160,6 +159,8 @@ float yPadding = 0.2f;
     int upFlag = 0;
     int downFlag = 0;
     int directionFlag = 0; // 0 up, 1 down
+    
+    // Assign data points plot designations for slope based shading support
     
     if ([plotDataY[0] floatValue] < [plotDataY[1] floatValue])
     {
@@ -245,10 +246,13 @@ float yPadding = 0.2f;
         [plotDataStrength addObject:[NSNumber numberWithLong:weight]];
     }
     
-    [plotDataStrength addObject:[NSNumber numberWithInt:0]];
+    // Add the final point
+    if (directionFlag)
+        [plotDataStrength addObject:[NSNumber numberWithLong:upFlag]];
+    else
+        [plotDataStrength addObject:[NSNumber numberWithLong:downFlag + 2]];
     
-    DDLogVerbose(@"All records added to appropriate arrays");
-    
+    // Calculate mins and maxes
     recordCount = (int)data.count;
     maxX = [[plotDataX lastObject] floatValue];
     minY = [[plotDataY valueForKeyPath:@"@min.floatValue"] floatValue];
@@ -257,12 +261,12 @@ float yPadding = 0.2f;
     minY -= (maxY - minY) * yPadding;
     maxY += (maxY - minY) * yPadding;
     
-    return YES;
+    DDLogVerbose(@"Finished loading data");
 }
 
 - (IBAction)buttonClicked:(id)sender
 {
-    [dataTimer invalidate];
+    [animationTimer invalidate];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -295,8 +299,6 @@ float yPadding = 0.2f;
     // Get the current orientation and configure the view layout
     int curOrientation = [[UIDevice currentDevice] orientation];
     double myRotation = 0;
-    
-    DDLogVerbose(@"Current orientation: %d", curOrientation);
     
     if (curOrientation == UIDeviceOrientationLandscapeLeft || curOrientation == UIDeviceOrientationPortraitUpsideDown)
         myRotation = M_PI_2;
@@ -371,8 +373,6 @@ float yPadding = 0.2f;
     [graph applyTheme:[CPTTheme themeNamed:kCPTPlainWhiteTheme]];
     hostView.hostedGraph = graph;
     
-    DDLogVerbose(@"Graph created and added to host view");
-    
     // Set graph title
     NSString *title = @"Elevation Data";
     graph.title = title;
@@ -386,8 +386,6 @@ float yPadding = 0.2f;
     graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
     graph.titleDisplacement = CGPointMake(0.0f, 10.0f);
     
-    DDLogVerbose(@"Text style created");
-    
     // Set padding for plot area
     [graph.plotAreaFrame setPaddingLeft:47.0f];
     [graph.plotAreaFrame setPaddingBottom:36.0f];
@@ -395,14 +393,10 @@ float yPadding = 0.2f;
     [graph.plotAreaFrame setPaddingTop:20.0f];
     [graph.plotAreaFrame setBorderLineStyle:nil];
     
-    DDLogVerbose(@"Plot padding and borders configured");
-    
     // Enable user interactions for plot space
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
     plotSpace.allowsUserInteraction = YES;
     plotSpace.delegate = self;
-    
-    DDLogVerbose(@"User interactions and delegates configured");
 }
 
 - (void)configurePlots
@@ -418,15 +412,11 @@ float yPadding = 0.2f;
     CPTColor *lightUpColorA = [CPTColor redColor];
     [graph addPlot:lightUpPlotA toPlotSpace:plotSpace];
     
-    DDLogVerbose(@"lightUpPlotA plot created");
-    
     CPTScatterPlot *lightUpPlotB = [[CPTScatterPlot alloc] init];
     lightUpPlotB.dataSource = self;
     lightUpPlotB.identifier = @"lightUpB";
     CPTColor *lightUpColorB = [CPTColor magentaColor];
     [graph addPlot:lightUpPlotB toPlotSpace:plotSpace];
-    
-    DDLogVerbose(@"lightUpPlotB plot created");
     
     CPTScatterPlot *heavyUpPlot = [[CPTScatterPlot alloc] init];
     heavyUpPlot.dataSource = self;
@@ -434,15 +424,11 @@ float yPadding = 0.2f;
     CPTColor *heavyUpColor = [CPTColor greenColor];
     [graph addPlot:heavyUpPlot toPlotSpace:plotSpace];
     
-    DDLogVerbose(@"heavyUpPlot plot created");
-    
     CPTScatterPlot *lightDownPlotA = [[CPTScatterPlot alloc] init];
     lightDownPlotA.dataSource = self;
     lightDownPlotA.identifier = @"lightDownA";
     CPTColor *lightDownColorA = [CPTColor blueColor];
     [graph addPlot:lightDownPlotA toPlotSpace:plotSpace];
-    
-    DDLogVerbose(@"lightDownPlot plot created");
     
     CPTScatterPlot *lightDownPlotB = [[CPTScatterPlot alloc] init];
     lightDownPlotB.dataSource = self;
@@ -450,17 +436,13 @@ float yPadding = 0.2f;
     CPTColor *lightDownColorB = [CPTColor purpleColor];
     [graph addPlot:lightDownPlotB toPlotSpace:plotSpace];
     
-    DDLogVerbose(@"lightDownPlot plot created");
-    
     CPTScatterPlot *heavyDownPlot = [[CPTScatterPlot alloc] init];
     heavyDownPlot.dataSource = self;
     heavyDownPlot.identifier = @"heavyDown";
     CPTColor *heavyDownColor = [CPTColor purpleColor];
     [graph addPlot:heavyDownPlot toPlotSpace:plotSpace];
     
-    DDLogVerbose(@"heavyDownPlot plot created");
-    
-    // Set up plot view
+    // Set up initial plot view
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
     xRange.length = CPTDecimalFromFloat(maxX);
     xRange.location = CPTDecimalFromFloat(0.0f);
@@ -469,8 +451,6 @@ float yPadding = 0.2f;
     yRange.length = CPTDecimalFromFloat(maxY - minY);
     yRange.location = CPTDecimalFromFloat(minY);
     plotSpace.yRange = yRange;
-    
-    DDLogVerbose(@"Plot XY configured");
     
     // Create and apply line styles
     CPTMutableLineStyle *lightUpLineStyleA = [lightUpPlotA.dataLineStyle mutableCopy];
@@ -508,8 +488,6 @@ float yPadding = 0.2f;
     heavyDownLineStyle.lineColor = heavyDownColor;
     heavyDownLineStyle.lineJoin = kCGLineJoinRound;
     heavyDownPlot.dataLineStyle = heavyDownLineStyle;
-    
-    DDLogVerbose(@"Plot line styles configured");
 }
 
 -(void)configureAxes
@@ -525,7 +503,7 @@ float yPadding = 0.2f;
     axisTitleStyle.fontName = @"Helvetica-Bold";
     axisTitleStyle.fontSize = 12.0f;
     CPTMutableLineStyle *axisLineStyle = [CPTMutableLineStyle lineStyle];
-    axisLineStyle.lineWidth = 2.0f;
+    axisLineStyle.lineWidth = 1.0f;
     axisLineStyle.lineColor = [CPTColor grayColor];
     CPTMutableTextStyle *axisTextStyle = [[CPTMutableTextStyle alloc] init];
     axisTextStyle.color = [CPTColor grayColor];
@@ -533,12 +511,10 @@ float yPadding = 0.2f;
     axisTextStyle.fontSize = 11.0f;
     CPTMutableLineStyle *tickLineStyle = [CPTMutableLineStyle lineStyle];
     tickLineStyle.lineColor = [CPTColor grayColor];
-    tickLineStyle.lineWidth = 2.0f;
+    tickLineStyle.lineWidth = 1.5f;
     CPTMutableLineStyle *gridLineStyle = [CPTMutableLineStyle lineStyle];
     gridLineStyle.lineColor = [CPTColor grayColor];
     gridLineStyle.lineWidth = 0.3f;
-    
-    DDLogVerbose(@"Axis styles created");
     
     // Get axis set
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)hostView.hostedGraph.axisSet;
@@ -561,12 +537,14 @@ float yPadding = 0.2f;
     if (recordCount < xTickCount)
         xTickCount = recordCount;
     
+    // Determine spacing between ticks
     float interval = (xMax - xMin) / xTickCount;
     float i = 0;
     
     NSMutableSet *xLabels = [NSMutableSet setWithCapacity:xTickCount];
     NSMutableSet *xLocations = [NSMutableSet setWithCapacity:xTickCount];
     
+    // Create all ticks between the first and the last and add them to the sets
     for (i = xMin + interval; i <= xMax - (interval / 2); i += interval)
     {
         NSString *labelText = [NSString stringWithFormat:@"%.2f", i];
@@ -580,25 +558,23 @@ float yPadding = 0.2f;
         }
     }
     
+    // Apply the changes to the x axis
     x.axisLabels = xLabels;
     x.majorTickLocations = xLocations;
     
-    DDLogVerbose(@"X Axis manual configuration complete");
-    
-    // Configure y-axis
+    // Configure y axis
     CPTXYAxis *y = axisSet.yAxis;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
     y.title = @"Elevation";
     y.titleTextStyle = axisTitleStyle;
     y.titleOffset = 31.0f;
-    y.axisLineStyle = axisLineStyle;
+    y.axisLineStyle = nil;
     y.majorGridLineStyle = gridLineStyle;
     y.gridLinesRange = [[CPTPlotRange alloc] initWithLocation:[[NSNumber numberWithFloat:0.0f] decimalValue] length:[[NSNumber numberWithFloat:[[plotDataX lastObject] floatValue]] decimalValue]];
     y.labelingPolicy = CPTAxisLabelingPolicyNone;
     y.labelTextStyle = axisTextStyle;
-    y.majorTickLineStyle = axisLineStyle;
-    y.majorTickLength = 4.0f;
-    y.minorTickLength = 2.0f;
+    y.majorTickLineStyle = gridLineStyle;
+    y.majorTickLength = 0.0f;
     y.tickDirection = CPTSignNegative;
     
     int yTickCount = numYTicks;
@@ -606,11 +582,13 @@ float yPadding = 0.2f;
     if (recordCount < yTickCount)
         yTickCount = recordCount;
     
+    // Determine spacing between ticks
     interval = (yMax - yMin) / yTickCount;
     
     NSMutableSet *yLabels = [NSMutableSet set];
     NSMutableSet *yLocations = [NSMutableSet set];
     
+    // Same as before for y axis
     for (i = yMin + interval; i <= yMax - (interval / 2); i += interval)
     {
         NSString *labelText = [NSString stringWithFormat:@"%.1f", i];
@@ -624,16 +602,16 @@ float yPadding = 0.2f;
         }
     }
     
+    // Apply changes
     y.axisLabels = yLabels;
     y.majorTickLocations = yLocations;
-    
-    DDLogVerbose(@"Y Axis manual configuration complete");
 }
 
 #pragma mark - Graph Delegate Functions
 
 -(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
+    // If we're doing the drawing animation don't return the actual record count
     if (animationType == 1)
         return animationMod;
     
@@ -643,6 +621,10 @@ float yPadding = 0.2f;
 -(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum
                recordIndex:(NSUInteger)index
 {
+    // X indices are easy
+    if (fieldEnum == CPTScatterPlotFieldX)
+        return [plotDataX objectAtIndex:index];
+    
     long pointStrength = [[plotDataStrength objectAtIndex:index] longValue];
     int offset = 5;
     
@@ -655,6 +637,8 @@ float yPadding = 0.2f;
     // 5: lightUpB + lightDownB
     // 6: lightUpA + lightDownB
     // 7: lightUpB + lightDownA
+    
+    // The above weight legend is used to determine what points are added to what plots
     
     if ([plot.identifier isEqual: @"lightUpA"])
     {
@@ -686,18 +670,13 @@ float yPadding = 0.2f;
     }
     else
         return nil;
-//    else if (![plot.identifier isEqual:@"heavyUp"])
-//        return nil;
     
-    if (fieldEnum == CPTScatterPlotFieldX)
-        return [plotDataX objectAtIndex:index];
+    // For the grow animation access the multidimensional array
+    if (animationType == 0)
+        return [NSNumber numberWithFloat:[[[plotDataAnimation objectAtIndex:index] objectAtIndex:animationMod] floatValue] + offset];
+    // Otherwise, just return the value including the debug offset
     else
-    {
-        if (animationType == 0)
-            return [NSNumber numberWithFloat:[[[plotDataAnimation objectAtIndex:index] objectAtIndex:animationCount] floatValue] + offset];
-        else
-            return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue] + offset];
-    }
+        return [NSNumber numberWithFloat:[[plotDataY objectAtIndex:index] floatValue] + offset];
 }
 
 // This delegate is used to restrict the user's bounds to the
@@ -732,16 +711,13 @@ float yPadding = 0.2f;
                 mutableRange.length = CPTDecimalFromFloat(newLength);
                 updatedRange = mutableRange;
             }
-            else if (newRange.lengthDouble > maxX)
-            {
-                CPTMutablePlotRange *mutableRange = [newRange mutableCopy];
-                mutableRange.length = CPTDecimalFromFloat(maxX);
-                updatedRange = mutableRange;
-            }
+            // Otherwise accept the passed value
             else
                 updatedRange = newRange;
             
             break;
+            
+        // Handled similiarly to the x axis but moving up and down within a range is acceptable
         case CPTCoordinateY:
             if (newRange.locationDouble < (minY - (maxY - minY) / 3))
             {
@@ -780,6 +756,7 @@ float yPadding = 0.2f;
             break;
     }
     
+    // Update our axes
     [self redrawAxesWithMinX:space.xRange.locationDouble maxX:space.xRange.locationDouble + space.xRange.lengthDouble minY:space.yRange.locationDouble maxY:space.yRange.locationDouble + space.yRange.lengthDouble];
     
     return updatedRange;
@@ -787,6 +764,7 @@ float yPadding = 0.2f;
 
 - (BOOL)plotSpace:(CPTXYPlotSpace *)space shouldScaleBy:(CGFloat)interactionScale aboutPoint:(CGPoint)interactionPoint
 {
+    // If we're zooming out, make sure we stay within legal bounds
     if (interactionScale < 1.0f)
     {
         if (space.xRange.lengthDouble / interactionScale > maxX)
@@ -800,6 +778,8 @@ float yPadding = 0.2f;
             
             return NO;
         }
+        // The x range will always (I think) be the one that we need to worry about
+        // but I'll leave this here for prudence's sake
         else if (space.yRange.lengthDouble / interactionScale > (maxY- minY))
         {
             CPTMutablePlotRange *xRange = [space.xRange mutableCopy];
@@ -813,6 +793,7 @@ float yPadding = 0.2f;
         }
     }
     
+    // Update the axes if we're allowing the zoom
     [self redrawAxesWithMinX:space.xRange.locationDouble maxX:space.xRange.locationDouble + space.xRange.lengthDouble minY:space.yRange.locationDouble maxY:space.yRange.locationDouble + space.yRange.lengthDouble];
     
     return YES;
@@ -822,33 +803,31 @@ float yPadding = 0.2f;
 
 - (void)newData:(NSTimer *)theTimer
 {
+    // Handle frame updates for different animation types
+    // Animations are explained in detail in the performAnimationWithType function
     switch (animationType) {
         case 0:
-            if (animationCount > animationFrames - 2)
-                [dataTimer invalidate];
-            else
-                animationCount++;
-            
-            break;
-            
-        case 1:
-            if (animationMod > recordCount - 1)
-                [dataTimer invalidate];
+            if (animationMod > animationFrames - 2)
+            {
+                [animationTimer invalidate];
+                DDLogVerbose(@"Animation 0 Completed");
+            }
             else
                 animationMod++;
             
             break;
             
-        case 2:
-            if (animationMod > 1.0f)
-                [dataTimer invalidate];
-            else
+        case 1:
+            if (animationMod > recordCount - 1)
             {
-                animationMod += animationFrameRate / animationTime;
+                [animationTimer invalidate];
+                DDLogVerbose(@"Animation 1 Completed");
             }
+            else
+                animationMod++;
             
             break;
-            
+
         default:
             break;
     }
