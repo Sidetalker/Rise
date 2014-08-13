@@ -183,11 +183,11 @@ float yPadding = 0.2f;
             weight = downFlag + 2;
             directionFlag = 1;
         }
-        else if (curY == nextY)
+        else if (curY == lastY)
         {
-            if (curY > lastY)
+            if (curY < nextY)
                 weight = upFlag;
-            else if (curY < lastY)
+            else if (curY > nextY)
                 weight = downFlag + 2;
             else
             {
@@ -210,12 +210,10 @@ float yPadding = 0.2f;
             else
                 DDLogWarn(@"Warning - unable to apply weight");
             
+            directionFlag = !directionFlag;
             
-            
-            if (curY != lastY)
+            if (curY != nextY)
             {
-                directionFlag = !directionFlag;
-                
                 if (curY > lastY)
                     upFlag = !upFlag;
                 else
