@@ -16,6 +16,8 @@
 		515B9D1019550E5B00AE2D05 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 515B9D0F19550E5B00AE2D05 /* Images.xcassets */; };
 		515B9D1C19550E5B00AE2D05 /* RiseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 515B9D1B19550E5B00AE2D05 /* RiseTests.m */; };
 		515B9D281956D26B00AE2D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 515B9D271956D26B00AE2D05 /* Main.storyboard */; };
+		51650D28199BDBA100ED633A /* cogDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 51650D26199BDBA100ED633A /* cogDown.png */; };
+		51650D29199BDBA100ED633A /* cogUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 51650D27199BDBA100ED633A /* cogUp.png */; };
 		518D76E3196EFE2800EC00BA /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 518D76E2196EFE2800EC00BA /* Helpers.m */; };
 		519D6C26195CD03C005F6DF8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C25195CD03C005F6DF8 /* CoreLocation.framework */; };
 		519D6C2A195CDE79005F6DF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C29195CDE79005F6DF8 /* AudioToolbox.framework */; };
@@ -45,7 +47,6 @@
 /* Begin PBXFileReference section */
 		5106CE76195F6D55000BDD5E /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		5106CE77195F6D55000BDD5E /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		5132BEB619772B6A0085DE66 /* Rise120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Rise120x120.png; path = ../../../../../../Desktop/Rise120x120.png; sourceTree = "<group>"; };
 		515A62EA19797B000014CC77 /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
 		515A62EB19797B000014CC77 /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
 		515B9CFC19550E5B00AE2D05 /* Rise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rise.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +62,8 @@
 		515B9D1A19550E5B00AE2D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		515B9D1B19550E5B00AE2D05 /* RiseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RiseTests.m; sourceTree = "<group>"; };
 		515B9D271956D26B00AE2D05 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		51650D26199BDBA100ED633A /* cogDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cogDown.png; path = Rise/cogDown.png; sourceTree = "<group>"; };
+		51650D27199BDBA100ED633A /* cogUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cogUp.png; path = Rise/cogUp.png; sourceTree = "<group>"; };
 		518D76E1196EFE2800EC00BA /* Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
 		518D76E2196EFE2800EC00BA /* Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helpers.m; sourceTree = "<group>"; };
 		519D6C25195CD03C005F6DF8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -113,7 +116,8 @@
 		5132BEB819772B7C0085DE66 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5132BEB619772B6A0085DE66 /* Rise120x120.png */,
+				51650D26199BDBA100ED633A /* cogDown.png */,
+				51650D27199BDBA100ED633A /* cogUp.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -298,6 +302,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				515B9D1019550E5B00AE2D05 /* Images.xcassets in Resources */,
+				51650D28199BDBA100ED633A /* cogDown.png in Resources */,
+				51650D29199BDBA100ED633A /* cogUp.png in Resources */,
 				515B9D281956D26B00AE2D05 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

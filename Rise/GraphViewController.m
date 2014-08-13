@@ -41,23 +41,59 @@ float yPadding = 0.2f;
     // Make the beautiful plot
     [self initializePlot];
     
-    // Create the exit button
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    // Create the exit button
+//    UIButton *btnExit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    
+//    // Set up an event handler for the exit button
+//    [btnExit setTitle:@"EXIT" forState:UIControlStateNormal];
+//    [btnExit sizeToFit];
+//    [btnExit addTarget: self
+//               action: @selector(buttonClicked:)
+//     forControlEvents: UIControlEventTouchUpInside];
+//    
+//    // Position and rotate the button properly
+//    btnExit.center = CGPointMake(btnExit.bounds.size.width / 2 + 10, hostView.bounds.size.height - 15);
+//    btnExit.transform =  CGAffineTransformMakeRotation(-M_PI_2);
+//    btnExit.transform = CGAffineTransformMakeScale(1, -1);
+//    
+//    // Add the button to the subview we just created
+//    [hostView addSubview:btnExit];
     
-    // Set up an event handler for the exit button
-    [button setTitle:@"EXIT" forState:UIControlStateNormal];
-    [button sizeToFit];
-    [button addTarget: self
-               action: @selector(buttonClicked:)
-     forControlEvents: UIControlEventTouchUpInside];
+    // Create the settings button
+    UIButton *btnSettings = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    // Set up an event handler for the settings button
+//    [btnSettings sizeThatFits:CGSizeMake(25, 25)];
+    [btnSettings sizeToFit];
+    [btnSettings addTarget: self
+                action: @selector(buttonClicked:)
+      forControlEvents: UIControlEventTouchUpInside];
+    
+    // Set proper images and size
+    UIImage *cogUp = [UIImage imageNamed:@"cogUp.png"];
+    UIImage *cogUpScaled = [UIImage imageWithCGImage:[cogUp CGImage]
+                                               scale:(cogUp.scale * 2.0)
+                                         orientation:(cogUp.imageOrientation)];
+    
+    UIImage *cogDown = [UIImage imageNamed:@"cogDown.png"];
+    UIImage *cogDownScaled = [UIImage imageWithCGImage:[cogUp CGImage]
+                                               scale:(cogUp.scale * 2.0)
+                                         orientation:(cogUp.imageOrientation)];
+    
+    [btnSettings setImage:cogUpScaled forState:UIControlStateNormal];
+    [btnSettings setImage:[UIImage imageNamed:@"cogDown.png"] forState:UIControlStateSelected];
+//    [btnSettings setShowsTouchWhenHighlighted:YES];
+    CGRect buttonFrame = btnSettings.frame;
+    buttonFrame.size = CGSizeMake(25, 25);
+    btnSettings.frame = buttonFrame;
     
     // Position and rotate the button properly
-    button.center = CGPointMake(button.bounds.size.width / 2 + 10, hostView.bounds.size.height - 15);
-    button.transform =  CGAffineTransformMakeRotation(-M_PI_2);
-    button.transform = CGAffineTransformMakeScale(1, -1);
+    btnSettings.center = CGPointMake(btnSettings.bounds.size.width / 2 + 10, hostView.bounds.size.height - 15);
+    btnSettings.transform =  CGAffineTransformMakeRotation(-M_PI_2);
+    btnSettings.transform = CGAffineTransformMakeScale(1, -1);
     
     // Add the button to the subview we just created
-    [hostView addSubview:button];
+    [hostView addSubview:btnSettings];
     
     // Animate the data to the screen
     [self performAnimationWithType:0 framerate:1.0/60.0 duration:1.2];
@@ -70,7 +106,7 @@ float yPadding = 0.2f;
     
     float animationFrameRate = framerate;
     
-    DDLogVerbose(@"Performing animation %d", type);
+    DDLogVerbose(@"Performing Animation %d", type);
     
     switch (type) {
         // Points appear centered along Y axis mean and
@@ -116,6 +152,7 @@ float yPadding = 0.2f;
     }
     
     // Start the animation timer
+    [animationTimer invalidate];
     animationTimer = [NSTimer timerWithTimeInterval:animationFrameRate
                                         target:self
                                       selector:@selector(newData:)
@@ -345,8 +382,14 @@ float yPadding = 0.2f;
     else
         return;
     
-    // Perform the rotation if we made it this far
-    hostView.transform = CGAffineTransformMakeRotation(myRotation);
+    // Perform the rotation in an animation
+    [UIView animateWithDuration:0.3f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^(void) {
+                         hostView.transform = CGAffineTransformMakeRotation(myRotation);
+                     }
+                     completion:nil];
     
     DDLogVerbose(@"Performed appropriate rotation");
 }
@@ -750,7 +793,15 @@ float yPadding = 0.2f;
                 updatedRange = newRange;
             
             break;
+            
+        // Not sure how the Z coord comes into play
         case CPTCoordinateZ:
+            updatedRange = newRange;
+            
+            break;
+        
+        // Also don't know how this delegate could get called without a coordinate
+        case CPTCoordinateNone:
             updatedRange = newRange;
             
             break;
