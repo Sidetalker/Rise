@@ -63,6 +63,7 @@ float yPadding = 0.2f;
     [self performAnimationWithType:1 framerate:1.0/60.0 duration:3];
 }
 
+//TODO: Clean up unnecessary animation variables
 - (void)performAnimationWithType:(int)type framerate:(float)framerate duration:(float)duration
 {
     animationType = type;
@@ -71,6 +72,8 @@ float yPadding = 0.2f;
     DDLogVerbose(@"Performing animation %d", type);
     
     switch (type) {
+        // Points appear centered along Y axis mean and
+        // rise or fall linearlly to their appropriate positions
         case 0:
             animationMod = 0.0f;
             animationFrameRate = framerate;
@@ -78,14 +81,18 @@ float yPadding = 0.2f;
             animationFrames = ceil(1 / framerate * duration);
             animationCount = 0;
             
+            // Get the average value of all Y data
             float average = [[plotDataY valueForKeyPath:@"@avg.floatValue"] floatValue];
             
+            // For each data point...
             for (int i = 0; i < plotDataY.count; i++)
             {
+                // Determine the ending value and the appropriate increment
                 NSMutableArray *curPoints = [[NSMutableArray alloc] init];
                 float finisher = [[plotDataY objectAtIndex:i] floatValue];
                 float increment = (finisher - average) / animationFrames;
                 
+                // Generate a point value for each frame of the animation
                 for (int y = 0; y < animationFrames; y++)
                 {
                     if (y == 0)
@@ -98,7 +105,8 @@ float yPadding = 0.2f;
             }
             
             break;
-            
+        
+        // Points are drawn in, left to right
         case 1:
             animationFrameRate = duration / recordCount;
             animationMod = 0.0f;
@@ -149,19 +157,18 @@ float yPadding = 0.2f;
     float lastY = 0.0f;
     float curY = 0.0f;
     float nextY = 0.0f;
-    long lastStrength = 0;
     int upFlag = 0;
     int downFlag = 0;
     int directionFlag = 0; // 0 up, 1 down
     
-    if (plotDataY[0] < plotDataY[1])
+    if ([plotDataY[0] floatValue] < [plotDataY[1] floatValue])
     {
         [plotDataStrength addObject:[NSNumber numberWithInt:0]];
+        directionFlag = 1;
     }
     else
     {
         [plotDataStrength addObject:[NSNumber numberWithInt:2]];
-        directionFlag = 1;
     }
     
     for (int i = 1; i < plotDataY.count - 1; i++)
@@ -169,36 +176,49 @@ float yPadding = 0.2f;
         lastY = [[plotDataY objectAtIndex:i - 1] floatValue];
         curY = [[plotDataY objectAtIndex:i] floatValue];
         nextY = [[plotDataY objectAtIndex:i + 1] floatValue];
-        lastStrength = [[plotDataStrength lastObject] intValue];
         
         long weight = -1;
         
-        if (curY > lastY && curY < nextY)
+        // Midpoint on a positively sloped line
+        if (curY > lastY && curY < nextY && i > 1)
         {
             weight = upFlag;
             directionFlag = 0;
         }
-        else if (curY < lastY && curY > nextY)
+        // Midpoint on a negatively sloped line
+        else if (curY < lastY && curY > nextY && i > 1)
         {
             weight = downFlag + 2;
             directionFlag = 1;
         }
-        else if (curY == lastY)
+        // Left node of a straight line
+        else if (curY == nextY)
         {
-            if (curY < nextY)
+            // If we travelled up to get here
+            if (curY > lastY)
+            {
+                directionFlag = 1;
                 weight = upFlag;
-            else if (curY > nextY)
+            }
+            // If we travelled down to get here
+            else if (curY < lastY)
+            {
                 weight = downFlag + 2;
+                directionFlag = 0;
+            }
+            // If this is a straight line midpoint
             else
             {
-                if (!directionFlag)
+                if (directionFlag)
                     weight = upFlag;
                 else
                     weight = downFlag + 2;
             }
         }
+        // Peak or valley
         else
         {
+            // Assign appropriate value for the peak plot combo
             if (!upFlag && !downFlag)
                 weight = 4;
             else if (upFlag && downFlag)
@@ -207,18 +227,19 @@ float yPadding = 0.2f;
                 weight = 6;
             else if (upFlag && !downFlag)
                 weight = 7;
-            else
-                DDLogWarn(@"Warning - unable to apply weight");
             
-            directionFlag = !directionFlag;
-            
-            if (curY != nextY)
+            // Change either up or down plots depending on peak/valley
+            if (curY > nextY)
             {
-                if (curY > lastY)
-                    upFlag = !upFlag;
-                else
-                    downFlag = !downFlag;
+                upFlag = !upFlag;
+                directionFlag = 0;
             }
+            else
+            {
+                downFlag = !downFlag;
+                directionFlag = 1;
+            }
+            
         }
         
         [plotDataStrength addObject:[NSNumber numberWithLong:weight]];

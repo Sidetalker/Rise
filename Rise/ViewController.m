@@ -302,13 +302,13 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
 {
     [locationHistory removeAllObjects];
     
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < 70; i++)
     {
         Location *curLocation = [[Location alloc] init];
         
         curLocation.timestampLaunch += i;
-        curLocation.altitudeApple = arc4random() % 5 + 25;
-        curLocation.altitudeGoogle = arc4random() % 5 + 25;
+        curLocation.altitudeApple = arc4random() % 3 + 25;
+        curLocation.altitudeGoogle = arc4random() % 3 + 25;
         
         // Add the Location object to the history array
         [locationHistory addObject:curLocation];
