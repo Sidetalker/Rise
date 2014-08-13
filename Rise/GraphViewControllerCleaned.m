@@ -137,7 +137,12 @@ float yPadding = 0.2f;
         if (plotDataY)
             lastY = [[plotDataY lastObject] floatValue];
         
-        newY = [curLoc altitudeGoogle];
+        newY = [curLoc altitudeApple];
+        
+        if (newY > lastY)
+            [plotDataSlopes addObject:[NSNumber numberWithInt:1]];
+        else
+            [plotDataSlopes addObject:[NSNumber numberWithInt:0]];
         
         [plotDataX addObject:[NSNumber numberWithFloat:([curLoc timestampLaunch] - tMinus)]];
         [plotDataY addObject:[NSNumber numberWithFloat:[curLoc altitudeApple]]];
@@ -150,10 +155,10 @@ float yPadding = 0.2f;
     minY = [[plotDataY valueForKeyPath:@"@min.floatValue"] floatValue];
     maxY = [[plotDataY valueForKeyPath:@"@max.floatValue"] floatValue];
     
-//    if ([[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue] < minY)
-//        minY = [[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue];
-//    if ([[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue] > maxY)
-//        maxY = [[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue];
+    //    if ([[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue] < minY)
+    //        minY = [[plotDataYGoogle valueForKeyPath:@"@min.floatValue"] floatValue];
+    //    if ([[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue] > maxY)
+    //        maxY = [[plotDataYGoogle valueForKeyPath:@"@max.floatValue"] floatValue];
     
     minY -= (maxY - minY) * yPadding;
     maxY += (maxY - minY) * yPadding;

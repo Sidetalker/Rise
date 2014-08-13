@@ -307,8 +307,8 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
         Location *curLocation = [[Location alloc] init];
         
         curLocation.timestampLaunch += i;
-        curLocation.altitudeApple = arc4random() % 50 + 25;
-        curLocation.altitudeGoogle = arc4random() % 50 + 25;
+        curLocation.altitudeApple = arc4random() % 5 + 25;
+        curLocation.altitudeGoogle = arc4random() % 5 + 25;
         
         // Add the Location object to the history array
         [locationHistory addObject:curLocation];

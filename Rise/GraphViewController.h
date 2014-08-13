@@ -15,12 +15,11 @@
 @interface GraphViewController : UIViewController <CPTAnimationDelegate, CPTPlotDataSource, CPTPlotSpaceDelegate, CPTScatterPlotDelegate>
 {
 @private
-    NSMutableArray *plotDataYApple;
-    NSMutableArray *plotDataYGoogle;
     NSMutableArray *plotDataX;
-    NSMutableArray *plotDataAnimationApple;
-    NSMutableArray *plotDataAnimationGoogle;
-    NSMutableArray *plotDataSlope;
+    NSMutableArray *plotDataY;
+    NSMutableArray *plotDataAnimation;
+    NSMutableArray *plotDataStrength;
+    
     CPTGraphHostingView *hostView;
     NSTimer *dataTimer;
     
