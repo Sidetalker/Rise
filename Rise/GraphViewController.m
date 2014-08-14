@@ -41,30 +41,29 @@ float yPadding = 0.2f;
     // Make the beautiful plot
     [self initializePlot];
     
-//    // Create the exit button
-//    UIButton *btnExit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    
-//    // Set up an event handler for the exit button
-//    [btnExit setTitle:@"EXIT" forState:UIControlStateNormal];
-//    [btnExit sizeToFit];
-//    [btnExit addTarget: self
-//               action: @selector(buttonClicked:)
-//     forControlEvents: UIControlEventTouchUpInside];
-//    
-//    // Position and rotate the button properly
-//    btnExit.center = CGPointMake(btnExit.bounds.size.width / 2 + 10, hostView.bounds.size.height - 15);
-//    btnExit.transform =  CGAffineTransformMakeRotation(-M_PI_2);
-//    btnExit.transform = CGAffineTransformMakeScale(1, -1);
-//    
-//    // Add the button to the subview we just created
-//    [hostView addSubview:btnExit];
+    // Create the exit button
+    UIButton *btnExit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    // Set up an event handler for the exit button
+    [btnExit setTitle:@"EXIT" forState:UIControlStateNormal];
+    [btnExit sizeToFit];
+    [btnExit addTarget: self
+               action: @selector(buttonClicked:)
+     forControlEvents: UIControlEventTouchUpInside];
+    
+    // Position and rotate the button properly
+    btnExit.center = CGPointMake(btnExit.bounds.size.width / 2 + 10, hostView.bounds.size.height - 15);
+    btnExit.transform =  CGAffineTransformMakeRotation(-M_PI_2);
+    btnExit.transform = CGAffineTransformMakeScale(1, -1);
+    
+    // Add the button to the subview we just created
+    [hostView addSubview:btnExit];
     
     // Create the settings button
     UIButton *btnSettings = [UIButton buttonWithType:UIButtonTypeCustom];
     
     // Set up an event handler for the settings button
-//    [btnSettings sizeThatFits:CGSizeMake(25, 25)];
-    [btnSettings sizeToFit];
+    [btnSettings setContentMode:UIViewContentModeCenter];
     [btnSettings addTarget: self
                 action: @selector(buttonClicked:)
       forControlEvents: UIControlEventTouchUpInside];
@@ -72,30 +71,23 @@ float yPadding = 0.2f;
     // Set proper images and size
     UIImage *cogUp = [UIImage imageNamed:@"cogUp.png"];
     UIImage *cogUpScaled = [UIImage imageWithCGImage:[cogUp CGImage]
-                                               scale:(cogUp.scale * 2.0)
+                                               scale:(cogUp.scale * 4.2)
                                          orientation:(cogUp.imageOrientation)];
     
     UIImage *cogDown = [UIImage imageNamed:@"cogDown.png"];
-    UIImage *cogDownScaled = [UIImage imageWithCGImage:[cogUp CGImage]
-                                               scale:(cogUp.scale * 2.0)
-                                         orientation:(cogUp.imageOrientation)];
+    UIImage *cogDownScaled = [UIImage imageWithCGImage:[cogDown CGImage]
+                                               scale:(cogDown.scale * 4.2)
+                                         orientation:(cogDown.imageOrientation)];
     
+    [btnSettings setFrame:CGRectMake(hostView.frame.size.height - 38, hostView.frame.size.width - 38, cogUpScaled.size.width + 15, cogUpScaled.size.height + 15)];
+    [btnSettings setContentMode:UIViewContentModeCenter];
     [btnSettings setImage:cogUpScaled forState:UIControlStateNormal];
-    [btnSettings setImage:[UIImage imageNamed:@"cogDown.png"] forState:UIControlStateSelected];
-//    [btnSettings setShowsTouchWhenHighlighted:YES];
-    CGRect buttonFrame = btnSettings.frame;
-    buttonFrame.size = CGSizeMake(25, 25);
-    btnSettings.frame = buttonFrame;
+    [btnSettings setImage:cogDownScaled forState:UIControlStateSelected];
     
-    // Position and rotate the button properly
-    btnSettings.center = CGPointMake(btnSettings.bounds.size.width / 2 + 10, hostView.bounds.size.height - 15);
-    btnSettings.transform =  CGAffineTransformMakeRotation(-M_PI_2);
-    btnSettings.transform = CGAffineTransformMakeScale(1, -1);
-    
-    // Add the button to the subview we just created
+    // Add the button to to our graphs superview
     [hostView addSubview:btnSettings];
     
-    // Animate the data to the screen
+    // Animate the incoming data
     [self performAnimationWithType:0 framerate:1.0/60.0 duration:1.2];
 }
 
@@ -197,8 +189,7 @@ float yPadding = 0.2f;
     int downFlag = 0;
     int directionFlag = 0; // 0 up, 1 down
     
-    // Assign data points plot designations for slope based shading support
-    
+    // Assign data points plot designations for slope based shading
     if ([plotDataY[0] floatValue] < [plotDataY[1] floatValue])
     {
         [plotDataStrength addObject:[NSNumber numberWithInt:0]];
@@ -433,7 +424,7 @@ float yPadding = 0.2f;
     [graph.plotAreaFrame setPaddingLeft:47.0f];
     [graph.plotAreaFrame setPaddingBottom:36.0f];
     [graph.plotAreaFrame setPaddingRight:20.0f];
-    [graph.plotAreaFrame setPaddingTop:20.0f];
+    [graph.plotAreaFrame setPaddingTop:32.0f];
     [graph.plotAreaFrame setBorderLineStyle:nil];
     
     // Enable user interactions for plot space
@@ -458,7 +449,7 @@ float yPadding = 0.2f;
     CPTScatterPlot *lightUpPlotB = [[CPTScatterPlot alloc] init];
     lightUpPlotB.dataSource = self;
     lightUpPlotB.identifier = @"lightUpB";
-    CPTColor *lightUpColorB = [CPTColor magentaColor];
+    CPTColor *lightUpColorB = [CPTColor redColor];
     [graph addPlot:lightUpPlotB toPlotSpace:plotSpace];
     
     CPTScatterPlot *heavyUpPlot = [[CPTScatterPlot alloc] init];
@@ -476,7 +467,7 @@ float yPadding = 0.2f;
     CPTScatterPlot *lightDownPlotB = [[CPTScatterPlot alloc] init];
     lightDownPlotB.dataSource = self;
     lightDownPlotB.identifier = @"lightDownB";
-    CPTColor *lightDownColorB = [CPTColor purpleColor];
+    CPTColor *lightDownColorB = [CPTColor blueColor];
     [graph addPlot:lightDownPlotB toPlotSpace:plotSpace];
     
     CPTScatterPlot *heavyDownPlot = [[CPTScatterPlot alloc] init];
