@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "Helpers.h"
 #import "ViewController.h"
+#import "SettingsViewController.h"
 
 @interface GraphViewController : UIViewController <CPTAnimationDelegate, CPTPlotDataSource, CPTPlotSpaceDelegate, CPTScatterPlotDelegate>
 {

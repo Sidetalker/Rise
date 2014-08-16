@@ -65,7 +65,7 @@ float yPadding = 0.2f;
     // Set up an event handler for the settings button
     [btnSettings setContentMode:UIViewContentModeCenter];
     [btnSettings addTarget: self
-                action: @selector(buttonClicked:)
+                action: @selector(settingsClicked:)
       forControlEvents: UIControlEventTouchUpInside];
     
     // Set proper images and size
@@ -296,6 +296,11 @@ float yPadding = 0.2f;
 {
     [animationTimer invalidate];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)settingsClicked:(id)sender
+{
+    [self performSegueWithIdentifier:@"settingsSegue" sender:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -623,12 +628,29 @@ float yPadding = 0.2f;
     NSMutableSet *yLocations = [NSMutableSet set];
     
     // Same as before for y axis
+    if (interval > 0)
+    {
+        
+    
     for (i = yMin + interval; i <= yMax - (interval / 2); i += interval)
     {
         NSString *labelText = [NSString stringWithFormat:@"%.1f", i];
         
         CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:labelText textStyle:y.labelTextStyle];
         label.tickLocation = CPTDecimalFromCGFloat(i);
+        label.offset = y.majorTickLength;
+        if (label) {
+            [yLabels addObject:label];
+            [yLocations addObject:[NSNumber numberWithFloat:i]];
+        }
+    }
+    }
+    else
+    {
+        NSString *labelText = [NSString stringWithFormat:@"0"];
+        
+        CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:labelText textStyle:y.labelTextStyle];
+        label.tickLocation = CPTDecimalFromCGFloat(0);
         label.offset = y.majorTickLength;
         if (label) {
             [yLabels addObject:label];
