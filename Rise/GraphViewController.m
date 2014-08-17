@@ -35,6 +35,9 @@ float yPadding = 0.2f;
 {
     [super viewDidLoad];
     
+    // Initalize our settings
+    settings = [[Settings alloc] init];
+    
     // Configure the view so we can do the whole landscape in portrait shebang
     [self configureView];
     
@@ -169,7 +172,11 @@ float yPadding = 0.2f;
     for (Location *curLoc in data)
     {
         [plotDataX addObject:[NSNumber numberWithFloat:([curLoc timestampLaunch] - tMinus)]];
-        [plotDataY addObject:[NSNumber numberWithFloat:[curLoc altitudeApple]]];
+        
+        if ([settings dataSource] == 0)
+            [plotDataY addObject:[NSNumber numberWithFloat:[curLoc altitudeApple]]];
+        else if ([settings dataSource] == 1)
+            [plotDataY addObject:[NSNumber numberWithFloat:[curLoc altitudeGoogle]]];
     }
     
     // Weight Legend:

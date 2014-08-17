@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "SettingsTableViewController.h"
 
 @interface SettingsViewController ()
 
@@ -14,12 +15,17 @@
 
 @implementation SettingsViewController
 
-- (void)viewDidLoad {
+@synthesize settings;
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    settings = [[Settings alloc] init];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -42,17 +48,35 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSString * segueName = segue.identifier;
+    if ([segueName isEqualToString: @"settingsTableSegue"])
+    {
+//        SettingsTableViewController *settingsTable = (SettingsTableViewController*)[segue destinationViewController];
+//        SettingsViewController *settingsView = [settingsTable.view];
+//        Vc2.parentController=self
+        
+        SettingsTableViewController *settingsTable = (SettingsTableViewController*)[segue destinationViewController];
+        settingsTable.parent = self;
+    }
 }
-*/
 
-- (IBAction)dataSourceChanged:(id)sender {
-    NSLog(@"basdf");
+- (void)changeSettingWithName:(NSString*)settingName
+{
+    
 }
+
+- (IBAction)btnSaveClicked:(id)sender
+{
+    [settings save];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)btnCancelClicked:(id)sender
+{
+    [settings cancel];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

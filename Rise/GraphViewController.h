@@ -12,10 +12,13 @@
 #import "Helpers.h"
 #import "ViewController.h"
 #import "SettingsViewController.h"
+#import "Settings.h"
 
 @interface GraphViewController : UIViewController <CPTAnimationDelegate, CPTPlotDataSource, CPTPlotSpaceDelegate, CPTScatterPlotDelegate>
 {
 @private
+    Settings *settings;
+    
     NSMutableArray *plotDataX;
     NSMutableArray *plotDataY;
     NSMutableArray *plotDataAnimation;

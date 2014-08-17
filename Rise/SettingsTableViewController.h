@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SettingsViewController.h"
 
 @interface SettingsTableViewController : UITableViewController
 
-- (IBAction)dataSourceChanged:(id)sender;
+@property (strong, nonatomic) SettingsViewController *parent;
 
+@property (strong, nonatomic) IBOutlet UISegmentedControl *dataSource;
+
+- (IBAction)dataSourceChanged:(id)sender;
 
 @end

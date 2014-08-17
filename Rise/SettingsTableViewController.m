@@ -14,34 +14,20 @@
 
 @implementation SettingsTableViewController
 
-- (void)viewDidLoad {
+@synthesize parent, dataSource;
+
+- (void)viewWillAppear:(BOOL)animated {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [dataSource setSelectedSegmentIndex:[parent settings].dataSource];
+    DDLogVerbose(@"Setting segment to %ld", [parent settings].dataSource);
+    DDLogVerbose(@"Settings says %ld", [[parent settings].settings integerForKey:@"dataSource"]);
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - Table view data source
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
-//    // Return the number of sections.
-//    return 1;
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete method implementation.
-//    // Return the number of rows in the section.
-//    return 1;
-//}
 
 #pragma mark - Orientation Configuration
 
@@ -61,7 +47,29 @@
 }
 
 
-- (IBAction)dataSourceChanged:(id)sender {
-    NSLog(@"asdasda");
+- (IBAction)dataSourceChanged:(id)sender
+{
+    NSString *newSource;
+    
+    switch (dataSource.selectedSegmentIndex) {
+        case 0:
+            newSource = @"Apple";
+            break;
+            
+        case 1:
+            newSource = @"Google";
+            break;
+            
+        case 2:
+            newSource = @"Both";
+        default:
+            break;
+    }
+    
+    DDLogVerbose(@"Changing data source to %@", newSource);
+    
+    [[parent settings] setDataSource:dataSource.selectedSegmentIndex];
+    
+    DDLogVerbose(@"Settings dataSource is now %ld", [parent settings].dataSource);
 }
 @end

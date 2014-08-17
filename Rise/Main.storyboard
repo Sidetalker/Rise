@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="e5y-sO-k2F">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6205" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="e5y-sO-k2F">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
     </dependencies>
     <scenes>
         <!--My Navigation Controller-->
@@ -219,8 +219,16 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Settings" id="PnX-cu-laH">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="fnI-Xr-wJb"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Save" id="7O4-Ue-tvL"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="fnI-Xr-wJb">
+                                            <connections>
+                                                <action selector="btnCancelClicked:" destination="ueD-PX-Jpl" id="qpd-UP-VkE"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="7O4-Ue-tvL">
+                                            <connections>
+                                                <action selector="btnSaveClicked:" destination="ueD-PX-Jpl" id="EAU-ZA-Ajz"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -228,7 +236,7 @@
                                 <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <connections>
-                                    <segue destination="jND-1q-1gM" kind="embed" id="oLx-FH-BCq"/>
+                                    <segue destination="jND-1q-1gM" kind="embed" identifier="settingsTableSegue" id="oLx-FH-BCq"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -264,11 +272,12 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="7HP-Km-Iyr">
-                                                    <rect key="frame" x="177" y="8" width="123" height="29"/>
+                                                    <rect key="frame" x="156" y="8" width="156" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <segments>
-                                                        <segment title="First"/>
-                                                        <segment title="Second"/>
+                                                        <segment title="Apple"/>
+                                                        <segment title="Google"/>
+                                                        <segment title="Both"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="dataSourceChanged:" destination="jND-1q-1gM" eventType="valueChanged" id="NNZ-Ok-7Of"/>
@@ -285,6 +294,9 @@
                             <outlet property="delegate" destination="jND-1q-1gM" id="IHB-Ix-OAg"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="dataSource" destination="7HP-Km-Iyr" id="Ld4-bk-exd"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ard-2H-bze" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -7,8 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
+#import "Settings.h"
 
 @interface SettingsViewController : UIViewController
-- (IBAction)dataSourceChanged:(id)sender;
+
+@property (strong, nonatomic) Settings *settings;
+
+- (IBAction)btnSaveClicked:(id)sender;
+- (IBAction)btnCancelClicked:(id)sender;
+
+- (void)changeSettingWithName:(NSString*)settingName;
 
 @end
