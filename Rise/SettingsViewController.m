@@ -53,10 +53,6 @@
     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"settingsTableSegue"])
     {
-//        SettingsTableViewController *settingsTable = (SettingsTableViewController*)[segue destinationViewController];
-//        SettingsViewController *settingsView = [settingsTable.view];
-//        Vc2.parentController=self
-        
         SettingsTableViewController *settingsTable = (SettingsTableViewController*)[segue destinationViewController];
         settingsTable.parent = self;
     }
@@ -70,6 +66,7 @@
 - (IBAction)btnSaveClicked:(id)sender
 {
     [settings save];
+    [self presentingViewController] 
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

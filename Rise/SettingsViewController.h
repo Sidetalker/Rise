@@ -13,6 +13,7 @@
 @interface SettingsViewController : UIViewController
 
 @property (strong, nonatomic) Settings *settings;
+@property (strong, nonatomic) id parent;
 
 - (IBAction)btnSaveClicked:(id)sender;
 - (IBAction)btnCancelClicked:(id)sender;

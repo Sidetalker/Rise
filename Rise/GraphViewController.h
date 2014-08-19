@@ -19,6 +19,7 @@
 @private
     Settings *settings;
     
+    NSMutableArray *rawData;
     NSMutableArray *plotDataX;
     NSMutableArray *plotDataY;
     NSMutableArray *plotDataAnimation;

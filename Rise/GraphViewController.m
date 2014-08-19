@@ -31,6 +31,12 @@ float yPadding = 0.2f;
     return self;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -51,7 +57,7 @@ float yPadding = 0.2f;
     [btnExit setTitle:@"EXIT" forState:UIControlStateNormal];
     [btnExit sizeToFit];
     [btnExit addTarget: self
-               action: @selector(buttonClicked:)
+               action: @selector(exitClicked:)
      forControlEvents: UIControlEventTouchUpInside];
     
     // Position and rotate the button properly
@@ -92,6 +98,13 @@ float yPadding = 0.2f;
     
     // Animate the incoming data
     [self performAnimationWithType:0 framerate:1.0/60.0 duration:1.2];
+}
+
+#pragma mark - Graph Data Functions
+
+- (void)reloadData
+{
+    [self loadData:rawData];
 }
 
 - (void)performAnimationWithType:(int)type framerate:(float)framerate duration:(float)duration
@@ -161,6 +174,7 @@ float yPadding = 0.2f;
     DDLogVerbose(@"Beginning to load data");
     
     // Initialize data arrays
+    rawData = data;
     plotDataX = [[NSMutableArray alloc] init];
     plotDataY = [[NSMutableArray alloc] init];
     plotDataStrength = [[NSMutableArray alloc] init];
@@ -299,7 +313,9 @@ float yPadding = 0.2f;
     DDLogVerbose(@"Finished loading data");
 }
 
-- (IBAction)buttonClicked:(id)sender
+#pragma mark - View/Segue Management
+
+- (IBAction)exitClicked:(id)sender
 {
     [animationTimer invalidate];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -308,12 +324,6 @@ float yPadding = 0.2f;
 - (IBAction)settingsClicked:(id)sender
 {
     [self performSegueWithIdentifier:@"settingsSegue" sender:self];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Orientation Configuration
