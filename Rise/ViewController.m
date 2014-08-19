@@ -194,7 +194,7 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     dispatch_async(myQueue, ^{
         // Grab elevation data from Google
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-        NSDictionary* googleAltitudes = [Helpers queryGoogleAltitudes:latestLocations];
+        NSDictionary* googleAltitudes = [Helpers queryGoogleAltitudes:locationHistory];
         
         DDLogVerbose(@"Starting background process to retrieve Google data");
         
@@ -222,8 +222,8 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
             // Loop through the dictionary and update locations with Google's data
             for (id key in googleAltitudes[@"results"])
             {
-                [(Location*)latestLocations[curLocation] setAltitudeGoogle:[key[@"elevation"] floatValue]];
-                [(Location*)latestLocations[curLocation] setResolutionGoogle:[key[@"resolution"] floatValue]];
+                [(Location*)locationHistory[curLocation] setAltitudeGoogle:[key[@"elevation"] floatValue]];
+                [(Location*)locationHistory[curLocation] setResolutionGoogle:[key[@"resolution"] floatValue]];
                 
                 curLocation++;
             }
@@ -289,12 +289,13 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     requestCount++;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [FTPRequestManager addRequestForUploadFileAtLocalPath:pathText toRemotePath:fileNameText];
-    [FTPRequestManager startProcessingRequests];
     
     // Upload to SideApps to use for algorithm design
     requestCount++;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [FTPRequestManager addRequestForUploadFileAtLocalPath:pathCSV toRemotePath:fileNameCSV];
+    
+    // Process the requests
     [FTPRequestManager startProcessingRequests];
 }
 
