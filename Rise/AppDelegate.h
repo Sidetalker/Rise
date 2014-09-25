@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 #import <CorePlot/ios/CorePlot-CocoaTouch.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
+#import <FTPManager/FTPManager.h>
 
 #import "MyNavigationController.h"
 
@@ -19,6 +20,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @property (strong, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) FTPManager *ftpManager;
+@property (strong, nonatomic) FMServer *ftpServer;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
