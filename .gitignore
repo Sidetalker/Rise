@@ -3,8 +3,6 @@ Podfile
 
 Podfile.lock
 
-Pods/
-
 Rise.xcodeproj/
 
 Rise.xcworkspace/
