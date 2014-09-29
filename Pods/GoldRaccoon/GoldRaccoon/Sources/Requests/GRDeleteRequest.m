@@ -49,7 +49,7 @@
     }
     
     else {
-        // unsuccessful        
+        // unsuccessful
         [self.streamInfo streamError:self errorCode:kGRFTPClientCantDeleteFileOrDirectory];
     }
 }

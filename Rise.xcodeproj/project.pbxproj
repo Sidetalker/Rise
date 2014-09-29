@@ -30,10 +30,13 @@
 		519D6C36195CDEAA005F6DF8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C35195CDEAA005F6DF8 /* Security.framework */; };
 		519D6C3A195CDEB7005F6DF8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */; };
 		51E4A3911981FA6100297C22 /* MyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E4A3901981FA6100297C22 /* MyNavigationController.m */; };
+		51ECB83A19D9604C009C0DCC /* libPods-Rise-CocoaLumberjack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51ECB83919D9604C009C0DCC /* libPods-Rise-CocoaLumberjack.a */; };
+		51ECB83C19D96051009C0DCC /* libPods-Rise-CorePlot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51ECB83B19D96051009C0DCC /* libPods-Rise-CorePlot.a */; };
+		51ECB83E19D96054009C0DCC /* libPods-Rise-GoldRaccoon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51ECB83D19D96054009C0DCC /* libPods-Rise-GoldRaccoon.a */; };
+		51ECB84019D96057009C0DCC /* libPods-Rise.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51ECB83F19D96057009C0DCC /* libPods-Rise.a */; };
 		51F7DA47197E1367004353B1 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F7DA46197E1367004353B1 /* GraphViewController.m */; };
 		51FA2630199F5D2A0055D6F7 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51FA262F199F5D2A0055D6F7 /* SettingsViewController.m */; };
 		51FA2633199F65210055D6F7 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51FA2632199F65210055D6F7 /* SettingsTableViewController.m */; };
-		A745B2E9F964431FBA793357 /* libPods-Rise.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +84,10 @@
 		519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		51E4A38F1981FA6100297C22 /* MyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNavigationController.h; sourceTree = "<group>"; };
 		51E4A3901981FA6100297C22 /* MyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNavigationController.m; sourceTree = "<group>"; };
+		51ECB83919D9604C009C0DCC /* libPods-Rise-CocoaLumberjack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Rise-CocoaLumberjack.a"; path = "Pods/build/Debug-iphoneos/libPods-Rise-CocoaLumberjack.a"; sourceTree = "<group>"; };
+		51ECB83B19D96051009C0DCC /* libPods-Rise-CorePlot.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Rise-CorePlot.a"; path = "Pods/build/Debug-iphoneos/libPods-Rise-CorePlot.a"; sourceTree = "<group>"; };
+		51ECB83D19D96054009C0DCC /* libPods-Rise-GoldRaccoon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Rise-GoldRaccoon.a"; path = "Pods/build/Debug-iphoneos/libPods-Rise-GoldRaccoon.a"; sourceTree = "<group>"; };
+		51ECB83F19D96057009C0DCC /* libPods-Rise.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Rise.a"; path = "Pods/build/Debug-iphoneos/libPods-Rise.a"; sourceTree = "<group>"; };
 		51F7DA45197E1367004353B1 /* GraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphViewController.h; sourceTree = "<group>"; };
 		51F7DA46197E1367004353B1 /* GraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphViewController.m; sourceTree = "<group>"; };
 		51FA262E199F5D2A0055D6F7 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -88,7 +95,8 @@
 		51FA2631199F65210055D6F7 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		51FA2632199F65210055D6F7 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Rise.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C95E215180B5402EA70F67EE /* Pods-Rise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rise.xcconfig"; path = "Pods/Pods-Rise.xcconfig"; sourceTree = "<group>"; };
+		B797033CB872438A858F17AB /* Pods-Rise.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rise.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Rise/Pods-Rise.debug.xcconfig"; sourceTree = "<group>"; };
+		C887FDE1E09796F28792370B /* Pods-Rise.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rise.release.xcconfig"; path = "Pods/Target Support Files/Pods-Rise/Pods-Rise.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +104,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51ECB84019D96057009C0DCC /* libPods-Rise.a in Frameworks */,
+				51ECB83E19D96054009C0DCC /* libPods-Rise-GoldRaccoon.a in Frameworks */,
+				51ECB83C19D96051009C0DCC /* libPods-Rise-CorePlot.a in Frameworks */,
+				51ECB83A19D9604C009C0DCC /* libPods-Rise-CocoaLumberjack.a in Frameworks */,
 				519D6C3A195CDEB7005F6DF8 /* SystemConfiguration.framework in Frameworks */,
 				519D6C36195CDEAA005F6DF8 /* Security.framework in Frameworks */,
 				519D6C34195CDEA1005F6DF8 /* QuartzCore.framework in Frameworks */,
@@ -105,7 +117,6 @@
 				519D6C2C195CDE81005F6DF8 /* CFNetwork.framework in Frameworks */,
 				519D6C2A195CDE79005F6DF8 /* AudioToolbox.framework in Frameworks */,
 				519D6C26195CD03C005F6DF8 /* CoreLocation.framework in Frameworks */,
-				A745B2E9F964431FBA793357 /* libPods-Rise.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +147,7 @@
 				519D6C3B195CDEDB005F6DF8 /* Frameworks */,
 				515B9D1819550E5B00AE2D05 /* RiseTests */,
 				515B9CFD19550E5B00AE2D05 /* Products */,
-				C95E215180B5402EA70F67EE /* Pods-Rise.xcconfig */,
+				F8C0F79FE5C6D9DE5680163B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -209,6 +220,10 @@
 		519D6C3B195CDEDB005F6DF8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				51ECB83F19D96057009C0DCC /* libPods-Rise.a */,
+				51ECB83D19D96054009C0DCC /* libPods-Rise-GoldRaccoon.a */,
+				51ECB83B19D96051009C0DCC /* libPods-Rise-CorePlot.a */,
+				51ECB83919D9604C009C0DCC /* libPods-Rise-CocoaLumberjack.a */,
 				519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */,
 				519D6C35195CDEAA005F6DF8 /* Security.framework */,
 				519D6C33195CDEA1005F6DF8 /* QuartzCore.framework */,
@@ -221,6 +236,15 @@
 				645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F8C0F79FE5C6D9DE5680163B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B797033CB872438A858F17AB /* Pods-Rise.debug.xcconfig */,
+				C887FDE1E09796F28792370B /* Pods-Rise.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,7 +382,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-Rise-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Rise/Pods-Rise-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -482,7 +506,7 @@
 		};
 		515B9D2019550E5B00AE2D05 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C95E215180B5402EA70F67EE /* Pods-Rise.xcconfig */;
+			baseConfigurationReference = B797033CB872438A858F17AB /* Pods-Rise.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -492,6 +516,10 @@
 				);
 				INFOPLIST_FILE = Rise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -499,7 +527,7 @@
 		};
 		515B9D2119550E5B00AE2D05 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C95E215180B5402EA70F67EE /* Pods-Rise.xcconfig */;
+			baseConfigurationReference = C887FDE1E09796F28792370B /* Pods-Rise.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -509,6 +537,10 @@
 				);
 				INFOPLIST_FILE = Rise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
