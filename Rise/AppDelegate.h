@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+<<<<<<< HEAD
 #import <CorePlot/ios/CorePlot-CocoaTouch.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
+=======
+#import <CorePlot/CorePlot-CocoaTouch.h>
+>>>>>>> parent of ecfb6f5... Animations
 
+#import "DDTTYLogger.h"
 #import "MyNavigationController.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;

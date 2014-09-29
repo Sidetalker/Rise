@@ -77,6 +77,7 @@ float yPadding = 0.2f;
                 action: @selector(settingsClicked:)
       forControlEvents: UIControlEventTouchUpInside];
     
+<<<<<<< HEAD
     // Set proper images and size
     UIImage *cogUp = [UIImage imageNamed:@"cogUp.png"];
     UIImage *cogUpScaled = [UIImage imageWithCGImage:[cogUp CGImage]
@@ -98,6 +99,10 @@ float yPadding = 0.2f;
     
     // Animate the incoming data
     [self performAnimationWithType:0 framerate:1.0/60.0 duration:1.2];
+=======
+    // Animate the data to the screen
+    [self performAnimationWithType:0.0 framerate:1.0/60.0 duration:1.2];
+>>>>>>> parent of ecfb6f5... Animations
 }
 
 #pragma mark - Graph Data Functions
@@ -150,8 +155,30 @@ float yPadding = 0.2f;
         
         // Points are drawn in, left to right
         case 1:
-            animationFrameRate = duration / recordCount;
             animationMod = 0.0f;
+            animationFrameRate = framerate;
+            animationTime = duration;
+            animationFrames = ceil(1 / framerate * duration);
+            animationCount = 0;
+            
+            float average = [[plotDataY valueForKeyPath:@"@avg.floatValue"] floatValue];
+            
+            for (int i = 0; i < plotDataY.count; i++)
+            {
+                NSMutableArray *curPoints = [[NSMutableArray alloc] init];
+                float finisher = [[plotDataY objectAtIndex:i] floatValue];
+                float increment = (finisher - average) / animationFrames;
+                
+                for (int y = 0; y < animationFrames; y++)
+                {
+                    if (y == 0)
+                        [curPoints addObject:[NSNumber numberWithFloat:average]];
+                    else
+                        [curPoints addObject:[NSNumber numberWithFloat:[[curPoints lastObject] floatValue] + increment]];
+                }
+                
+                [plotDataAnimation addObject:curPoints];
+            }
             
             break;
             
@@ -182,7 +209,12 @@ float yPadding = 0.2f;
     // Scale times for 0 (this will probably be distance in the future)
     float tMinus = [(Location*)[data objectAtIndex:0] timestampLaunch];
     
+<<<<<<< HEAD
     // Populate data arrays with provided location data
+=======
+    DDLogCVerbose(@"Launch time offset calculated");
+    
+>>>>>>> parent of ecfb6f5... Animations
     for (Location *curLoc in data)
     {
         [plotDataX addObject:[NSNumber numberWithFloat:([curLoc timestampLaunch] - tMinus)]];
@@ -193,6 +225,7 @@ float yPadding = 0.2f;
             [plotDataY addObject:[NSNumber numberWithFloat:[curLoc altitudeGoogle]]];
     }
     
+<<<<<<< HEAD
     // Weight Legend:
     // 0: lightUpA
     // 1: lightUpB
@@ -220,6 +253,9 @@ float yPadding = 0.2f;
     {
         [plotDataStrength addObject:[NSNumber numberWithInt:2]];
     }
+=======
+    DDLogCVerbose(@"All records added to appropriate arrays");
+>>>>>>> parent of ecfb6f5... Animations
     
     for (int i = 1; i < plotDataY.count - 1; i++)
     {
@@ -350,6 +386,11 @@ float yPadding = 0.2f;
     int curOrientation = [[UIDevice currentDevice] orientation];
     double myRotation = 0;
     
+<<<<<<< HEAD
+=======
+    DDLogCVerbose(@"Current orientation: %d", curOrientation);
+    
+>>>>>>> parent of ecfb6f5... Animations
     if (curOrientation == UIDeviceOrientationLandscapeLeft || curOrientation == UIDeviceOrientationPortraitUpsideDown)
         myRotation = M_PI_2;
     else
@@ -370,18 +411,18 @@ float yPadding = 0.2f;
     hostView.allowPinchScaling = YES;
     [self.view addSubview:hostView];
     
-    DDLogVerbose(@"Host view added and transformed");
+    DDLogCVerbose(@"Host view added and transformed");
     
     // Start watching for orientation changes
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
     
-    DDLogVerbose(@"Monitoring orientation changes");
+    DDLogCVerbose(@"Monitoring orientation changes");
 }
 
 - (void)deviceOrientationDidChange
 {
-    DDLogVerbose(@"Received orientation change");
+    DDLogCVerbose(@"Received orientation change");
     
     // Get the current orientation
     int curOrientation = [[UIDevice currentDevice] orientation];
@@ -404,22 +445,22 @@ float yPadding = 0.2f;
                      }
                      completion:nil];
     
-    DDLogVerbose(@"Performed appropriate rotation");
+    DDLogCVerbose(@"Performed appropriate rotation");
 }
 
 #pragma mark - Graph Setup and Configuration
 
 - (void)initializePlot
 {
-    DDLogVerbose(@"Initializing Graph");
+    DDLogCVerbose(@"Initializing Graph");
     [self configureGraph];
-    DDLogVerbose(@"Graph Initialized Successfully");
-    DDLogVerbose(@"Initializing Plots");
+    DDLogCVerbose(@"Graph Initialized Successfully");
+    DDLogCVerbose(@"Initializing Plots");
     [self configurePlots];
-    DDLogVerbose(@"Plots Initialized Successfully");
-    DDLogVerbose(@"Initializing Axes");
+    DDLogCVerbose(@"Plots Initialized Successfully");
+    DDLogCVerbose(@"Initializing Axes");
     [self configureAxes];
-    DDLogVerbose(@"Axes Initialized Successfully");
+    DDLogCVerbose(@"Axes Initialized Successfully");
 }
 
 - (void)configureGraph
@@ -429,6 +470,11 @@ float yPadding = 0.2f;
     [graph applyTheme:[CPTTheme themeNamed:kCPTPlainWhiteTheme]];
     hostView.hostedGraph = graph;
     
+<<<<<<< HEAD
+=======
+    DDLogCVerbose(@"Graph created and added to host view");
+    
+>>>>>>> parent of ecfb6f5... Animations
     // Set graph title
     NSString *title = @"Elevation Data";
     graph.title = title;
@@ -442,6 +488,11 @@ float yPadding = 0.2f;
     graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
     graph.titleDisplacement = CGPointMake(0.0f, 10.0f);
     
+<<<<<<< HEAD
+=======
+    DDLogCVerbose(@"Text style created");
+    
+>>>>>>> parent of ecfb6f5... Animations
     // Set padding for plot area
     [graph.plotAreaFrame setPaddingLeft:47.0f];
     [graph.plotAreaFrame setPaddingBottom:36.0f];
@@ -449,10 +500,20 @@ float yPadding = 0.2f;
     [graph.plotAreaFrame setPaddingTop:32.0f];
     [graph.plotAreaFrame setBorderLineStyle:nil];
     
+<<<<<<< HEAD
+=======
+    DDLogCVerbose(@"Plot padding and borders configured");
+    
+>>>>>>> parent of ecfb6f5... Animations
     // Enable user interactions for plot space
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
     plotSpace.allowsUserInteraction = YES;
     plotSpace.delegate = self;
+<<<<<<< HEAD
+=======
+    
+    DDLogCVerbose(@"User interactions and delegates configured");
+>>>>>>> parent of ecfb6f5... Animations
 }
 
 - (void)configurePlots
@@ -461,6 +522,7 @@ float yPadding = 0.2f;
     CPTGraph *graph = hostView.hostedGraph;
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
     
+<<<<<<< HEAD
     // Create the plots
     CPTScatterPlot *lightUpPlotA = [[CPTScatterPlot alloc] init];
     lightUpPlotA.dataSource = self;
@@ -499,6 +561,18 @@ float yPadding = 0.2f;
     [graph addPlot:heavyDownPlot toPlotSpace:plotSpace];
     
     // Set up initial plot view
+=======
+    // Create the test plots
+    CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
+    aaplPlot.dataSource = self;
+    aaplPlot.identifier = @"APPL";
+    CPTColor *aaplColor = [CPTColor redColor];
+    [graph addPlot:aaplPlot toPlotSpace:plotSpace];
+    
+    DDLogCVerbose(@"Plot created");
+    
+    // Set up plot view
+>>>>>>> parent of ecfb6f5... Animations
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
     xRange.length = CPTDecimalFromFloat(maxX);
     xRange.location = CPTDecimalFromFloat(0.0f);
@@ -508,6 +582,7 @@ float yPadding = 0.2f;
     yRange.location = CPTDecimalFromFloat(minY);
     plotSpace.yRange = yRange;
     
+<<<<<<< HEAD
     // Create and apply line styles
     CPTMutableLineStyle *lightUpLineStyleA = [lightUpPlotA.dataLineStyle mutableCopy];
     lightUpLineStyleA.lineWidth = 1.8;
@@ -544,6 +619,26 @@ float yPadding = 0.2f;
     heavyDownLineStyle.lineColor = heavyDownColor;
     heavyDownLineStyle.lineJoin = kCGLineJoinRound;
     heavyDownPlot.dataLineStyle = heavyDownLineStyle;
+=======
+    DDLogCVerbose(@"Plot XY configured");
+    
+    // Create styles and symbols
+    CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
+    aaplLineStyle.lineWidth = 1.5;
+    aaplLineStyle.lineColor = aaplColor;
+    aaplPlot.dataLineStyle = aaplLineStyle;
+    
+    CPTMutableLineStyle *aaplSymbolLineStyle = [CPTMutableLineStyle lineStyle];
+    aaplSymbolLineStyle.lineColor = aaplColor;
+    
+    CPTPlotSymbol *aaplSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+    aaplSymbol.fill = [CPTFill fillWithColor:aaplColor];
+    aaplSymbol.lineStyle = aaplSymbolLineStyle;
+    aaplSymbol.size = CGSizeMake(4.0f, 4.0f);
+    aaplPlot.plotSymbol = aaplSymbol;
+    
+    DDLogCVerbose(@"Plot line styles configured");
+>>>>>>> parent of ecfb6f5... Animations
 }
 
 -(void)configureAxes
@@ -572,6 +667,11 @@ float yPadding = 0.2f;
     gridLineStyle.lineColor = [CPTColor grayColor];
     gridLineStyle.lineWidth = 0.3f;
     
+<<<<<<< HEAD
+=======
+    DDLogCVerbose(@"Axis styles created");
+    
+>>>>>>> parent of ecfb6f5... Animations
     // Get axis set
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)hostView.hostedGraph.axisSet;
     
@@ -618,7 +718,13 @@ float yPadding = 0.2f;
     x.axisLabels = xLabels;
     x.majorTickLocations = xLocations;
     
+<<<<<<< HEAD
     // Configure y axis
+=======
+    DDLogCVerbose(@"X Axis manual configuration complete");
+    
+    // Configure y-axis
+>>>>>>> parent of ecfb6f5... Animations
     CPTXYAxis *y = axisSet.yAxis;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
     y.title = @"Elevation";
@@ -678,6 +784,11 @@ float yPadding = 0.2f;
     // Apply changes
     y.axisLabels = yLabels;
     y.majorTickLocations = yLocations;
+<<<<<<< HEAD
+=======
+    
+    DDLogCVerbose(@"Y Axis manual configuration complete");
+>>>>>>> parent of ecfb6f5... Animations
 }
 
 #pragma mark - Graph Delegate Functions
@@ -784,16 +895,25 @@ float yPadding = 0.2f;
                 mutableRange.length = CPTDecimalFromFloat(newLength);
                 updatedRange = mutableRange;
             }
+<<<<<<< HEAD
             // Otherwise accept the passed value
             else
+=======
+            else if (newRange.lengthDouble > maxX)
+            {
+                CPTMutablePlotRange *mutableRange = [newRange mutableCopy];
+                mutableRange.length = CPTDecimalFromFloat(maxX);
+                updatedRange = mutableRange;
+            }
+            else {
+>>>>>>> parent of ecfb6f5... Animations
                 updatedRange = newRange;
-            
+            }
             break;
             
         // Handled similiarly to the x axis but moving up and down within a range is acceptable
         case CPTCoordinateY:
-            if (newRange.locationDouble < (minY - (maxY - minY) / 3))
-            {
+            if (newRange.locationDouble < (minY - (maxY - minY) / 3)) {
                 CPTMutablePlotRange *mutableRange = [newRange mutableCopy];
                 mutableRange.location = CPTDecimalFromFloat((minY - (maxY - minY) / 3));
                 updatedRange = mutableRange;
@@ -819,15 +939,14 @@ float yPadding = 0.2f;
                 mutableRange.length = CPTDecimalFromFloat((maxY - minY));
                 updatedRange = mutableRange;
             }
-            else
+            else {
                 updatedRange = newRange;
-            
+            }
             break;
             
         // Not sure how the Z coord comes into play
         case CPTCoordinateZ:
             updatedRange = newRange;
-            
             break;
         
         // Also don't know how this delegate could get called without a coordinate
@@ -884,6 +1003,7 @@ float yPadding = 0.2f;
 
 - (void)newData:(NSTimer *)theTimer
 {
+<<<<<<< HEAD
     // Handle frame updates for different animation types
     // Animations are explained in detail in the performAnimationWithType function
     switch (animationType) {
@@ -912,6 +1032,37 @@ float yPadding = 0.2f;
         default:
             break;
     }
+=======
+    if (animationCount > animationFrames - 2)
+        [theTimer invalidate];
+    else
+        animationCount++;
+    
+//    switch (animationType) {
+//        case 0:
+//            if (animationCount > animationFrames - 2)
+//                [theTimer invalidate];
+//            else
+//                animationCount++;
+//            
+//        case 1:
+//            [dataTimer invalidate];
+//            
+//            dataTimer = [NSTimer timerWithTimeInterval:animationFrameRate
+//                                                target:self
+//                                              selector:@selector(newData:)
+//                                              userInfo:nil
+//                                               repeats:YES];
+//            [[NSRunLoop mainRunLoop] addTimer:dataTimer forMode:NSDefaultRunLoopMode];
+//            
+//            if (animationMod < recordCount)
+//                animationMod += 1;
+//            else
+//                [theTimer invalidate];
+//        default:
+//            break;
+//    }
+>>>>>>> parent of ecfb6f5... Animations
     
     [hostView.hostedGraph reloadData];
 }
