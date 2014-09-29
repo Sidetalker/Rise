@@ -24,10 +24,6 @@
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Testing ABC</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

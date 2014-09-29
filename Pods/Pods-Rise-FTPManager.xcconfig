@@ -1,1 +1,0 @@
-PODS_RISE_FTPMANAGER_OTHER_LDFLAGS = -framework CFNetwork

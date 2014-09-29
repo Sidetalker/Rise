@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
-#import <CorePlot/ios/CorePlot-CocoaTouch.h>
+#import <CorePlot/CorePlot-CocoaTouch.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
 #import "MyNavigationController.h"
