@@ -29,7 +29,7 @@ timestampAbsolute, timestampLaunch, googleQueried;
         resolutionGoogle = 0.0;
         googleQueried = false;
         timestampAbsolute = [NSDate date];
-        timestampLaunch = [Helpers timeSinceLaunch];
+        timestampLaunch = 0.0;
     }
     
     return self;
@@ -66,19 +66,12 @@ timestampAbsolute, timestampLaunch, googleQueried;
 {
     NSMutableString *complex = [NSMutableString stringWithFormat:@"%f:\n\t", timestampLaunch];
     
-    [complex appendFormat:@"Lat/Long: %f/%f\n\t\tAccuracy: %f\n\t", longitude, latitude, accuracyAppleH];
+    [complex appendFormat:@"Long/Lat: %f/%f\n\t\tAccuracy: %f\n\t", longitude, latitude, accuracyAppleH];
     [complex appendFormat:@"Apple Altitude: %f\n\t\tAccuracy: %f\n\t", altitudeApple, accuracyAppleV];
     [complex appendFormat:@"Google Altitude: %f\n\t\tResolution: %f", altitudeGoogle, resolutionGoogle];
     
     // Return a string with lat/long and altitude data along with reported accuracies
     return complex;
-}
-
-- (NSString*)getCSVString
-{
-    // Return a string with all pertinent data in CSV format
-    return [NSString stringWithFormat:@"%f,%f,%f,%f,%f,%f,%f,%f", timestampLaunch, longitude, latitude, accuracyAppleH,
-            altitudeApple, accuracyAppleV, altitudeGoogle, resolutionGoogle];
 }
 
 @end

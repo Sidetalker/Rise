@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5106CE78195F6D55000BDD5E /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 5106CE77195F6D55000BDD5E /* Location.m */; };
-		514224A019A0228C00D2AA75 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5142249F19A0228C00D2AA75 /* Settings.m */; };
-		515A62EC19797B000014CC77 /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 515A62EB19797B000014CC77 /* DataViewController.m */; };
+		5132BEB719772B6A0085DE66 /* Rise120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 5132BEB619772B6A0085DE66 /* Rise120x120.png */; };
 		515B9D0219550E5B00AE2D05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 515B9D0119550E5B00AE2D05 /* main.m */; };
 		515B9D0519550E5B00AE2D05 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 515B9D0419550E5B00AE2D05 /* AppDelegate.m */; };
 		515B9D0819550E5B00AE2D05 /* Rise.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 515B9D0619550E5B00AE2D05 /* Rise.xcdatamodeld */; };
@@ -17,10 +16,9 @@
 		515B9D1019550E5B00AE2D05 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 515B9D0F19550E5B00AE2D05 /* Images.xcassets */; };
 		515B9D1C19550E5B00AE2D05 /* RiseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 515B9D1B19550E5B00AE2D05 /* RiseTests.m */; };
 		515B9D281956D26B00AE2D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 515B9D271956D26B00AE2D05 /* Main.storyboard */; };
-		51650D28199BDBA100ED633A /* cogDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 51650D26199BDBA100ED633A /* cogDown.png */; };
-		51650D29199BDBA100ED633A /* cogUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 51650D27199BDBA100ED633A /* cogUp.png */; };
 		518D76E3196EFE2800EC00BA /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 518D76E2196EFE2800EC00BA /* Helpers.m */; };
 		519D6C26195CD03C005F6DF8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C25195CD03C005F6DF8 /* CoreLocation.framework */; };
+		519D6C28195CDE55005F6DF8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C27195CDE55005F6DF8 /* Parse.framework */; };
 		519D6C2A195CDE79005F6DF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C29195CDE79005F6DF8 /* AudioToolbox.framework */; };
 		519D6C2C195CDE81005F6DF8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C2B195CDE81005F6DF8 /* CFNetwork.framework */; };
 		519D6C2E195CDE88005F6DF8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C2D195CDE88005F6DF8 /* CoreGraphics.framework */; };
@@ -28,11 +26,8 @@
 		519D6C32195CDE98005F6DF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C31195CDE98005F6DF8 /* MobileCoreServices.framework */; };
 		519D6C34195CDEA1005F6DF8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C33195CDEA1005F6DF8 /* QuartzCore.framework */; };
 		519D6C36195CDEAA005F6DF8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C35195CDEAA005F6DF8 /* Security.framework */; };
+		519D6C38195CDEB1005F6DF8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C37195CDEB1005F6DF8 /* StoreKit.framework */; };
 		519D6C3A195CDEB7005F6DF8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */; };
-		51E4A3911981FA6100297C22 /* MyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E4A3901981FA6100297C22 /* MyNavigationController.m */; };
-		51F7DA47197E1367004353B1 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F7DA46197E1367004353B1 /* GraphViewController.m */; };
-		51FA2630199F5D2A0055D6F7 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51FA262F199F5D2A0055D6F7 /* SettingsViewController.m */; };
-		51FA2633199F65210055D6F7 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51FA2632199F65210055D6F7 /* SettingsTableViewController.m */; };
 		A745B2E9F964431FBA793357 /* libPods-Rise.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */; };
 /* End PBXBuildFile section */
 
@@ -49,10 +44,7 @@
 /* Begin PBXFileReference section */
 		5106CE76195F6D55000BDD5E /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		5106CE77195F6D55000BDD5E /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		5142249E19A0228C00D2AA75 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
-		5142249F19A0228C00D2AA75 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
-		515A62EA19797B000014CC77 /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
-		515A62EB19797B000014CC77 /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
+		5132BEB619772B6A0085DE66 /* Rise120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Rise120x120.png; path = ../../../../../../Desktop/Rise120x120.png; sourceTree = "<group>"; };
 		515B9CFC19550E5B00AE2D05 /* Rise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		515B9D0019550E5B00AE2D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		515B9D0119550E5B00AE2D05 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -66,11 +58,10 @@
 		515B9D1A19550E5B00AE2D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		515B9D1B19550E5B00AE2D05 /* RiseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RiseTests.m; sourceTree = "<group>"; };
 		515B9D271956D26B00AE2D05 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		51650D26199BDBA100ED633A /* cogDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cogDown.png; path = Rise/cogDown.png; sourceTree = "<group>"; };
-		51650D27199BDBA100ED633A /* cogUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cogUp.png; path = Rise/cogUp.png; sourceTree = "<group>"; };
 		518D76E1196EFE2800EC00BA /* Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
 		518D76E2196EFE2800EC00BA /* Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helpers.m; sourceTree = "<group>"; };
 		519D6C25195CD03C005F6DF8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		519D6C27195CDE55005F6DF8 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		519D6C29195CDE79005F6DF8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		519D6C2B195CDE81005F6DF8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		519D6C2D195CDE88005F6DF8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -78,15 +69,8 @@
 		519D6C31195CDE98005F6DF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		519D6C33195CDEA1005F6DF8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		519D6C35195CDEAA005F6DF8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		519D6C37195CDEB1005F6DF8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		51E4A38F1981FA6100297C22 /* MyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNavigationController.h; sourceTree = "<group>"; };
-		51E4A3901981FA6100297C22 /* MyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNavigationController.m; sourceTree = "<group>"; };
-		51F7DA45197E1367004353B1 /* GraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphViewController.h; sourceTree = "<group>"; };
-		51F7DA46197E1367004353B1 /* GraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphViewController.m; sourceTree = "<group>"; };
-		51FA262E199F5D2A0055D6F7 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		51FA262F199F5D2A0055D6F7 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		51FA2631199F65210055D6F7 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
-		51FA2632199F65210055D6F7 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Rise.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C95E215180B5402EA70F67EE /* Pods-Rise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rise.xcconfig"; path = "Pods/Pods-Rise.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				519D6C3A195CDEB7005F6DF8 /* SystemConfiguration.framework in Frameworks */,
+				519D6C38195CDEB1005F6DF8 /* StoreKit.framework in Frameworks */,
 				519D6C36195CDEAA005F6DF8 /* Security.framework in Frameworks */,
 				519D6C34195CDEA1005F6DF8 /* QuartzCore.framework in Frameworks */,
 				519D6C32195CDE98005F6DF8 /* MobileCoreServices.framework in Frameworks */,
@@ -104,6 +89,7 @@
 				519D6C2E195CDE88005F6DF8 /* CoreGraphics.framework in Frameworks */,
 				519D6C2C195CDE81005F6DF8 /* CFNetwork.framework in Frameworks */,
 				519D6C2A195CDE79005F6DF8 /* AudioToolbox.framework in Frameworks */,
+				519D6C28195CDE55005F6DF8 /* Parse.framework in Frameworks */,
 				519D6C26195CD03C005F6DF8 /* CoreLocation.framework in Frameworks */,
 				A745B2E9F964431FBA793357 /* libPods-Rise.a in Frameworks */,
 			);
@@ -122,8 +108,7 @@
 		5132BEB819772B7C0085DE66 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				51650D26199BDBA100ED633A /* cogDown.png */,
-				51650D27199BDBA100ED633A /* cogUp.png */,
+				5132BEB619772B6A0085DE66 /* Rise120x120.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -152,27 +137,15 @@
 		515B9CFE19550E5B00AE2D05 /* Rise */ = {
 			isa = PBXGroup;
 			children = (
-				51E4A38F1981FA6100297C22 /* MyNavigationController.h */,
-				51E4A3901981FA6100297C22 /* MyNavigationController.m */,
-				51F7DA45197E1367004353B1 /* GraphViewController.h */,
-				51F7DA46197E1367004353B1 /* GraphViewController.m */,
 				518D76E1196EFE2800EC00BA /* Helpers.h */,
 				518D76E2196EFE2800EC00BA /* Helpers.m */,
 				515B9D271956D26B00AE2D05 /* Main.storyboard */,
-				51FA2631199F65210055D6F7 /* SettingsTableViewController.h */,
-				51FA2632199F65210055D6F7 /* SettingsTableViewController.m */,
-				51FA262E199F5D2A0055D6F7 /* SettingsViewController.h */,
-				51FA262F199F5D2A0055D6F7 /* SettingsViewController.m */,
 				515B9D0319550E5B00AE2D05 /* AppDelegate.h */,
 				515B9D0419550E5B00AE2D05 /* AppDelegate.m */,
 				515B9D0919550E5B00AE2D05 /* ViewController.h */,
 				515B9D0A19550E5B00AE2D05 /* ViewController.m */,
-				515A62EA19797B000014CC77 /* DataViewController.h */,
-				515A62EB19797B000014CC77 /* DataViewController.m */,
 				5106CE76195F6D55000BDD5E /* Location.h */,
 				5106CE77195F6D55000BDD5E /* Location.m */,
-				5142249E19A0228C00D2AA75 /* Settings.h */,
-				5142249F19A0228C00D2AA75 /* Settings.m */,
 				515B9D0F19550E5B00AE2D05 /* Images.xcassets */,
 				515B9D0619550E5B00AE2D05 /* Rise.xcdatamodeld */,
 				515B9CFF19550E5B00AE2D05 /* Supporting Files */,
@@ -210,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				519D6C39195CDEB7005F6DF8 /* SystemConfiguration.framework */,
+				519D6C37195CDEB1005F6DF8 /* StoreKit.framework */,
 				519D6C35195CDEAA005F6DF8 /* Security.framework */,
 				519D6C33195CDEA1005F6DF8 /* QuartzCore.framework */,
 				519D6C31195CDE98005F6DF8 /* MobileCoreServices.framework */,
@@ -217,6 +191,7 @@
 				519D6C2D195CDE88005F6DF8 /* CoreGraphics.framework */,
 				519D6C2B195CDE81005F6DF8 /* CFNetwork.framework */,
 				519D6C29195CDE79005F6DF8 /* AudioToolbox.framework */,
+				519D6C27195CDE55005F6DF8 /* Parse.framework */,
 				519D6C25195CD03C005F6DF8 /* CoreLocation.framework */,
 				645CAA60FD7D41A69E32DFF4 /* libPods-Rise.a */,
 			);
@@ -274,15 +249,6 @@
 				TargetAttributes = {
 					515B9CFB19550E5B00AE2D05 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = S7BT87895F;
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-							com.apple.InAppPurchase = {
-								enabled = 0;
-							};
-						};
 					};
 					515B9D1419550E5B00AE2D05 = {
 						CreatedOnToolsVersion = 6.0;
@@ -314,9 +280,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5132BEB719772B6A0085DE66 /* Rise120x120.png in Resources */,
 				515B9D1019550E5B00AE2D05 /* Images.xcassets in Resources */,
-				51650D28199BDBA100ED633A /* cogDown.png in Resources */,
-				51650D29199BDBA100ED633A /* cogUp.png in Resources */,
 				515B9D281956D26B00AE2D05 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,16 +333,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51FA2633199F65210055D6F7 /* SettingsTableViewController.m in Sources */,
 				515B9D0519550E5B00AE2D05 /* AppDelegate.m in Sources */,
-				514224A019A0228C00D2AA75 /* Settings.m in Sources */,
-				51F7DA47197E1367004353B1 /* GraphViewController.m in Sources */,
 				515B9D0819550E5B00AE2D05 /* Rise.xcdatamodeld in Sources */,
-				51E4A3911981FA6100297C22 /* MyNavigationController.m in Sources */,
 				515B9D0B19550E5B00AE2D05 /* ViewController.m in Sources */,
-				515A62EC19797B000014CC77 /* DataViewController.m in Sources */,
 				518D76E3196EFE2800EC00BA /* Helpers.m in Sources */,
-				51FA2630199F5D2A0055D6F7 /* SettingsViewController.m in Sources */,
 				5106CE78195F6D55000BDD5E /* Location.m in Sources */,
 				515B9D0219550E5B00AE2D05 /* main.m in Sources */,
 			);
@@ -492,7 +451,7 @@
 				);
 				INFOPLIST_FILE = Rise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -509,7 +468,7 @@
 				);
 				INFOPLIST_FILE = Rise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
