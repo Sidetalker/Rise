@@ -1,0 +1,9 @@
+
+Podfile
+
+Podfile.lock
+
+Rise.xcodeproj/
+
+Rise.xcworkspace/
+*.pbxproj

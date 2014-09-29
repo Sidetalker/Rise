@@ -1,0 +1,6 @@
+#include "Pods-Rise-CorePlot.xcconfig"
+ALWAYS_SEARCH_USER_PATHS = ${PODS_RISE_COREPLOT_ALWAYS_SEARCH_USER_PATHS}
+GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/CorePlot" "${PODS_ROOT}/BuildHeaders/CorePlot/ios" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/CocoaLumberjack" "${PODS_ROOT}/Headers/CorePlot" "${PODS_ROOT}/Headers/CorePlot/ios" "${PODS_ROOT}/Headers/GoldRaccoon"
+OTHER_LDFLAGS = -ObjC ${PODS_RISE_COREPLOT_OTHER_LDFLAGS}
+PODS_ROOT = ${SRCROOT}
