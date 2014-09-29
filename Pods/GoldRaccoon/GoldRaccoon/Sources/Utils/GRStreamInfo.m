@@ -51,7 +51,7 @@
     CFReadStreamRef readStreamRef = CFReadStreamCreateWithFTPURL(NULL, ( __bridge CFURLRef) request.fullURL);
     CFReadStreamSetProperty(readStreamRef,
                             kCFStreamPropertyFTPAttemptPersistentConnection,
-                            kCFBooleanFalse);
+                            kCFBooleanTrue);
     
     CFReadStreamSetProperty(readStreamRef, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
 	CFReadStreamSetProperty(readStreamRef, kCFStreamPropertyFTPUsePassiveMode, request.passiveMode ? kCFBooleanTrue :kCFBooleanFalse);

@@ -286,13 +286,9 @@ FTPRequestManager, progressBar, progressUploading, requestCount;
     [progressBar setProgress:.8 animated:YES];
     
     // Upload to SideApps to use for algorithm design
-    requestCount++;
+    requestCount += 2;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [FTPRequestManager addRequestForUploadFileAtLocalPath:pathText toRemotePath:fileNameText];
-    
-    // Upload to SideApps to use for algorithm design
-    requestCount++;
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [FTPRequestManager addRequestForUploadFileAtLocalPath:pathCSV toRemotePath:fileNameCSV];
     
     // Process the requests

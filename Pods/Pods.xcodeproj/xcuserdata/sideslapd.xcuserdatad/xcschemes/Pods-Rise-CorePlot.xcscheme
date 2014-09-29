@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AB4E7D60C2F34A9594D37DD3"
+               BlueprintIdentifier = "042812F710BC473F9AE3158F"
                BuildableName = "libPods-Rise-CorePlot.a"
                BlueprintName = "Pods-Rise-CorePlot"
                ReferencedContainer = "container:Pods.xcodeproj">
