@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.21" systemVersion="14A283o" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="e5y-sO-k2F">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="e5y-sO-k2F">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--My Navigation Controller-->
         <scene sceneID="hyJ-Rz-dIW">
             <objects>
-                <navigationController id="e5y-sO-k2F" sceneMemberID="viewController">
+                <navigationController id="e5y-sO-k2F" customClass="MyNavigationController" sceneMemberID="viewController">
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="McR-sw-vqf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -20,7 +21,7 @@
             </objects>
             <point key="canvasLocation" x="-34" y="505"/>
         </scene>
-        <!--View Controller - Record-->
+        <!--Record-->
         <scene sceneID="hF9-L2-SzD">
             <objects>
                 <viewController id="jdE-Hr-5Xe" customClass="ViewController" sceneMemberID="viewController">
@@ -28,7 +29,7 @@
                         <viewControllerLayoutGuide type="top" id="is2-Xc-T1x"/>
                         <viewControllerLayoutGuide type="bottom" id="XP6-KY-WKi"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="6ul-w0-SC6">
+                    <view key="view" autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="6ul-w0-SC6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -42,7 +43,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hz4-ip-TQX">
-                                <rect key="frame" x="106" y="130" width="108" height="30"/>
+                                <rect key="frame" x="106" y="157" width="108" height="30"/>
                                 <state key="normal" title="Stop Recording">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -51,7 +52,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYG-oH-nRJ">
-                                <rect key="frame" x="111" y="168" width="98" height="30"/>
+                                <rect key="frame" x="111" y="195" width="98" height="30"/>
                                 <state key="normal" title="Clear Records">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -60,7 +61,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5s7-PZ-ptM">
-                                <rect key="frame" x="106" y="92" width="108" height="30"/>
+                                <rect key="frame" x="106" y="119" width="108" height="30"/>
                                 <state key="normal" title="Start Recording">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -68,14 +69,8 @@
                                     <action selector="btnStartRecord:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="Kfv-ta-EYP"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="99h-lc-Add">
-                                <rect key="frame" x="20" y="282" width="280" height="237"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDb-Mp-oX4">
-                                <rect key="frame" x="113" y="206" width="95" height="30"/>
+                                <rect key="frame" x="113" y="233" width="95" height="30"/>
                                 <state key="normal" title="Google Query">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -83,8 +78,8 @@
                                     <action selector="btnGoogleQuery:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="T7F-oO-85q"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="clP-H7-93j">
-                                <rect key="frame" x="117" y="244" width="86" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="clP-H7-93j">
+                                <rect key="frame" x="117" y="271" width="86" height="30"/>
                                 <state key="normal" title="Upload Data">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -92,32 +87,136 @@
                                     <action selector="btnUploadData:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="ngb-a9-Xa7"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="5LB-Fm-Tvd">
+                                <rect key="frame" x="20" y="537" width="280" height="2.5"/>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6A-Ff-eYc">
+                                <rect key="frame" x="126" y="309" width="69" height="30"/>
+                                <state key="normal" title="View Data">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="ASe-cf-ebK" kind="push" id="oOY-D7-efX"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvf-pF-Ouj">
+                                <rect key="frame" x="20" y="385" width="280" height="134"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YsT-nN-v6o">
+                                <rect key="frame" x="79" y="81" width="162" height="30"/>
+                                <state key="normal" title="Generate Random Data">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnGenerateRandomData:" destination="jdE-Hr-5Xe" eventType="touchUpInside" id="5Ku-jN-XRK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIy-hF-dx9">
+                                <rect key="frame" x="128" y="347" width="64" height="30"/>
+                                <state key="normal" title="Plot Data">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="FYU-GG-9ZC" kind="modal" identifier="graphViewSegue" id="XSj-OS-tf6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="R50-c5-0X4" firstAttribute="leading" secondItem="6ul-w0-SC6" secondAttribute="leading" constant="20" id="3dJ-rC-BEQ"/>
-                            <constraint firstItem="R50-c5-0X4" firstAttribute="top" secondItem="99h-lc-Add" secondAttribute="bottom" constant="8" id="F0w-2m-8a5"/>
-                            <constraint firstAttribute="trailing" secondItem="99h-lc-Add" secondAttribute="trailing" constant="20" id="Kev-Ri-sQS"/>
-                            <constraint firstItem="99h-lc-Add" firstAttribute="leading" secondItem="6ul-w0-SC6" secondAttribute="leading" constant="20" id="L5Q-bJ-S06"/>
-                            <constraint firstItem="99h-lc-Add" firstAttribute="top" secondItem="clP-H7-93j" secondAttribute="bottom" constant="8" id="kL4-mP-SO6"/>
                             <constraint firstItem="XP6-KY-WKi" firstAttribute="top" secondItem="R50-c5-0X4" secondAttribute="bottom" constant="20" id="meT-fS-Kcu"/>
                             <constraint firstAttribute="trailing" secondItem="R50-c5-0X4" secondAttribute="trailing" constant="20" id="p0n-Hm-2tF"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Record" id="RiA-bV-iBX"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="lblCurrentLocation" destination="Zvf-pF-Ouj" id="jh9-iv-m6I"/>
                         <outlet property="lblLocationCount" destination="R50-c5-0X4" id="qMh-JD-jKR"/>
-                        <outlet property="lblLocationData" destination="99h-lc-Add" id="r8r-Xz-Vbv"/>
+                        <outlet property="progressBar" destination="5LB-Fm-Tvd" id="8Yh-Uy-mue"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HrX-xK-vra" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="410" y="505"/>
         </scene>
+        <!--Graph View Controller-->
+        <scene sceneID="6hK-K1-8b3">
+            <objects>
+                <viewController id="FYU-GG-9ZC" customClass="GraphViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZFd-0d-eNC"/>
+                        <viewControllerLayoutGuide type="bottom" id="zVC-QY-uEh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="testing" id="VUu-4P-WIx">
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DGR-BG-xnt"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aDk-QT-8CE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="410" y="1064"/>
+        </scene>
+        <!--Latest Data-->
+        <scene sceneID="GYD-I6-UT9">
+            <objects>
+                <viewController id="ASe-cf-ebK" customClass="DataViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6BI-gd-lVz"/>
+                        <viewControllerLayoutGuide type="bottom" id="gBe-Gf-nod"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="epp-Vb-JmZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IqI-iy-n0x">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="512"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="c0n-NA-3Rh">
+                                <rect key="frame" x="99" y="520" width="123.5" height="29"/>
+                                <segments>
+                                    <segment title="Text"/>
+                                    <segment title="CSV"/>
+                                </segments>
+                                <connections>
+                                    <action selector="btnTextOrCSV:" destination="ASe-cf-ebK" eventType="valueChanged" id="5YW-eR-Rvr"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Latest Data" id="Cke-WU-kEb">
+                        <barButtonItem key="rightBarButtonItem" title="Share" id="dhx-CK-wN4">
+                            <connections>
+                                <action selector="btnShare:" destination="ASe-cf-ebK" id="ZyN-yx-55I"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="webView" destination="IqI-iy-n0x" id="ede-iF-1Pb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZvB-mJ-Va8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="841" y="505"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination" type="retina4">
+            <size key="portraitSize" width="320" height="568"/>
+            <size key="landscapeSize" width="568" height="320"/>
+        </simulatedScreenMetrics>
     </simulatedMetricsContainer>
 </document>

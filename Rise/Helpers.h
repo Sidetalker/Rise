@@ -14,6 +14,10 @@
 @interface Helpers : NSObject
 
 + (NSDictionary*) queryGoogleAltitudes:(NSArray*)locations;
+
++ (CPTGraph *)setTitleDefaultsForGraph:(CPTGraph *)graph withBounds:(CGRect)bounds;
++ (CPTGraph *)setPaddingDefaultsForGraph:(CPTGraph *)graph withBounds:(CGRect)bounds;
+
 + (NSTimeInterval) timeSinceLaunch;
 + (NSString*) sanitizeFileNameString:(NSString *)fileName;
 + (NSURL *) applicationDocumentsDirectory;
