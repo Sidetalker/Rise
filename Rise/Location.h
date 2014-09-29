@@ -29,6 +29,5 @@
 
 - (NSString*)getBasicString;
 - (NSString*)getComplexString;
-- (NSString*)getCSVString;
 
 @end
