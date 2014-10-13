@@ -10,7 +10,7 @@
 
 @implementation Settings
 
-@synthesize settings, dataSource;
+@synthesize settings, dataSource, animationType;
 
 - (id)init
 {
@@ -20,29 +20,29 @@
     
     [self reload];
     
-    NSLog(@"Settings Initialized (%ld)", [settings integerForKey:@"dataSource"]);
-    
     return self;
 }
 
 - (void)reload
 {
     dataSource = [settings integerForKey:@"dataSource"];
-    NSLog(@"Settings Reloaded (%ld)", [settings integerForKey:@"dataSource"]);
-    
+    animationType = [settings integerForKey:@"animationType"];
 }
 
 - (void)setDataSource:(NSInteger)newValue
 {
     [settings setInteger:newValue forKey:@"dataSource"];
-    NSLog(@"Settings Data Source Set (%ld)", newValue);
+}
+
+- (void)setAnimationType:(NSInteger)animationType
+{
+    
+    [settings setInteger:animationType forKey:@"animationType"];
 }
 
 - (BOOL)save
 {
     BOOL success = [settings synchronize];
-    
-    NSLog(@"Settings Synchronized (%ld)", [settings integerForKey:@"dataSource"]);
     
     if (success)
         [self reload];
@@ -55,6 +55,7 @@
 - (void)cancel
 {
     [settings setInteger:dataSource forKey:@"dataSource"];
+    [settings setInteger:animationType forKey:@"animationType"];
     [self save];
 }
 

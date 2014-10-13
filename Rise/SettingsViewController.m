@@ -66,8 +66,7 @@
 - (IBAction)btnSaveClicked:(id)sender
 {
     [settings save];
-//    [self presentingViewController] 
-//    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)btnCancelClicked:(id)sender

@@ -43,6 +43,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 #pragma mark - WebView Control
 
 - (void)loadText
@@ -110,6 +115,11 @@
         [alert show];
     }
     
+}
+
+- (IBAction)btnBack:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - WebView Delegate Methods

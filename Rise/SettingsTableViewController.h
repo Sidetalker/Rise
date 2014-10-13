@@ -14,7 +14,9 @@
 @property (strong, nonatomic) SettingsViewController *parent;
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *dataSource;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *animationType;
 
 - (IBAction)dataSourceChanged:(id)sender;
+- (IBAction)animationTypeChanged:(id)sender;
 
 @end

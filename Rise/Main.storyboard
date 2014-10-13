@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="e5y-sO-k2F">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A386a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="e5y-sO-k2F">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
         <!--My Navigation Controller-->
@@ -188,6 +188,16 @@
                                     <action selector="btnTextOrCSV:" destination="ASe-cf-ebK" eventType="valueChanged" id="5YW-eR-Rvr"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Jtq-f0-1rS">
+                                <rect key="frame" x="16" y="519" width="35" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnBack:" destination="ASe-cf-ebK" eventType="touchUpInside" id="mTD-7m-RAp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -252,7 +262,7 @@
         <scene sceneID="BW9-Ke-7bA">
             <objects>
                 <tableViewController id="jND-1q-1gM" customClass="SettingsTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="9G3-O2-Mxc">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="9G3-O2-Mxc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -265,22 +275,22 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Animation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YVN-3h-1OJ">
-                                                    <rect key="frame" x="20" y="11" width="77" height="21"/>
+                                                    <rect key="frame" x="20" y="10" width="77" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="nSL-wH-Xbe">
-                                                    <rect key="frame" x="156" y="8" width="156" height="29"/>
+                                                    <rect key="frame" x="172" y="7" width="140" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <segments>
-                                                        <segment title="Apple"/>
-                                                        <segment title="Google"/>
-                                                        <segment title="Both"/>
+                                                        <segment title="Rise"/>
+                                                        <segment title="Draw"/>
+                                                        <segment title="None"/>
                                                     </segments>
                                                     <connections>
-                                                        <action selector="dataSourceChanged:" destination="jND-1q-1gM" eventType="valueChanged" id="NnV-1M-iy5"/>
+                                                        <action selector="animationTypeChanged:" destination="jND-1q-1gM" eventType="valueChanged" id="plX-SI-ocv"/>
                                                     </connections>
                                                 </segmentedControl>
                                             </subviews>
@@ -303,12 +313,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="7HP-Km-Iyr">
-                                                    <rect key="frame" x="156" y="8" width="156" height="29"/>
+                                                    <rect key="frame" x="172" y="7" width="140" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <segments>
                                                         <segment title="Apple"/>
                                                         <segment title="Google"/>
-                                                        <segment title="Both"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="dataSourceChanged:" destination="jND-1q-1gM" eventType="valueChanged" id="NNZ-Ok-7Of"/>
@@ -326,6 +335,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="animationType" destination="nSL-wH-Xbe" id="OdF-6P-xlz"/>
                         <outlet property="dataSource" destination="7HP-Km-Iyr" id="Ld4-bk-exd"/>
                     </connections>
                 </tableViewController>
@@ -337,9 +347,6 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4">
-            <size key="portraitSize" width="320" height="568"/>
-            <size key="landscapeSize" width="568" height="320"/>
-        </simulatedScreenMetrics>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>

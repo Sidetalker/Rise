@@ -97,7 +97,7 @@ float yPadding = 0.2f;
     [hostView addSubview:btnSettings];
     
     // Animate the incoming data
-    [self performAnimationWithType:0 framerate:1.0/60.0 duration:1.2];
+    [self performAnimationWithType:((int)[settings animationType]) framerate:1.0/60.0 duration:1.2];
 }
 
 #pragma mark - Graph Data Functions
@@ -155,6 +155,9 @@ float yPadding = 0.2f;
             
             break;
             
+        case 2:
+            animationFrameRate = 1;
+            animationMod = 0;
         default:
             break;
     }

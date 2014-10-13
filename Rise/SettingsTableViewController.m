@@ -14,14 +14,14 @@
 
 @implementation SettingsTableViewController
 
-@synthesize parent, dataSource;
+@synthesize parent, dataSource, animationType;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewDidLoad];
     
+    [[parent settings] reload];
     [dataSource setSelectedSegmentIndex:[parent settings].dataSource];
-    DDLogVerbose(@"Setting segment to %ld", [parent settings].dataSource);
-    DDLogVerbose(@"Settings says %ld", [[parent settings].settings integerForKey:@"dataSource"]);
+    [animationType setSelectedSegmentIndex:[parent settings].animationType];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +46,6 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
-
 - (IBAction)dataSourceChanged:(id)sender
 {
     NSString *newSource;
@@ -66,10 +65,27 @@
             break;
     }
     
-    DDLogVerbose(@"Changing data source to %@", newSource);
-    
     [[parent settings] setDataSource:dataSource.selectedSegmentIndex];
+}
+
+- (IBAction)animationTypeChanged:(id)sender {
+    NSString *newSource;
     
-    DDLogVerbose(@"Settings dataSource is now %ld", [parent settings].dataSource);
+    switch (animationType.selectedSegmentIndex) {
+        case 0:
+            newSource = @"Rise";
+            break;
+            
+        case 1:
+            newSource = @"Draw";
+            break;
+            
+        case 2:
+            newSource = @"None";
+        default:
+            break;
+    }
+    
+    [[parent settings] setAnimationType:animationType.selectedSegmentIndex];
 }
 @end

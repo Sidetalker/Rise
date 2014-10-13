@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSUserDefaults *settings;
 @property (nonatomic) NSInteger dataSource;
+@property (nonatomic) NSInteger animationType;
 
 - (BOOL)save;
 - (void)cancel;

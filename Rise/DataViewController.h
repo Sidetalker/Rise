@@ -13,6 +13,7 @@
 
 - (IBAction)btnTextOrCSV:(id)sender;
 - (IBAction)btnShare:(id)sender;
+- (IBAction)btnBack:(id)sender;
 
 - (void)loadText;
 - (void)loadCSV;
